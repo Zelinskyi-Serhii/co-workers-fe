@@ -4,19 +4,20 @@ import Image from "next/image";
 import { useEffect } from "react";
 
 export default function Home() {
-
   useEffect(() => {
-    fetch('https://co-workers-main.onrender.com/api/v1/auth/signup', {
+    fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/auth/login`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
       },
       body: JSON.stringify({
-        email: 'sepyh123@gmail.com'
+        email: 'sepyh1@gmail.com',
+        password: '123456'
     })})
     .then(response => response.json())
     .then(data => console.log(data))
   }, []);
+
 
   return (
     <main className="flex min-h-screen flex-col items-center justify-between p-24">
