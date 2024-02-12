@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
 import "./globals.css";
 import {Providers}  from "@/GlobalRedux/provider";
+import { Header } from "@/components/Header";
 
 export const metadata: Metadata = {
   title: "CO-WORKERS"
@@ -16,6 +16,7 @@ export default function RootLayout({
     <html lang="en">
       <body>
         <Providers>
+          <Header />
           {children}
         </Providers>
         </body>
