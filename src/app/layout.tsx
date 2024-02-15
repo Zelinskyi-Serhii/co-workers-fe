@@ -13,13 +13,15 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
-      <body>
+    <html lang="en" suppressHydrationWarning={true}>
+      <body suppressHydrationWarning={true} className="bg-[#F9F9F9]">
         <Providers>
           <Header />
-          {children}
+          <div className="max-w-[1200px] mx-auto px-4 py-8">
+            {children}
+          </div>
         </Providers>
-        </body>
+      </body>
     </html>
   );
 }
