@@ -4,8 +4,8 @@ import { useAppDispatch, useAppSelector } from "@/GlobalRedux/hooks";
 import { useEffect } from "react";
 import * as companySlice from "@/GlobalRedux/Features/companySlice";
 import { CompanyCard } from "@/components/CompanyCard";
-import Image from "next/image";
-import plus_circle from "@/assets/svg/plus-circle.svg";
+import { PlusCircle } from "@/svgComponents/PlusCircle";
+import { Loader } from "@/components/Loader";
 
 export default function Company() {
   const dispatch = useAppDispatch();
@@ -16,10 +16,17 @@ export default function Company() {
   }, [dispatch]);
 
   return (
-    <div className="grid grid-cols-[repeat(auto-fit,_minmax(350px,_1fr))] gap-4">
-      <div className="border-4 border-[#B7BDBA] rounded-xl max-w-[400px] h-[300px]">
-        <Image src={plus_circle} width={50} height={50} alt="Plus" />
+    <div className="grid grid-cols-[repeat(auto-fit,_minmax(350px,1fr))] gap-4">
+      <div className="flex justify-center items-center border-4 border-[#B7BDBA] rounded-xl min-h-[300px] hover-scale cursor-pointer">
+        <PlusCircle />
       </div>
+
+      {loading && (
+        <div className="flex justify-center items-center border-4 border-[#B7BDBA] rounded-xl">
+          <Loader />
+        </div>
+      )}
+
       {company.map((company) => (
         <CompanyCard key={company.id} company={company} />
       ))}

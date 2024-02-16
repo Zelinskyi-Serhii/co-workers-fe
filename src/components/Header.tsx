@@ -5,6 +5,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { useEffect } from "react";
 import * as userActions from "@/GlobalRedux/Features/userSlice";
+import { ArrowDown } from "@/svgComponents/ArrowDown";
 
 export const Header = () => {
   const dispatch = useAppDispatch();
@@ -30,7 +31,7 @@ export const Header = () => {
 
         <div className="flex lg:order-1 max-sm:ml-auto">
           {avatarUrl ? (
-            <div>
+            <div className="flex items-center cursor-pointer gap-2 bg-[#EDEDED] px-4 rounded-xl">
               <Image
                 src={avatarUrl}
                 height={40}
@@ -38,6 +39,7 @@ export const Header = () => {
                 alt="User Profile"
                 className="rounded-full"
               />
+              <ArrowDown />
             </div>
           ) : (
             <>

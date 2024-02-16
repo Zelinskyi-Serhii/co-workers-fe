@@ -7,3 +7,11 @@ body {
   font-family: 'Roboto', sans-serif;
   min-height: 100vh;
 }
+
+.hover-scale {
+  transition: transform 0.2s ease-in-out;
+}
+
+.hover-scale:hover {
+  transform: scale(1.05);
+}

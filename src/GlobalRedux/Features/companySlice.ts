@@ -17,7 +17,7 @@ interface ICompanyState {
 
 const initialState: ICompanyState = {
   company: [],
-  loading: false,
+  loading: true,
   error: null,
 };
 
