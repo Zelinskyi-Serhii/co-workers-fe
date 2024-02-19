@@ -6,6 +6,7 @@ import * as companySlice from "@/GlobalRedux/Features/companySlice";
 import { CompanyCard } from "@/components/CompanyCard";
 import { PlusCircle } from "@/svgComponents/PlusCircle";
 import { Loader } from "@/components/Loader";
+import Link from "next/link";
 
 export default function Company() {
   const dispatch = useAppDispatch();
@@ -17,9 +18,9 @@ export default function Company() {
 
   return (
     <div className="grid grid-cols-[repeat(auto-fit,_minmax(350px,1fr))] gap-4">
-      <div className="flex justify-center items-center border-4 border-[#B7BDBA] rounded-xl min-h-[300px] hover-scale cursor-pointer">
+      <Link href="/company/create" className="flex justify-center items-center border-4 border-[#B7BDBA] rounded-xl min-h-[300px] hover-scale cursor-pointer">
         <PlusCircle />
-      </div>
+      </Link>
 
       {loading && (
         <div className="flex justify-center items-center border-4 border-[#B7BDBA] rounded-xl">

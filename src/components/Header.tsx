@@ -3,8 +3,9 @@
 import { useAppDispatch, useAppSelector } from "@/GlobalRedux/hooks";
 import Image from "next/image";
 import Link from "next/link";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import * as userActions from "@/GlobalRedux/Features/userSlice";
+import * as authActions from "@/GlobalRedux/Features/authSlice";
 import { ArrowDown } from "@/svgComponents/ArrowDown";
 
 export const Header = () => {
@@ -12,6 +13,15 @@ export const Header = () => {
   const { nickname, avatarUrl, loading } = useAppSelector(
     (state) => state.user
   );
+  const [isOpenMenu, setIsOpenMenu] = useState(false);
+
+  const handleToggleMenu = () => {
+    setIsOpenMenu((prev) => !prev);
+  };
+
+  const handleLogout = () => {
+    dispatch(authActions.logout());
+  };
 
   useEffect(() => {
     dispatch(userActions.getUserInfo());
@@ -31,7 +41,11 @@ export const Header = () => {
 
         <div className="flex lg:order-1 max-sm:ml-auto">
           {avatarUrl ? (
-            <div className="flex items-center cursor-pointer gap-2 bg-[#EDEDED] px-4 rounded-xl">
+            <div
+              className="flex items-center cursor-pointer gap-2 bg-[#EDEDED] px-4 rounded-xl relative"
+              onClick={handleToggleMenu}
+            >
+              <span>{nickname}</span>
               <Image
                 src={avatarUrl}
                 height={40}
@@ -40,6 +54,20 @@ export const Header = () => {
                 className="rounded-full"
               />
               <ArrowDown />
+
+              {isOpenMenu && (
+                <ul className="flex flex-col absolute bg-[#EDEDED] top-10 p-4 left-0 right-0 rounded-xl [&>a:hover]:text-[#ec4646] [&>a]:p-2 [&>a]:transition-all">
+                  <Link href="/company">My Companies</Link>
+                  <Link href="/settings">Settings</Link>
+                  <Link
+                    href=""
+                    className="text-[#ec4646]"
+                    onClick={handleLogout}
+                  >
+                    Logout
+                  </Link>
+                </ul>
+              )}
             </div>
           ) : (
             <>
