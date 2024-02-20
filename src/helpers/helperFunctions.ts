@@ -13,5 +13,5 @@ export const convertDateToISOString = (dateString: Date) => {
 }
 
 export const isValidFormData = (...args: string[]): boolean => {
-  return args.every((arg) => !arg?.trim()?.length);
+  return args.every((arg) => !!arg?.trim()?.length);
 }
