@@ -1,5 +1,7 @@
 import { ICompany } from "@/GlobalRedux/Features/companySlice";
 import { convertDateToMonthAndYear } from "@/helpers/helperFunctions";
+import { DeleteIcon } from "@/svgComponents/DeleteIcon";
+import { EditIcon } from "@/svgComponents/EditIcon";
 import Image from "next/image";
 import { FC } from "react";
 
@@ -11,7 +13,12 @@ export const CompanyCard: FC<Props> = ({ company }) => {
   const { name, avatarUrl, ownedAt, ownerName } = company;
 
   return (
-    <div className="flex flex-col justify-between border-4 border-[#B7BDBA] rounded-xl min-h-[360px] px-4 py-4 hover-scale cursor-pointer">
+    <div className="relative flex flex-col justify-between border-4 border-[#B7BDBA] rounded-xl min-h-[360px] px-4 py-4 hover-scale cursor-pointer">
+      <div className="absolute right-2 top-2 flex [&>svg]:w-8 [&>svg]:h-8 [&>svg]:p-1 [&>svg]:transition-[0.3s] [&>svg]:rounded-xl [&>svg:hover]:bg-[#B7BDBA]">
+        <DeleteIcon />
+        <EditIcon />
+      </div>
+
       <Image
         src={avatarUrl}
         width={200}

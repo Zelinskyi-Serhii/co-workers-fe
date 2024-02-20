@@ -1,8 +1,8 @@
 import type { Metadata } from "next";
-// import { ToastContainer, toast } from 'react-toastify';
+import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import "./globals.css";
-import {Providers}  from "@/GlobalRedux/provider";
+import {Providers} from "@/GlobalRedux/provider";
 import { Header } from "@/components/Header";
 
 export const metadata: Metadata = {
@@ -20,7 +20,7 @@ export default function RootLayout({
         <Providers>
           <Header />
           <div className="max-w-[1200px] mx-auto px-4 py-8">{children}</div>
-          {/* <ToastContainer /> */}
+          <ToastContainer />
         </Providers>
       </body>
     </html>

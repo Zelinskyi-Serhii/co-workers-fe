@@ -6,6 +6,8 @@ import { ChangeEvent, useState } from "react";
 import * as companyActions from "@/GlobalRedux/Features/companySlice";
 import { Loader } from "@/components/Loader";
 import { isValidFormData } from "@/helpers/helperFunctions";
+import { toast } from "react-toastify";
+import { useRouter } from "next/navigation";
 
 const initialValue = {
   name: "",
@@ -17,6 +19,7 @@ const initialValue = {
 export default function CompanyCreate() {
   const dispatch = useAppDispatch();
   const { isLoading, error } = useAppSelector((state) => state.company);
+  const router = useRouter();
   const [{ name, ownerName, ownedAt, avatarUrl }, setCompany] =
     useState(initialValue);
   const [imageFile, setImageFile] = useState<File | null>(null);
@@ -52,16 +55,23 @@ export default function CompanyCreate() {
     reader.readAsDataURL(file);
   };
 
-  const handleCreateCompany = () => {
+  const handleCreateCompany = async () => {
     if (!imageFile || isDisabled) return;
     const formData = new FormData();
 
-    formData.append('name', name);
-    formData.append('ownerName', ownerName);
-    formData.append('ownedAt', new Date(ownedAt).toISOString());
-    formData.append('avatarUrl', imageFile);
+    formData.append("name", name);
+    formData.append("ownerName", ownerName);
+    formData.append("ownedAt", new Date(ownedAt).toISOString());
+    formData.append("avatarUrl", imageFile);
 
-    dispatch(companyActions.createCompany(formData));
+    const res = await dispatch(companyActions.createCompany(formData));
+
+    if (!res.payload) {
+      toast.error("Unable to create company");
+    } else {
+      toast.success("Company created successfully");
+      router.push("/company");
+    }
   };
 
   return (
