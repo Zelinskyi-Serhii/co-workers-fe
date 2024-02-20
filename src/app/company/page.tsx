@@ -10,7 +10,7 @@ import Link from "next/link";
 
 export default function Company() {
   const dispatch = useAppDispatch();
-  const { company, loading, error } = useAppSelector((state) => state.company);
+  const { company, isLoading, error } = useAppSelector((state) => state.company);
 
   useEffect(() => {
     dispatch(companySlice.getAllCompanies());
@@ -22,7 +22,7 @@ export default function Company() {
         <PlusCircle />
       </Link>
 
-      {loading && (
+      {isLoading && (
         <div className="flex justify-center items-center border-4 border-[#B7BDBA] rounded-xl">
           <Loader />
         </div>
