@@ -11,13 +11,13 @@ export interface ICompany {
 
 interface ICompanyState {
   company: ICompany[];
-  loading: boolean;
+  isLoading: boolean;
   error: string | null;
 }
 
 const initialState: ICompanyState = {
   company: [],
-  loading: true,
+  isLoading: false,
   error: null,
 };
 
@@ -30,23 +30,49 @@ export const getAllCompanies = createAsyncThunk(
   }
 );
 
+export const createCompany = createAsyncThunk(
+  "company/create",
+  async (data: FormData) => {
+    const response = await axiosInstance.post("/company/create", data, {
+      headers: { "Content-Type": "multipart/form-data" },
+    });
+
+    return response.data;
+  }
+);
+
 export const companySlice = createSlice({
   name: "company",
   initialState,
   reducers: {},
   extraReducers: (builder) => {
     builder.addCase(getAllCompanies.pending, (state) => {
-      state.loading = true;
+      state.isLoading = true;
       state.error = null;
     });
 
     builder.addCase(getAllCompanies.fulfilled, (state, action) => {
-      state.loading = false;
+      state.isLoading = false;
       state.company = action.payload;
     });
 
     builder.addCase(getAllCompanies.rejected, (state, action) => {
-      state.loading = false;
+      state.isLoading = false;
+      state.error = action.error.message || null;
+    });
+
+    builder.addCase(createCompany.pending, (state) => {
+      state.isLoading = true;
+      state.error = null;
+    });
+
+    builder.addCase(createCompany.fulfilled, (state, action) => {
+      state.isLoading = false;
+      state.company = [...state.company, action.payload];
+    });
+
+    builder.addCase(createCompany.rejected, (state, action) => {
+      state.isLoading = false;
       state.error = action.error.message || null;
     });
   },

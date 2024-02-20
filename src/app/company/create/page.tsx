@@ -1,7 +1,11 @@
 "use client";
+import { useAppDispatch, useAppSelector } from "@/GlobalRedux/hooks";
 import Image from "next/image";
 import Link from "next/link";
 import { ChangeEvent, useState } from "react";
+import * as companyActions from "@/GlobalRedux/Features/companySlice";
+import { Loader } from "@/components/Loader";
+import { isValidFormData } from "@/helpers/helperFunctions";
 
 const initialValue = {
   name: "",
@@ -11,9 +15,13 @@ const initialValue = {
 };
 
 export default function CompanyCreate() {
+  const dispatch = useAppDispatch();
+  const { isLoading, error } = useAppSelector((state) => state.company);
   const [{ name, ownerName, ownedAt, avatarUrl }, setCompany] =
     useState(initialValue);
   const [imageFile, setImageFile] = useState<File | null>(null);
+
+  const isDisabled = isValidFormData(name, ownerName, ownedAt, avatarUrl);
 
   const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
@@ -32,7 +40,6 @@ export default function CompanyCreate() {
     }
 
     setImageFile(file);
-
     const reader = new FileReader();
 
     reader.onloadend = () => {
@@ -43,6 +50,18 @@ export default function CompanyCreate() {
     };
 
     reader.readAsDataURL(file);
+  };
+
+  const handleCreateCompany = () => {
+    if (!imageFile || isDisabled) return;
+    const formData = new FormData();
+
+    formData.append('name', name);
+    formData.append('ownerName', ownerName);
+    formData.append('ownedAt', new Date(ownedAt).toISOString());
+    formData.append('avatarUrl', imageFile);
+
+    dispatch(companyActions.createCompany(formData));
   };
 
   return (
@@ -108,7 +127,13 @@ export default function CompanyCreate() {
           <button className="bg-[#DC004E] hover-scale">
             <Link href="/company">Cancel</Link>
           </button>
-          <button className="bg-[#1976d2] hover-scale">Create</button>
+          <button
+            className="flex items-center justify-center bg-[#1976d2] hover-scale"
+            onClick={handleCreateCompany}
+            disabled={isDisabled || isLoading}
+          >
+            {isLoading ? <Loader /> : "Create"}
+          </button>
         </div>
       </div>
     </div>

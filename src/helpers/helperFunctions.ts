@@ -11,3 +11,7 @@ export const convertDateToMonthAndYear = (dateString: Date) => {
 export const convertDateToISOString = (dateString: Date) => {
   return new Date(dateString).toISOString();
 }
+
+export const isValidFormData = (...args: string[]): boolean => {
+  return args.every((arg) => !arg?.trim()?.length);
+}

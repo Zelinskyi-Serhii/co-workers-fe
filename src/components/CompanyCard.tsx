@@ -11,7 +11,7 @@ export const CompanyCard: FC<Props> = ({ company }) => {
   const { name, avatarUrl, ownedAt, ownerName } = company;
 
   return (
-    <div className="border-4 border-[#B7BDBA] rounded-xl min-h-[300px] px-4 py-4 hover-scale cursor-pointer">
+    <div className="flex flex-col justify-between border-4 border-[#B7BDBA] rounded-xl min-h-[360px] px-4 py-4 hover-scale cursor-pointer">
       <Image
         src={avatarUrl}
         width={200}
@@ -20,9 +20,13 @@ export const CompanyCard: FC<Props> = ({ company }) => {
         className="mx-auto rounded-xl"
       />
 
-      <h3 className="text-center text-2xl font-bold mt-4">{name}</h3>
-      <p className="text-center text-lg mt-2">{ownerName}</p>
-      <p className="text-center text-lg mt-2">{convertDateToMonthAndYear(ownedAt)}</p>
+      <div>
+        <h3 className="text-center text-2xl font-bold mt-4">{name}</h3>
+        <p className="text-center text-lg mt-2">{ownerName}</p>
+        <p className="text-center text-lg mt-2">
+          {convertDateToMonthAndYear(ownedAt)}
+        </p>
+      </div>
     </div>
   );
 };
