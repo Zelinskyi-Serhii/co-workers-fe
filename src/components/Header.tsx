@@ -4,8 +4,8 @@ import { useAppDispatch, useAppSelector } from "@/GlobalRedux/hooks";
 import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useState } from "react";
-import * as userActions from "@/GlobalRedux/Features/userSlice";
-import * as authActions from "@/GlobalRedux/Features/authSlice";
+import * as userActions from "@/GlobalRedux/Features/user/userSlice";
+import * as authActions from "@/GlobalRedux/Features/auth/authSlice";
 import { ArrowDown } from "@/svgComponents/ArrowDown";
 
 export const Header = () => {
@@ -32,9 +32,9 @@ export const Header = () => {
       <div className="flex flex-wrap items-center justify-between gap-5 relative">
         <Link href="">
           <Image
-            src="https://readymadeui.com/readymadeui.svg"
+            src="https://res.cloudinary.com/dzuxudptr/image/upload/v1708516652/h6rlzdqtgx9wdvm4nmm7.png"
             alt="Company Logo"
-            width={136}
+            width={60}
             height={36}
           />
         </Link>

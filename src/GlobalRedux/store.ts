@@ -1,15 +1,17 @@
 "use client";
 
 import { configureStore } from "@reduxjs/toolkit";
-import authReducer from "@/GlobalRedux/Features/authSlice";
-import userReducer from "@/GlobalRedux/Features/userSlice";
-import companyReducer from "@/GlobalRedux/Features/companySlice";
+import authReducer from "@/GlobalRedux/Features/auth/authSlice";
+import userReducer from "@/GlobalRedux/Features/user/userSlice";
+import companyReducer from "@/GlobalRedux/Features/company/companySlice";
+import employeeReducer from "@/GlobalRedux/Features/employee/employeeSlice";
 
 export const store = configureStore({
   reducer: {
     auth: authReducer,
     user: userReducer,
     company: companyReducer,
+    employee: employeeReducer,
   },
 });
 

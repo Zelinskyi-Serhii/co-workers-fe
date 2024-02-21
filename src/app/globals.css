@@ -19,3 +19,36 @@ body {
 .hover-scale:hover {
   transform: scale(1.05);
 }
+
+.marquee {
+  position: absolute;
+  overflow: hidden;
+  font-weight: 600;
+  font-size: 20px;
+  text-transform: uppercase;
+  background-color: #FFDC00;
+  top: 0;
+  left: 0;
+  right: 0;
+}
+
+.marquee__line {
+  flex-shrink: 0;
+  margin: 0;
+  min-width: 100%;
+  white-space: nowrap;
+  animation-name: marqueeLine;
+  animation-duration: 5s;
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
+}
+
+@keyframes marqueeLine {
+  from {
+    transform: translateX(0);
+  }
+
+  to {
+    transform: translateX(-100%);
+  }
+}

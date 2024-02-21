@@ -3,8 +3,8 @@
 import { useAppDispatch, useAppSelector } from "@/GlobalRedux/hooks";
 import { ChangeEvent, useCallback, useState } from "react";
 import { useRouter } from "next/navigation";
-import * as authActions from "@/GlobalRedux/Features/authSlice";
-import * as userActions from "@/GlobalRedux/Features/userSlice";
+import * as authActions from "@/GlobalRedux/Features/auth/authSlice";
+import * as userActions from "@/GlobalRedux/Features/user/userSlice";
 import { Loader } from "@/components/Loader";
 
 const initialState = {

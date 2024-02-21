@@ -33,29 +33,3 @@ axiosInstance.interceptors.request.use(
 //     return Promise.reject(error);
 //   }
 // );
-
-export const client = {
-  async get<T>(endpoint: string) {
-    const response = await axiosInstance.get<T>(endpoint);
-
-    return response;
-  },
-
-  async post<T>(endpoint: string, data: unknown) {
-    const response = await axiosInstance.post<T>(endpoint, data);
-
-    return response;
-  },
-
-  async put<T>(endpoint: string, data: unknown) {
-    const response = await axiosInstance.put<T>(endpoint, data);
-
-    return response;
-  },
-
-  async delete<T>(endpoint: string) {
-    const response = await axiosInstance.delete<T>(endpoint);
-
-    return response;
-  },
-};

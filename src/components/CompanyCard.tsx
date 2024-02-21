@@ -1,8 +1,7 @@
-import { ICompany } from "@/GlobalRedux/Features/companySlice";
+import { ICompany } from "@/GlobalRedux/Features/company/companySlice";
 import { convertDateToMonthAndYear } from "@/helpers/helperFunctions";
-import { DeleteIcon } from "@/svgComponents/DeleteIcon";
-import { EditIcon } from "@/svgComponents/EditIcon";
 import Image from "next/image";
+import Link from "next/link";
 import { FC } from "react";
 
 type Props = {
@@ -10,15 +9,13 @@ type Props = {
 };
 
 export const CompanyCard: FC<Props> = ({ company }) => {
-  const { name, avatarUrl, ownedAt, ownerName } = company;
+  const { name, avatarUrl, ownedAt, ownerName, id } = company;
 
   return (
-    <div className="relative flex flex-col justify-between border-4 border-[#B7BDBA] rounded-xl min-h-[360px] px-4 py-4 hover-scale cursor-pointer">
-      <div className="absolute right-2 top-2 flex [&>svg]:w-8 [&>svg]:h-8 [&>svg]:p-1 [&>svg]:transition-[0.3s] [&>svg]:rounded-xl [&>svg:hover]:bg-[#B7BDBA]">
-        <DeleteIcon />
-        <EditIcon />
-      </div>
-
+    <Link
+      href={`/company/${id}`}
+      className="flex flex-col justify-between border-4 border-[#B7BDBA] rounded-xl min-h-[360px] px-4 py-4 hover-scale cursor-pointer"
+    >
       <Image
         src={avatarUrl}
         width={200}
@@ -34,6 +31,6 @@ export const CompanyCard: FC<Props> = ({ company }) => {
           {convertDateToMonthAndYear(ownedAt)}
         </p>
       </div>
-    </div>
+    </Link>
   );
 };

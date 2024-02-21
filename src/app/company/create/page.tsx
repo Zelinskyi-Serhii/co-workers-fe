@@ -3,7 +3,7 @@ import { useAppDispatch, useAppSelector } from "@/GlobalRedux/hooks";
 import Image from "next/image";
 import Link from "next/link";
 import { ChangeEvent, useState } from "react";
-import * as companyActions from "@/GlobalRedux/Features/companySlice";
+import * as companyActions from "@/GlobalRedux/Features/company/companySlice";
 import { Loader } from "@/components/Loader";
 import { isValidFormData } from "@/helpers/helperFunctions";
 import { toast } from "react-toastify";

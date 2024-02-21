@@ -78,6 +78,5 @@ export const companySlice = createSlice({
   },
 });
 
-
-export const {} = companySlice.actions;
+export const { } = companySlice.actions;
 export default companySlice.reducer;

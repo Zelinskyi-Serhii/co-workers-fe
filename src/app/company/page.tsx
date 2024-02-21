@@ -2,7 +2,7 @@
 
 import { useAppDispatch, useAppSelector } from "@/GlobalRedux/hooks";
 import { useEffect } from "react";
-import * as companySlice from "@/GlobalRedux/Features/companySlice";
+import * as companySlice from "@/GlobalRedux/Features/company/companySlice";
 import { CompanyCard } from "@/components/CompanyCard";
 import { PlusCircle } from "@/svgComponents/PlusCircle";
 import { Loader } from "@/components/Loader";
