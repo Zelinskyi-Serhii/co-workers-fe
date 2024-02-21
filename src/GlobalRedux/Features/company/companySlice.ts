@@ -41,6 +41,14 @@ export const createCompany = createAsyncThunk(
   }
 );
 
+export const deleteCompany = createAsyncThunk(
+  "company/deleteCompany",
+  async (companyId: number) => {
+    const response = await axiosInstance.delete(`/company/delete/${companyId}`);
+    return response.data;
+  }
+);
+
 export const companySlice = createSlice({
   name: "company",
   initialState,
@@ -72,6 +80,23 @@ export const companySlice = createSlice({
     });
 
     builder.addCase(createCompany.rejected, (state, action) => {
+      state.isLoading = false;
+      state.error = action.error.message || null;
+    });
+
+    builder.addCase(deleteCompany.pending, (state) => {
+      state.isLoading = true;
+      state.error = null;
+    });
+
+    builder.addCase(deleteCompany.fulfilled, (state, action) => {
+      state.isLoading = false;
+      state.company = state.company.filter(
+        (company) => company.id !== action.payload
+      );
+    });
+
+    builder.addCase(deleteCompany.rejected, (state, action) => {
       state.isLoading = false;
       state.error = action.error.message || null;
     });
