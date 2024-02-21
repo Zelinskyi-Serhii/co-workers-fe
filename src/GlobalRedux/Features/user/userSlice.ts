@@ -4,14 +4,14 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 interface UserState {
   nickname: string | null;
   avatarUrl: string | null;
-  loading: boolean;
+  isLoading: boolean;
   error: string | null;
 }
 
 const initialState: UserState = {
   nickname: null,
   avatarUrl: null,
-  loading: false,
+  isLoading: true,
   error: null,
 };
 
@@ -27,18 +27,18 @@ export const userSlice = createSlice({
   reducers: {},
   extraReducers: (builder) => {
     builder.addCase(getUserInfo.pending, (state) => {
-      state.loading = true;
+      state.isLoading = true;
       state.error = null;
     });
 
     builder.addCase(getUserInfo.fulfilled, (state, action) => {
-      state.loading = false;
+      state.isLoading = false;
       state.nickname = action.payload.nickname;
       state.avatarUrl = action.payload.avatarUrl;
     });
 
     builder.addCase(getUserInfo.rejected, (state, action) => {
-      state.loading = false;
+      state.isLoading = false;
       state.error = action.error.message || null;
     });
   },
