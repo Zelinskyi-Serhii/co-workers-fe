@@ -34,6 +34,15 @@ export const getEmployees = createAsyncThunk(
   }
 );
 
+export const createEmployee = createAsyncThunk(
+  "employee/createEmployee",
+  async (employee: Partial<IEmployee>) => {
+    const response = await axiosInstance.post("/employee/create", employee);
+
+    return response.data;
+  }
+);
+
 const employeeSlice = createSlice({
   name: "employee",
   initialState,
@@ -48,6 +57,18 @@ const employeeSlice = createSlice({
       state.employees = action.payload;
     });
     builder.addCase(getEmployees.rejected, (state, action) => {
+      state.isLoading = false;
+      state.error = action.error.message ?? "An error occurred";
+    });
+    builder.addCase(createEmployee.pending, (state) => {
+      state.isLoading = true;
+      state.error = null;
+    });
+    builder.addCase(createEmployee.fulfilled, (state, action) => {
+      state.isLoading = false;
+      state.employees.push(action.payload);
+    });
+    builder.addCase(createEmployee.rejected, (state, action) => {
       state.isLoading = false;
       state.error = action.error.message ?? "An error occurred";
     });

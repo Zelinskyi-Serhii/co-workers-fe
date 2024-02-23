@@ -22,14 +22,13 @@ axiosInstance.interceptors.request.use(
   }
 );
 
-// axiosInstance.interceptors.response.use(
-//   (response) => response,
-//   (error) => {
-//     if ([401, 403].includes(error?.response?.status)) {
-//       localStorage.removeItem("accessToken");
-//       window.location.href = "/auth";
-//     }
+axiosInstance.interceptors.response.use(
+  (response) => response,
+  (error) => {
+    if ([401, 403].includes(error?.response?.status)) {
+      localStorage.removeItem("accessToken");
+    }
 
-//     return Promise.reject(error);
-//   }
-// );
+    return Promise.reject(error);
+  }
+);

@@ -49,67 +49,69 @@ export const Header = () => {
           />
         </Link>
 
-        <ul
-          id="collapseMenu"
-          className="lg:!flex lg:space-x-5 max-lg:space-y-2 max-lg:hidden max-lg:py-4 max-lg:w-full"
-        >
-          <li className="max-lg:border-b max-lg:bg-[#007bff] max-lg:py-2 px-3 max-lg:rounded">
-            <Link
-              href="/company"
-              className="lg:hover:text-[#007bff] text-[#007bff] max-lg:text-white block font-semibold text-[15px]"
-            >
-              Company
-            </Link>
-          </li>
-          <li className="max-lg:border-b max-lg:py-2 px-3 max-lg:rounded">
-            <Link
-              href=""
-              className="lg:hover:text-[#007bff] text-gray-500 block font-semibold text-[15px]"
-            >
-              Team
-            </Link>
-          </li>
-          <li className="max-lg:border-b max-lg:py-2 px-3 max-lg:rounded">
-            <Link
-              href=""
-              className="lg:hover:text-[#007bff] text-gray-500 block font-semibold text-[15px]"
-            >
-              Feature
-            </Link>
-          </li>
-          <li className="max-lg:border-b max-lg:py-2 px-3 max-lg:rounded">
-            <Link
-              href=""
-              className="lg:hover:text-[#007bff] text-gray-500 block font-semibold text-[15px]"
-            >
-              Account
-            </Link>
-          </li>
-          <li className="max-lg:border-b max-lg:py-2 px-3 max-lg:rounded">
-            <Link
-              href=""
-              className="lg:hover:text-[#007bff] text-gray-500 block font-semibold text-[15px]"
-            >
-              About
-            </Link>
-          </li>
-          <li className="max-lg:border-b max-lg:py-2 px-3 max-lg:rounded">
-            <Link
-              href=""
-              className="lg:hover:text-[#007bff] text-gray-500 block font-semibold text-[15px]"
-            >
-              Contact
-            </Link>
-          </li>
-        </ul>
+        {avatarUrl && (
+          <ul
+            id="collapseMenu"
+            className="lg:!flex lg:space-x-5 max-lg:space-y-2 max-lg:hidden max-lg:py-4 max-lg:w-full"
+          >
+            <li className="max-lg:border-b max-lg:bg-[#007bff] max-lg:py-2 px-3 max-lg:rounded">
+              <Link
+                href="/company"
+                className="lg:hover:text-[#007bff] text-[#007bff] max-lg:text-white block font-semibold text-[15px]"
+              >
+                Company
+              </Link>
+            </li>
+            <li className="max-lg:border-b max-lg:py-2 px-3 max-lg:rounded">
+              <Link
+                href=""
+                className="lg:hover:text-[#007bff] text-gray-500 block font-semibold text-[15px]"
+              >
+                Team
+              </Link>
+            </li>
+            <li className="max-lg:border-b max-lg:py-2 px-3 max-lg:rounded">
+              <Link
+                href=""
+                className="lg:hover:text-[#007bff] text-gray-500 block font-semibold text-[15px]"
+              >
+                Feature
+              </Link>
+            </li>
+            <li className="max-lg:border-b max-lg:py-2 px-3 max-lg:rounded">
+              <Link
+                href=""
+                className="lg:hover:text-[#007bff] text-gray-500 block font-semibold text-[15px]"
+              >
+                Account
+              </Link>
+            </li>
+            <li className="max-lg:border-b max-lg:py-2 px-3 max-lg:rounded">
+              <Link
+                href=""
+                className="lg:hover:text-[#007bff] text-gray-500 block font-semibold text-[15px]"
+              >
+                About
+              </Link>
+            </li>
+            <li className="max-lg:border-b max-lg:py-2 px-3 max-lg:rounded">
+              <Link
+                href=""
+                className="lg:hover:text-[#007bff] text-gray-500 block font-semibold text-[15px]"
+              >
+                Contact
+              </Link>
+            </li>
+          </ul>
+        )}
 
         {isLoading ? (
           <Loader />
         ) : (
-          <div className="flex  max-sm:ml-auto">
+          <div className="flex max-sm:ml-auto">
             {avatarUrl ? (
               <div
-                className="flex items-center cursor-pointer gap-2 bg-[#EDEDED] px-4 rounded-xl relative"
+                className="flex items-center cursor-pointer gap-2 px-4 relative"
                 onClick={handleToggleMenu}
               >
                 <span>{nickname}</span>
