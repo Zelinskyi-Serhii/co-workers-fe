@@ -9,6 +9,7 @@ import * as authActions from "@/GlobalRedux/Features/auth/authSlice";
 import { ArrowDown } from "@/svgComponents/ArrowDown";
 import { Loader } from "@/components/Loader";
 import { useRouter } from "next/navigation";
+import { Search } from "@/svgComponents/Search";
 
 export const Header = () => {
   const dispatch = useAppDispatch();
@@ -17,6 +18,7 @@ export const Header = () => {
   );
   const router = useRouter();
   const [isOpenMenu, setIsOpenMenu] = useState(false);
+  const [search, setSearch] = useState("");
 
   const handleToggleMenu = () => {
     setIsOpenMenu((prev) => !prev);
@@ -27,20 +29,20 @@ export const Header = () => {
   };
 
   useEffect(() => {
-    (async() => {
-     const response = await dispatch(userActions.getUserInfo());
+    (async () => {
+      const response = await dispatch(userActions.getUserInfo());
 
       if (!response.payload) {
         localStorage.clear();
-        router.push("/auth");
+        router.push("/auth/login");
       }
-    })()
+    })();
   }, [dispatch, router]);
 
   return (
-    <header className="shadow-md py-4 px-4 sm:px-10 bg-white font-[sans-serif] h-[70px]">
+    <header className="shadow-md py-4 px-4 sm:px-10 background-gradient-header font-[sans-serif] h-[70px]">
       <div className="flex flex-wrap items-center justify-between gap-5 relative">
-        <Link href="">
+        <Link href="/" className="hidden md:block ">
           <Image
             src="https://res.cloudinary.com/dzuxudptr/image/upload/v1708516652/h6rlzdqtgx9wdvm4nmm7.png"
             alt="Company Logo"
@@ -108,36 +110,52 @@ export const Header = () => {
         {isLoading ? (
           <Loader />
         ) : (
-          <div className="flex max-sm:ml-auto">
+          <div className="flex items-center max-sm:ml-auto">
             {avatarUrl ? (
-              <div
-                className="flex items-center cursor-pointer gap-2 px-4 relative"
-                onClick={handleToggleMenu}
-              >
-                <span>{nickname}</span>
-                <Image
-                  src={avatarUrl}
-                  height={40}
-                  width={40}
-                  alt="User Profile"
-                  className="rounded-full"
-                />
-                <ArrowDown />
+              <>
+                <div className="relative">
+                  <input
+                    type="text"
+                    name="search"
+                    value={search}
+                    onChange={({ target }) => setSearch(target.value)}
+                    placeholder="Search Employee"
+                    className="py-2 pl-2 pr-10 border border-[#B7BDBA] rounded-xl outline-none  w-[200px] "
+                  />
+                  <div className="absolute top-[12px] right-[12px]">
+                    <Search />
+                  </div>
+                </div>
 
-                {isOpenMenu && (
-                  <ul className="flex flex-col absolute bg-[#EDEDED] top-10 p-4 left-0 right-0 rounded-xl [&>a:hover]:text-[#ec4646] [&>a]:p-2 [&>a]:transition-all">
-                    <Link href="/company">My Companies</Link>
-                    <Link href="/settings">Settings</Link>
-                    <Link
-                      href=""
-                      className="text-[#ec4646]"
-                      onClick={handleLogout}
-                    >
-                      Logout
-                    </Link>
-                  </ul>
-                )}
-              </div>
+                <div
+                  className="flex items-center cursor-pointer gap-2 px-4 relative"
+                  onClick={handleToggleMenu}
+                >
+                  <span>{nickname}</span>
+                  <Image
+                    src={avatarUrl}
+                    height={40}
+                    width={40}
+                    alt="User Profile"
+                    className="rounded-full"
+                  />
+                  <ArrowDown />
+
+                  {isOpenMenu && (
+                    <ul className="flex flex-col absolute bg-[#EDEDED] top-10 p-4 left-0 right-0 rounded-xl [&>a:hover]:text-[#ec4646] [&>a]:p-2 [&>a]:transition-all">
+                      <Link href="/company">My Companies</Link>
+                      <Link href="/settings">Settings</Link>
+                      <Link
+                        href=""
+                        className="text-[#ec4646]"
+                        onClick={handleLogout}
+                      >
+                        Logout
+                      </Link>
+                    </ul>
+                  )}
+                </div>
+              </>
             ) : (
               <>
                 <button className="px-4 py-2 text-sm rounded-full font-bold text-white border-2 border-[#007bff] bg-[#007bff] transition-all ease-in-out duration-300 hover:bg-transparent hover:text-[#007bff]">

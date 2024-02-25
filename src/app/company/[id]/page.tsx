@@ -84,7 +84,7 @@ export default function CompanyDetails(props: { params: { id: string } }) {
 
       <div className="grid grid-cols-[repeat(auto-fit,_minmax(350px,1fr))] gap-4">
         <Link
-          href="/employee/create"
+          href={`/employee/create/?companyId=${id}`}
           className="flex justify-center items-center border-4 border-[#B7BDBA] rounded-xl min-h-[300px] hover-scale cursor-pointer"
         >
           <PlusCircle />

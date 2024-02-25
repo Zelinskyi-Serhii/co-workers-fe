@@ -2,7 +2,7 @@ import { axiosInstance } from "@/api/axios";
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 
 export interface IEmployee {
-  id: number,
+  id: number;
   companyId: number;
   firstname: string;
   lastname: string;
@@ -36,8 +36,10 @@ export const getEmployees = createAsyncThunk(
 
 export const createEmployee = createAsyncThunk(
   "employee/createEmployee",
-  async (employee: Partial<IEmployee>) => {
-    const response = await axiosInstance.post("/employee/create", employee);
+  async (employee: FormData) => {
+    const response = await axiosInstance.post("/employee/create", employee, {
+      headers: { "Content-Type": "multipart/form-data" },
+    });
 
     return response.data;
   }

@@ -56,7 +56,11 @@ export default function CompanyCreate() {
   };
 
   const handleCreateCompany = async () => {
-    if (!imageFile || isDisabled) return;
+    if (!imageFile || isDisabled) {
+      toast.error("All fields are required");
+      return;
+    };
+
     const formData = new FormData();
 
     formData.append("name", name);
@@ -140,7 +144,7 @@ export default function CompanyCreate() {
           <button
             className="flex items-center justify-center bg-[#1976d2] hover-scale"
             onClick={handleCreateCompany}
-            disabled={isDisabled || isLoading}
+            disabled={isLoading}
           >
             {isLoading ? <Loader /> : "Create"}
           </button>

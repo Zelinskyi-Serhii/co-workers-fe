@@ -3,6 +3,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import { useSearchParams } from 'next/navigation'
 import { ChangeEvent, useState } from "react";
 import { useAppDispatch, useAppSelector } from "@/GlobalRedux/hooks";
 import { Loader } from "@/components/Loader";
@@ -11,22 +12,25 @@ import * as employeeSlice from "@/GlobalRedux/Features/employee/employeeSlice";
 import { toast } from "react-toastify";
 
 const initialState = {
-  firstname: "",
-  lastName: "",
-  position: "",
+  firstname: "Serhii",
+  lastname: "Zel",
+  position: "Frontend",
   avatarUrl: "",
-  hireDate: "",
+  hireDate: new Date().toISOString(),
+  birthday: new Date().toISOString(),
 };
 
 export default function CreateEmployee() {
   const dispatch = useAppDispatch();
   const { isLoading } = useAppSelector((state) => state.employee);
   const router = useRouter();
-  const [{ firstname, lastName, position, avatarUrl, hireDate }, setEmployee] =
+  const searchParams = useSearchParams()
+  const companyId = searchParams.get('companyId')
+  const [{ firstname, lastname: lastname, position, avatarUrl, hireDate, birthday }, setEmployee] =
     useState(initialState);
   const [imageFile, setImageFile] = useState<File | null>(null);
 
-  const isDisabled = isValidFormData(firstname, lastName, position, hireDate, avatarUrl);
+  const isDisabled = isValidFormData(firstname, lastname, position, hireDate, avatarUrl);
 
   const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
@@ -60,19 +64,28 @@ export default function CreateEmployee() {
 
   // todo: Add company Id
   const handleCreateEmployee = async () => {
-    const newEmployee = {
-      firstname,
-      lastName,
-      position,
-      avatarUrl: imageFile as unknown as string,
-      hireDate: hireDate as unknown as Date,
-    };
+    if (!imageFile || isDisabled || !companyId) {
+      toast.error("All fields are required")
+      return;
+    }
 
-    const response = await dispatch(employeeSlice.createEmployee(newEmployee))
+    const formData = new FormData();
+
+    formData.append("firstname", firstname);
+    formData.append("lastname", lastname);
+    formData.append("position", position);
+    formData.append("companyId", companyId);
+    formData.append("hireDate", new Date(hireDate).toISOString());
+    formData.append("birthday", new Date(birthday).toISOString());
+    formData.append("avatarUrl", imageFile);
+
+    const response = await dispatch(employeeSlice.createEmployee(formData))
 
     if (response.payload) {
       toast.success("Employee created successfully");
-      router.push("/company")
+      router.push(`/company/${companyId}`)
+    } else {
+      toast.error("Unable to create Employee");
     }
   }
 
@@ -95,8 +108,8 @@ export default function CreateEmployee() {
           <input
             type="text"
             placeholder="Enter Lastname"
-            name="lastName"
-            value={lastName}
+            name="lastname"
+            value={lastname}
             onChange={handleChange}
           />
         </label>
@@ -112,16 +125,30 @@ export default function CreateEmployee() {
           />
         </label>
 
-        <label>
-          Hire Date
-          <input
-            className="w-[200px]"
-            type="date"
-            name="hireDate"
-            value={hireDate}
-            onChange={handleChange}
-          />
-        </label>
+        <div className="flex justify-between [&>label]:flex [&>label]:flex-col [&>label]:gap-1 [&>label]:text-[#B4B4B8] [&>label>input]:p-3 [&>label>input]:text-black [&>label>input]:border [&>label>input]:border-color-[#B4B4B8]">
+          <label>
+            Birthday
+            <input
+              className="w-[150px] lg:w-[250px]"
+              type="date"
+              name="birthday"
+              value={birthday}
+              onChange={handleChange}
+            />
+          </label>
+
+          <label>
+            Hire Date
+            <input
+              className="w-[150px] md:w-[250px]"
+              type="date"
+              name="hireDate"
+              value={hireDate}
+              onChange={handleChange}
+            />
+          </label>
+
+        </div>
 
         <label>
           <p className="p-3 bg-[#1976d2] text-white min-w-fit w-[50%] text-center font-bold mx-auto cursor-pointer hover-scale">
@@ -148,12 +175,12 @@ export default function CreateEmployee() {
 
         <div className="flex justify-between w-[100%] [&>button]:p-4 [&>button]:w-[49%] [&>button]:text-center [&>button]:text-white [&>button]:font-bold [&>button]:rounded-md">
           <button className="bg-[#DC004E] hover-scale">
-            <Link href="/company">Cancel</Link>
+            <Link href={`/company/${companyId}`}>Cancel</Link>
           </button>
           <button
             className="flex items-center justify-center bg-[#1976d2] hover-scale"
             onClick={handleCreateEmployee}
-            disabled={isDisabled || isLoading}
+            disabled={isLoading}
           >
             {isLoading ? <Loader /> : "Create"}
           </button>

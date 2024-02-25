@@ -32,3 +32,10 @@ export const getTotalYearsFromBirthDate = (birthDateString: Date) => {
 
   return age;
 }
+
+export const validateEmail = (email: string) => {
+  // Regular expression pattern for email validation
+  const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+  return regex.test(email);
+}
