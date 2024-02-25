@@ -23,13 +23,22 @@ export default function CreateEmployee() {
   const dispatch = useAppDispatch();
   const { isLoading } = useAppSelector((state) => state.employee);
   const router = useRouter();
+  // todo: issues with search params in deployment version
   const searchParams = useSearchParams();
-  const companyId = searchParams.get('companyId') || 0;
-  const [{ firstname, lastname, position, avatarUrl, hireDate, birthday }, setEmployee] =
-    useState(initialState);
+  const companyId = searchParams.get("companyId") || 0;
+  const [
+    { firstname, lastname, position, avatarUrl, hireDate, birthday },
+    setEmployee,
+  ] = useState(initialState);
   const [imageFile, setImageFile] = useState<File | null>(null);
 
-  const isDisabled = isValidFormData(firstname, lastname, position, hireDate, avatarUrl);
+  const isDisabled = isValidFormData(
+    firstname,
+    lastname,
+    position,
+    hireDate,
+    avatarUrl
+  );
 
   const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
@@ -62,7 +71,7 @@ export default function CreateEmployee() {
 
   const handleCreateEmployee = async () => {
     if (!imageFile || isDisabled || !companyId) {
-      toast.error("All fields are required")
+      toast.error("All fields are required");
       return;
     }
 
@@ -76,15 +85,15 @@ export default function CreateEmployee() {
     formData.append("birthday", new Date(birthday).toISOString());
     formData.append("avatarUrl", imageFile);
 
-    const response = await dispatch(employeeSlice.createEmployee(formData))
+    const response = await dispatch(employeeSlice.createEmployee(formData));
 
     if (response.payload) {
       toast.success("Employee created successfully");
-      router.push(`/company/${companyId}`)
+      router.push(`/company/${companyId}`);
     } else {
       toast.error("Unable to create Employee");
     }
-  }
+  };
 
   return (
     <div className="flex flex-col gap-4 justify-between items-center lg:items-stretch lg:gap-0 lg:flex-row border border-[#B4B4B8] rounded-lg p-6">
@@ -144,7 +153,6 @@ export default function CreateEmployee() {
               onChange={handleChange}
             />
           </label>
-
         </div>
 
         <label>

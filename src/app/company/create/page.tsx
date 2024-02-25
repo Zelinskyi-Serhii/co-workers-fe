@@ -59,7 +59,7 @@ export default function CompanyCreate() {
     if (!imageFile || isDisabled) {
       toast.error("All fields are required");
       return;
-    };
+    }
 
     const formData = new FormData();
 
