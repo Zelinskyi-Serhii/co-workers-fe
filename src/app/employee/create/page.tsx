@@ -23,8 +23,8 @@ export default function CreateEmployee() {
   const dispatch = useAppDispatch();
   const { isLoading } = useAppSelector((state) => state.employee);
   const router = useRouter();
-  const searchParams = useSearchParams();
-  const companyId = searchParams.get('companyId') || "";
+  const searchParams = new URLSearchParams(window.location.search);
+  const companyId = searchParams.get('companyId') || 0;
   const [{ firstname, lastname, position, avatarUrl, hireDate, birthday }, setEmployee] =
     useState(initialState);
   const [imageFile, setImageFile] = useState<File | null>(null);
@@ -71,7 +71,7 @@ export default function CreateEmployee() {
     formData.append("firstname", firstname);
     formData.append("lastname", lastname);
     formData.append("position", position);
-    formData.append("companyId", companyId);
+    formData.append("companyId", companyId as string);
     formData.append("hireDate", new Date(hireDate).toISOString());
     formData.append("birthday", new Date(birthday).toISOString());
     formData.append("avatarUrl", imageFile);
