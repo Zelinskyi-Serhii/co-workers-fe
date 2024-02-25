@@ -2,5 +2,5 @@ module.exports = {
   images: {
     unoptimized: true,
   },
-  missingSuspenseWithCSRBailout: false;
+  missingSuspenseWithCSRBailout: false
 }
