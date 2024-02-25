@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
+import { useRouter } from "next/router";
 import { useSearchParams } from 'next/navigation'
 import { ChangeEvent, useState } from "react";
 import { useAppDispatch, useAppSelector } from "@/GlobalRedux/hooks";
@@ -61,8 +61,6 @@ export default function CreateEmployee() {
     reader.readAsDataURL(file);
   };
 
-
-  // todo: Add company Id
   const handleCreateEmployee = async () => {
     if (!imageFile || isDisabled || !companyId) {
       toast.error("All fields are required")
