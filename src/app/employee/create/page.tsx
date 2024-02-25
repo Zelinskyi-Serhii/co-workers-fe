@@ -23,7 +23,7 @@ export default function CreateEmployee() {
   const dispatch = useAppDispatch();
   const { isLoading } = useAppSelector((state) => state.employee);
   const router = useRouter();
-  const searchParams = new URLSearchParams(window.location.search);
+  const searchParams = useSearchParams();
   const companyId = searchParams.get('companyId') || 0;
   const [{ firstname, lastname, position, avatarUrl, hireDate, birthday }, setEmployee] =
     useState(initialState);
