@@ -25,8 +25,8 @@ export default function CreateEmployee() {
   const { isLoading } = useAppSelector((state) => state.employee);
   const router = useRouter();
   const searchParams = useSearchParams()
-  const companyId = searchParams.get('companyId')
-  const [{ firstname, lastname: lastname, position, avatarUrl, hireDate, birthday }, setEmployee] =
+  const companyId = searchParams.get('companyId') || 0;
+  const [{ firstname, lastname, position, avatarUrl, hireDate, birthday }, setEmployee] =
     useState(initialState);
   const [imageFile, setImageFile] = useState<File | null>(null);
 
