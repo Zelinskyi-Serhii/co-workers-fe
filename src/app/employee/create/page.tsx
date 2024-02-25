@@ -3,7 +3,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { useSearchParams } from 'next/navigation'
+// import { useSearchParams } from 'next/navigation'
 import { ChangeEvent, useState } from "react";
 import { useAppDispatch, useAppSelector } from "@/GlobalRedux/hooks";
 import { Loader } from "@/components/Loader";
@@ -24,8 +24,9 @@ export default function CreateEmployee() {
   const dispatch = useAppDispatch();
   const { isLoading } = useAppSelector((state) => state.employee);
   const router = useRouter();
-  const searchParams = useSearchParams()
-  const companyId = searchParams.get('companyId') || 0;
+  // const searchParams = useSearchParams()
+  // const companyId = searchParams.get('companyId') || 0;
+  const companyId = "20";
   const [{ firstname, lastname, position, avatarUrl, hireDate, birthday }, setEmployee] =
     useState(initialState);
   const [imageFile, setImageFile] = useState<File | null>(null);
