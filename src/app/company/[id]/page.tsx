@@ -91,7 +91,9 @@ export default function CompanyDetails(props: { params: { id: string } }) {
         </Link>
 
         {isLoadingEmployee ? (
-          <Loader />
+          <div className="flex justify-center items-center border-4 border-[#B7BDBA] rounded-xl min-h-[300px]">
+            <Loader />
+          </div>
         ) : (
           <>
             {employees.map((employee) => (

@@ -3,7 +3,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
-import { ChangeEvent, useState } from "react";
+import { ChangeEvent, useState, Suspense } from "react";
 import { useAppDispatch, useAppSelector } from "@/GlobalRedux/hooks";
 import { Loader } from "@/components/Loader";
 import { isValidFormData } from "@/helpers/helperFunctions";
@@ -19,7 +19,15 @@ const initialState = {
   birthday: new Date().toISOString(),
 };
 
-export default function CreateEmployee() {
+export default function CreateEmployeePage() {
+  return (
+    <Suspense>
+      <CreateEmployee />
+    </Suspense>
+  );
+}
+
+const CreateEmployee = () => {
   const dispatch = useAppDispatch();
   const { isLoading } = useAppSelector((state) => state.employee);
   const router = useRouter();

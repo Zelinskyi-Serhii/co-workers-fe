@@ -13,7 +13,7 @@ import { Search } from "@/svgComponents/Search";
 
 export const Header = () => {
   const dispatch = useAppDispatch();
-  const { nickname, avatarUrl, isLoading } = useAppSelector(
+  const { nickname, avatarUrl, isLoadingGetInfo } = useAppSelector(
     (state) => state.user
   );
   const router = useRouter();
@@ -107,7 +107,7 @@ export const Header = () => {
           </ul>
         )}
 
-        {isLoading ? (
+        {isLoadingGetInfo ? (
           <Loader />
         ) : (
           <div className="flex items-center max-sm:ml-auto">
@@ -137,7 +137,7 @@ export const Header = () => {
                     height={40}
                     width={40}
                     alt="User Profile"
-                    className="rounded-full"
+                    className="rounded-full max-w-[40px] max-h-[40px]"
                   />
                   <ArrowDown />
 
