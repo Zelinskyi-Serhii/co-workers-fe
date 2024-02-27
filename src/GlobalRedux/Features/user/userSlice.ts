@@ -45,6 +45,17 @@ export const changePassword = createAsyncThunk(
   }
 );
 
+export const changeNickname = createAsyncThunk(
+  "user/changeNickname",
+  async (nickname: string) => {
+    const response = await axiosInstance.put("/auth/changeNickname", {
+      nickname,
+    });
+
+    return response.data;
+  }
+);
+
 export const userSlice = createSlice({
   name: "user",
   initialState,
@@ -94,6 +105,21 @@ export const userSlice = createSlice({
       state.isLoadingChangePassword = false;
 
       state.error = "Unable to change password";
+    });
+
+    builder.addCase(changeNickname.pending, (state) => {
+      state.isLoadingUpdateUser = true;
+      state.error = null;
+    });
+
+    builder.addCase(changeNickname.fulfilled, (state, action) => {
+      state.isLoadingUpdateUser = false;
+      state.nickname = action.payload.nickname;
+    });
+
+    builder.addCase(changeNickname.rejected, (state, action) => {
+      state.isLoadingUpdateUser = false;
+      state.error = "Unable to change nickname";
     });
   },
 });

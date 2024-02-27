@@ -99,6 +99,17 @@ export default function AccountSettings() {
         toast.success("User avatar updated successfully");
       }
     }
+
+    if (debauncedNickname.trim().length) {
+      const response = await dispatch(userSlice.changeNickname(debauncedNickname));
+
+      if (response.payload) {
+        toast.success("User nickname updated successfully");
+        setIsOpenEdit(false);
+      } else {
+        toast.error("Unable to update nickname");
+      }
+    }
   };
 
   useEffect(() => {

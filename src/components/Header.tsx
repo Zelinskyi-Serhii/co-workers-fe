@@ -3,6 +3,7 @@
 import { useAppDispatch, useAppSelector } from "@/GlobalRedux/hooks";
 import Image from "next/image";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 import * as userActions from "@/GlobalRedux/Features/user/userSlice";
 import * as authActions from "@/GlobalRedux/Features/auth/authSlice";
@@ -17,6 +18,7 @@ export const Header = () => {
     (state) => state.user
   );
   const router = useRouter();
+  const pathname = usePathname();
   const [isOpenMenu, setIsOpenMenu] = useState(false);
   const [search, setSearch] = useState("");
 
@@ -56,28 +58,20 @@ export const Header = () => {
             id="collapseMenu"
             className="lg:!flex lg:space-x-5 max-lg:space-y-2 max-lg:hidden max-lg:py-4 max-lg:w-full"
           >
+            <li className="max-lg:border-b max-lg:py-2 px-3 max-lg:rounded">
+              <Link
+                href="/"
+                className="lg:hover:text-[#007bff] text-gray-500 block font-semibold text-[15px]"
+              >
+                Home
+              </Link>
+            </li>
             <li className="max-lg:border-b max-lg:bg-[#007bff] max-lg:py-2 px-3 max-lg:rounded">
               <Link
                 href="/company"
-                className="lg:hover:text-[#007bff] text-[#007bff] max-lg:text-white block font-semibold text-[15px]"
+                className={`lg:hover:text-[#007bff] max-lg:text-white block font-semibold text-[15px] text-[${pathname === "/company" ? "#007bff" : "#6B7280"}]`}
               >
-                Company
-              </Link>
-            </li>
-            <li className="max-lg:border-b max-lg:py-2 px-3 max-lg:rounded">
-              <Link
-                href=""
-                className="lg:hover:text-[#007bff] text-gray-500 block font-semibold text-[15px]"
-              >
-                Team
-              </Link>
-            </li>
-            <li className="max-lg:border-b max-lg:py-2 px-3 max-lg:rounded">
-              <Link
-                href=""
-                className="lg:hover:text-[#007bff] text-gray-500 block font-semibold text-[15px]"
-              >
-                Feature
+                My Companies
               </Link>
             </li>
             <li className="max-lg:border-b max-lg:py-2 px-3 max-lg:rounded">
@@ -142,7 +136,7 @@ export const Header = () => {
                   <ArrowDown />
 
                   {isOpenMenu && (
-                    <ul className="flex flex-col absolute bg-[#EDEDED] top-10 p-4 left-0 right-0 rounded-xl [&>a:hover]:text-[#ec4646] [&>a]:p-2 [&>a]:transition-all">
+                    <ul className="flex flex-col w-[160px] absolute bg-[#EDEDED] top-10 p-4 left-0 right-0 rounded-xl [&>a:hover]:text-[#ec4646] [&>a]:p-2 [&>a]:transition-all">
                       <Link href="/company">My Companies</Link>
                       <Link href="/settings">Settings</Link>
                       <Link
