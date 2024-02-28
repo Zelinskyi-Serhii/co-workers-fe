@@ -20,6 +20,10 @@ body {
   transform: scale(1.05);
 }
 
+.border-color {
+  border-color: #ada5a5;
+}
+
 .background-gradient-header {
   background: rgb(200,227,159);
   background: linear-gradient(90deg, rgba(200,227,159,1) 0%, rgba(173,221,216,1) 51%, rgba(206,255,198,1) 100%);

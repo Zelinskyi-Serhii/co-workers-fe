@@ -91,9 +91,6 @@ export const companySlice = createSlice({
 
     builder.addCase(deleteCompany.fulfilled, (state, action) => {
       state.isLoading = false;
-      state.company = state.company.filter(
-        (company) => company.id !== action.payload
-      );
     });
 
     builder.addCase(deleteCompany.rejected, (state, action) => {
