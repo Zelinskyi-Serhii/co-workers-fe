@@ -1,6 +1,6 @@
 export const ArrowDown = () => (
   <svg
-    fill="#000000"
+    fill="#FFFFFF"
     height="15px"
     width="15px"
     version="1.1"

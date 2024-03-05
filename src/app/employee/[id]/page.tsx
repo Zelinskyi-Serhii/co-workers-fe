@@ -1,9 +1,6 @@
 "use client";
 
-import { useMemo } from "react";
 import Image from "next/image";
-import * as employeeSlice from "@/GlobalRedux/Features/employee/employeeSlice";
-import { useAppDispatch, useAppSelector } from "@/GlobalRedux/hooks";
 import { Loader } from "@/components/Loader";
 import {
   convertDateToMonthAndYear,
@@ -11,50 +8,46 @@ import {
 } from "@/helpers/helperFunctions";
 import { toast } from "react-toastify";
 import { useRouter } from "next/navigation";
+import {
+  useDeleteEmployeeMutation,
+  useDismissEmployeeMutation,
+  useGetEmployeeByIdQuery,
+} from "@/GlobalRedux/Features/employee/employeeApi";
 
 export default function EmployeeInfo(props: any) {
   const { id } = props.params;
-  const dispatch = useAppDispatch();
   const router = useRouter();
-  const { employees, isLoading } = useAppSelector((state) => state.employee);
-
-  const employeeDetails = useMemo(
-    () => employees.find((employee) => employee.id === Number(id)),
-    [employees, id]
-  );
+  const [dismissEmployee, { isLoading: isLoadingDismiss }] =
+    useDismissEmployeeMutation();
+  const [deleteEmployee, { isLoading: isLoadingDelete }] =
+    useDeleteEmployeeMutation();
+  const { data: employee } = useGetEmployeeByIdQuery({
+    employeeId: id,
+  });
 
   const handleDeleteEmployee = async () => {
-    const response = await dispatch(employeeSlice.deleteEmployee(id));
-
-    if (response.payload) {
-      toast.success("Employee delete successfully");
+    try {
+      await deleteEmployee({ employeeId: id });
+      toast.success("Employee deleted successfully");
       router.push("/company");
-    } else {
+    } catch (error) {
       toast.error("Unable to delete employee");
     }
   };
 
   const handleDismissEmployee = async () => {
-    if (employeeDetails?.isDismissed) {
-      toast.error('Employee already dismissed')
-      return;
-    }
-
-    // todo: fix fresh reload
-    const response = await dispatch(employeeSlice.dismissEmployee(id));
-
-    if (response.payload) {
+    try {
+      await dismissEmployee({ employeeId: id });
       toast.success("Employee updated successfully");
-    } else {
-      toast.error("Unable to update employee");
-    }
+    } catch (error) {}
+    toast.error("Unable to update employee");
   };
 
   return (
     <div>
-      {employeeDetails && (
+      {employee && (
         <div className="relative flex items-center mx-auto mb-8 gap-20 w-fit border border-[#ada5a5] rounded-xl p-10">
-          {employeeDetails.isDismissed && (
+          {employee.isDismissed && (
             <div className="marquee rounded-t-xl">
               <div className="flex">
                 <p className="marquee__line">Dismissed</p>
@@ -64,22 +57,22 @@ export default function EmployeeInfo(props: any) {
           )}
           <Image
             className=" rounded-xl"
-            src={employeeDetails.avatarUrl || ""}
+            src={employee.avatarUrl || ""}
             height={200}
             width={200}
             alt="Company"
           />
           <div className="flex flex-col gap-4">
             <h2 className="text-2xl font-bold">
-              {employeeDetails.firstname} {employeeDetails.lastname}
+              {employee.firstname} {employee.lastname}
             </h2>
-            <p className="text-xl font-medium">{employeeDetails.position}</p>
+            <p className="text-xl font-medium">{employee.position}</p>
             <p className="text-l font-light">
               <span className="font-thin text-[#b4b3b3]">Hired:</span>{" "}
-              {convertDateToMonthAndYear(employeeDetails.hireDate)}
+              {convertDateToMonthAndYear(employee.hireDate)}
             </p>
             <p className="text-l font-light">
-              {getTotalYearsFromBirthDate(employeeDetails.birthday)} years
+              {getTotalYearsFromBirthDate(employee.birthday)} years
             </p>
           </div>
 
@@ -87,16 +80,16 @@ export default function EmployeeInfo(props: any) {
             <button
               onClick={handleDeleteEmployee}
               className="flex justify-center items-center bg-[#DC004E] hover-scale"
-              disabled={isLoading}
+              disabled={isLoadingDelete}
             >
-              {isLoading ? <Loader /> : "Delete"}
+              {isLoadingDelete ? <Loader /> : "Delete"}
             </button>
             <button
               className="flex items-center justify-center bg-[#1976d2] hover-scale"
               onClick={handleDismissEmployee}
-              disabled={isLoading || employeeDetails.isDismissed}
+              disabled={isLoadingDismiss || employee.isDismissed}
             >
-              {isLoading ? <Loader /> : "Dismiss"}
+              {isLoadingDismiss ? <Loader /> : "Dismiss"}
             </button>
           </div>
         </div>

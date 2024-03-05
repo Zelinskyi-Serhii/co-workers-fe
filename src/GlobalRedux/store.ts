@@ -4,16 +4,21 @@ import { configureStore } from "@reduxjs/toolkit";
 import authReducer from "@/GlobalRedux/Features/auth/authSlice";
 import userReducer from "@/GlobalRedux/Features/user/userSlice";
 import companyReducer from "@/GlobalRedux/Features/company/companySlice";
-import employeeReducer from "@/GlobalRedux/Features/employee/employeeSlice";
+import { employeeApi } from "./Features/employee/employeeApi";
+import { setupListeners } from "@reduxjs/toolkit/query";
 
 export const store = configureStore({
   reducer: {
     auth: authReducer,
     user: userReducer,
     company: companyReducer,
-    employee: employeeReducer,
+    [employeeApi.reducerPath]: employeeApi.reducer,
   },
+  middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware().concat(employeeApi.middleware),
 });
+
+setupListeners(store.dispatch);
 
 export type RootState = ReturnType<typeof store.getState>;
 export type AppDispatch = typeof store.dispatch;

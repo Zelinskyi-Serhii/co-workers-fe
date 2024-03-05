@@ -1,8 +1,7 @@
 "use client";
 
 import { useAppDispatch, useAppSelector } from "@/GlobalRedux/hooks";
-import { useEffect, useMemo } from "react";
-import * as employeeReducer from "@/GlobalRedux/Features/employee/employeeSlice";
+import { useMemo } from "react";
 import * as companyReducer from "@/GlobalRedux/Features/company/companySlice";
 import { EmployeeCard } from "@/components/EmployeeCard";
 import Image from "next/image";
@@ -12,6 +11,7 @@ import { PlusCircle } from "@/svgComponents/PlusCircle";
 import { toast } from "react-toastify";
 import { useRouter } from "next/navigation";
 import { Loader } from "@/components/Loader";
+import { useGetEmployeesQuery } from "@/GlobalRedux/Features/employee/employeeApi";
 
 export default function CompanyDetails(props: { params: { id: string } }) {
   const id = props.params.id;
@@ -19,14 +19,16 @@ export default function CompanyDetails(props: { params: { id: string } }) {
   const { company, isLoading: isLoadingCompany } = useAppSelector(
     (state) => state.company
   );
-  const { employees, isLoading: isLoadingEmployee } = useAppSelector(
-    (state) => state.employee
-  );
   const router = useRouter();
   const companyDetails = useMemo(
     () => company.find((company) => company.id === Number(id)),
     [company, id]
   );
+
+  const { data: employees, isLoading: isLoadingEmployee } =
+    useGetEmployeesQuery({
+      companyId: Number(id),
+    });
 
   const handleDeleteCompany = async () => {
     const response = await dispatch(companyReducer.deleteCompany(Number(id)));
@@ -36,10 +38,6 @@ export default function CompanyDetails(props: { params: { id: string } }) {
       router.push("/company");
     }
   };
-
-  useEffect(() => {
-    dispatch(employeeReducer.getEmployees(Number(id)));
-  }, [dispatch, id]);
 
   return (
     <div>
@@ -96,7 +94,7 @@ export default function CompanyDetails(props: { params: { id: string } }) {
           </div>
         ) : (
           <>
-            {employees.map((employee) => (
+            {employees?.map((employee) => (
               <EmployeeCard key={employee.id} employee={employee} />
             ))}
           </>

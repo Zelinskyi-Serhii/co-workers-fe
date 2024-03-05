@@ -4,11 +4,10 @@ import Image from "next/image";
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 import { ChangeEvent, useState, Suspense } from "react";
-import { useAppDispatch, useAppSelector } from "@/GlobalRedux/hooks";
 import { Loader } from "@/components/Loader";
 import { isValidFormData } from "@/helpers/helperFunctions";
-import * as employeeSlice from "@/GlobalRedux/Features/employee/employeeSlice";
 import { toast } from "react-toastify";
+import { useCreateEmployeeMutation } from "@/GlobalRedux/Features/employee/employeeApi";
 
 const initialState = {
   firstname: "Serhii",
@@ -21,17 +20,16 @@ const initialState = {
 
 export default function CreateEmployeePage() {
   return (
-    <Suspense>
+    <Suspense fallback={<Loader />}>
       <CreateEmployee />
     </Suspense>
   );
 }
 
 const CreateEmployee = () => {
-  const dispatch = useAppDispatch();
-  const { isLoading } = useAppSelector((state) => state.employee);
+  const [createEmployee, { isLoading: isLoadingCreateEmployee }] =
+    useCreateEmployeeMutation();
   const router = useRouter();
-  // todo: issues with search params in deployment version
   const searchParams = useSearchParams();
   const companyId = searchParams.get("companyId") || 0;
   const [
@@ -93,9 +91,12 @@ const CreateEmployee = () => {
     formData.append("birthday", new Date(birthday).toISOString());
     formData.append("avatarUrl", imageFile);
 
-    const response = await dispatch(employeeSlice.createEmployee(formData));
+    const response = await createEmployee(formData);
 
-    if (response.payload) {
+    console.log(response);
+
+    // @ts-ignore
+    if (!response.error) {
       toast.success("Employee created successfully");
       router.push(`/company/${companyId}`);
     } else {
@@ -193,12 +194,12 @@ const CreateEmployee = () => {
           <button
             className="flex items-center justify-center bg-[#1976d2] hover-scale"
             onClick={handleCreateEmployee}
-            disabled={isLoading}
+            disabled={isLoadingCreateEmployee}
           >
-            {isLoading ? <Loader /> : "Create"}
+            {isLoadingCreateEmployee ? <Loader /> : "Create"}
           </button>
         </div>
       </div>
     </div>
   );
-}
+};
