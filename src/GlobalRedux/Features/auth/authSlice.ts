@@ -1,6 +1,5 @@
 import { axiosInstance } from "@/api/axios";
 import { PayloadAction, createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { error } from "console";
 
 type PayloadLogin = {
   accessToken: string;
@@ -103,14 +102,17 @@ export const authSlice = createSlice({
       state.error = null;
     });
 
-    builder.addCase(signup.fulfilled, (state, action: PayloadAction<PayloadLogin>) => {
-      state.isLoading = false;
-      state.error = null;
-      localStorage.setItem(
-        "accessToken",
-        JSON.stringify(action.payload.accessToken)
-      );
-    });
+    builder.addCase(
+      signup.fulfilled,
+      (state, action: PayloadAction<PayloadLogin>) => {
+        state.isLoading = false;
+        state.error = null;
+        localStorage.setItem(
+          "accessToken",
+          JSON.stringify(action.payload.accessToken)
+        );
+      }
+    );
 
     builder.addCase(signup.rejected, (state, action) => {
       state.isLoading = false;

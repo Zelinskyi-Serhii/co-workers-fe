@@ -13,23 +13,12 @@ axiosInstance.interceptors.request.use(
     const token = localStorage.getItem("accessToken");
 
     if (token) {
-      config.headers.Authorization = `Bearer ${JSON.parse(token)}`;
+      config.headers.Authorization = `Bearer ${token}`;
     }
 
     return config;
   },
   (error) => {
-    return Promise.reject(error);
-  }
-);
-
-axiosInstance.interceptors.response.use(
-  (response) => response,
-  (error) => {
-    if ([401, 403].includes(error?.response?.status)) {
-      localStorage.removeItem("accessToken");
-    }
-
     return Promise.reject(error);
   }
 );
@@ -50,7 +39,7 @@ export const axiosBaseQuery = (): BaseQueryFn<IRequestData> => {
     let headers: AxiosRequestConfig["headers"] = {};
 
     if (authToken) {
-      headers.authorization = `Bearer ${JSON.parse(authToken)}`;
+      headers.authorization = `Bearer ${authToken}`;
     }
 
     headers["Content-Type"] = "application/json";

@@ -10,8 +10,8 @@ import { toast } from "react-toastify";
 import { useRouter } from "next/navigation";
 
 const initialValue = {
-  name: "",
-  ownerName: "",
+  name: "awdawd",
+  ownerName: "awdawd",
   ownedAt: new Date().toISOString(),
   avatarUrl: "",
 };

@@ -4,6 +4,10 @@ import "react-toastify/dist/ReactToastify.css";
 import "./globals.scss";
 import { Providers } from "@/GlobalRedux/provider";
 import { Header } from "@/components/Header";
+import { ModalContextProvider } from "@/context/ModalContext";
+import { ModalLayout } from "@/components/ModalLayout";
+import { Container } from "@/components/Container";
+import { SessionContextProvider } from "@/context/SessionContext";
 
 export const metadata: Metadata = {
   title: "CO-WORKERS",
@@ -18,9 +22,14 @@ export default function RootLayout({
     <html lang="en" suppressHydrationWarning={true}>
       <body suppressHydrationWarning={true}>
         <Providers>
-          <Header />
-          <div className="max-w-[1200px] mx-auto px-4 py-8">{children}</div>
-          <ToastContainer />
+          <SessionContextProvider>
+            <ModalContextProvider>
+              <ModalLayout />
+              <Header />
+              <Container>{children}</Container>
+              <ToastContainer />
+            </ModalContextProvider>
+          </SessionContextProvider>
         </Providers>
       </body>
     </html>

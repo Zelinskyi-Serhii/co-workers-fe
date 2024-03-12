@@ -93,8 +93,6 @@ const CreateEmployee = () => {
 
     const response = await createEmployee(formData);
 
-    console.log(response);
-
     // @ts-ignore
     if (!response.error) {
       toast.success("Employee created successfully");

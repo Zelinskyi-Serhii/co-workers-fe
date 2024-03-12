@@ -1,61 +1,33 @@
 "use client";
 
-import { useAppDispatch, useAppSelector } from "@/GlobalRedux/hooks";
 import Image from "next/image";
 import Link from "next/link";
-import { useEffect, useRef, useState } from "react";
-import * as userActions from "@/GlobalRedux/Features/user/userSlice";
-import * as authActions from "@/GlobalRedux/Features/auth/authSlice";
+import { useCallback, useRef, useState } from "react";
 import { ArrowDown } from "@/svgComponents/ArrowDown";
-import { useRouter } from "next/navigation";
 import { Search } from "@/svgComponents/Search";
+import { ModalType, useModalContext } from "@/context/ModalContext";
+import { useClickOutside } from "@/hooks/useClickOutside";
+import { useSession } from "@/context/SessionContext";
 import { Button } from "./Button";
 
 export const Header = () => {
-  const dispatch = useAppDispatch();
-  const { nickname, avatarUrl } = useAppSelector((state) => state.user);
-  const router = useRouter();
-  const dropdownRef = useRef(null);
+  const { user, logOut, isLoading } = useSession();
+  const { setModal } = useModalContext();
   const [isOpenMenu, setIsOpenMenu] = useState(false);
   const [search, setSearch] = useState("");
+  const dropdownRef = useRef(null);
+  useClickOutside(dropdownRef, () => setIsOpenMenu(false));
 
   const handleToggleMenu = () => {
     setIsOpenMenu((prev) => !prev);
   };
 
-  const handleLogout = () => {
-    dispatch(authActions.logout());
-  };
-
-  useEffect(() => {
-    (async () => {
-      const response = await dispatch(userActions.getUserInfo());
-
-      if (!response.payload) {
-        localStorage.clear();
-        router.push("/auth/login");
-      }
-    })();
-  }, [dispatch, router]);
-
-  useEffect(() => {
-    const handleClickOutside = (event: MouseEvent) => {
-      if (
-        dropdownRef.current &&
-        !(dropdownRef.current as HTMLElement).contains(
-          event.target as HTMLElement
-        )
-      ) {
-        setIsOpenMenu(false);
-      }
-    };
-
-    document.addEventListener("click", handleClickOutside);
-
-    return () => {
-      document.removeEventListener("click", handleClickOutside);
-    };
-  }, []);
+  const handleAuth = useCallback(() => {
+    setModal({
+      modalType: ModalType.AUTH,
+      isOpen: true,
+    });
+  }, [setModal]);
 
   return (
     <header className="py-4 px-4 sm:px-10 bg-[#0f1121] h-[70px] border-b-2 border-b-[#3b3e4a]">
@@ -83,13 +55,11 @@ export const Header = () => {
           </div>
         </div>
 
-        <Button>Create Company</Button>
-
         <div className="flex items-center  max-sm:ml-auto">
-          {avatarUrl && (
+          {user && (
             <div className="flex items-center cursor-pointer gap-2 px-4 bg-grey-500">
               <Image
-                src={avatarUrl}
+                src={user.avatarUrl}
                 height={40}
                 width={40}
                 alt="User Profile"
@@ -101,18 +71,14 @@ export const Header = () => {
                 onClick={handleToggleMenu}
                 ref={dropdownRef}
               >
-                <span className="text-[#FFFFFF]">{nickname}</span>
+                <span className="text-[#FFFFFF]">{user.nickname}</span>
                 <ArrowDown />
                 {isOpenMenu && (
                   <ul className="flex flex-col w-[170px] absolute bg-[#EDEDED] top-10 p-4 right-0 rounded-xl [&>a:hover]:text-[#ec4646] [&>a]:p-2 [&>a]:transition-all">
                     <Link href="/company">My Companies</Link>
                     <Link href="/company/create">Create Company</Link>
                     <Link href="/settings">Settings</Link>
-                    <Link
-                      href=""
-                      className="text-[#ec4646]"
-                      onClick={handleLogout}
-                    >
+                    <Link href="" className="text-[#ec4646]" onClick={logOut}>
                       Logout
                     </Link>
                   </ul>
@@ -121,10 +87,10 @@ export const Header = () => {
             </div>
           )}
 
-          {!avatarUrl && (
+          {!user && (
             <>
               <button className="px-4 py-2 text-sm rounded-full font-bold text-white border-2 border-[#007bff] bg-[#007bff] transition-all ease-in-out duration-300 hover:bg-transparent hover:text-[#007bff]">
-                <Link href="/auth">Login/Signup</Link>
+                <button onClick={handleAuth}>Login/Signup</button>
               </button>
               <button id="toggle" className="lg:hidden ml-7">
                 <svg

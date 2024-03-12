@@ -1,0 +1,52 @@
+.isDisabledButton {
+  background-color: #999999;
+  cursor: not-allowed;
+
+  &:hover {
+    transform: none;
+  }
+}
+
+.hover-scale {
+  transition: transform 0.2s ease-in-out;
+
+  &:hover {
+    transform: scale(1.05);
+  }
+}
+
+.marquee {
+  position: absolute;
+  overflow: hidden;
+  font-weight: 600;
+  font-size: 20px;
+  text-transform: uppercase;
+  background-color: #ffdc00;
+  top: 0;
+  left: 0;
+  right: 0;
+
+  &__line {
+    flex-shrink: 0;
+    margin: 0;
+    min-width: 100%;
+    white-space: nowrap;
+    animation-name: marqueeLine;
+    animation-duration: 9s;
+    animation-timing-function: linear;
+    animation-iteration-count: infinite;
+  }
+}
+
+.modalViewContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.7);
+  z-index: 1000;
+}

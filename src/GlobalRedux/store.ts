@@ -6,6 +6,7 @@ import userReducer from "@/GlobalRedux/Features/user/userSlice";
 import companyReducer from "@/GlobalRedux/Features/company/companySlice";
 import { employeeApi } from "./Features/employee/employeeApi";
 import { setupListeners } from "@reduxjs/toolkit/query";
+import { userApi } from "./Features/user/userApi";
 
 export const store = configureStore({
   reducer: {
@@ -13,9 +14,10 @@ export const store = configureStore({
     user: userReducer,
     company: companyReducer,
     [employeeApi.reducerPath]: employeeApi.reducer,
+    [userApi.reducerPath]: userApi.reducer,
   },
   middleware: (getDefaultMiddleware) =>
-    getDefaultMiddleware().concat(employeeApi.middleware),
+    getDefaultMiddleware().concat(employeeApi.middleware, userApi.middleware),
 });
 
 setupListeners(store.dispatch);
