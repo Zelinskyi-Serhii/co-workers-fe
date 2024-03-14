@@ -1,0 +1,140 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,900;1,900&display=swap");
+
+.company-list {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+
+  // display: grid;
+  // grid-template-columns: repeat(4, 1fr);
+}
+.company-list .company-card {
+  position: relative;
+  width: 300px;
+  height: 400px;
+  margin: 40px;
+  background: #232323;
+  border-radius: 20px;
+  transform-style: preserve-3d;
+}
+.company-list .company-card::before {
+  content: "NIKE";
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  font-size: 6em;
+  font-weight: 900;
+  color: #ffffff;
+  font-style: italic;
+  opacity: 0;
+  transition: 0.5s;
+}
+.company-list .company-card::after {
+  content: "SHOES";
+  position: absolute;
+  bottom: 20px;
+  right: 20px;
+  font-size: 4.5em;
+  font-weight: 900;
+  color: #ffffff;
+  font-style: italic;
+  opacity: 0;
+  transition: 0.5s;
+}
+.company-list .company-card:hover::after,
+.company-list .company-card:hover::before {
+  opacity: 0.04;
+}
+.company-list .company-card .name {
+  position: absolute;
+  top: 0;
+  left: 0;
+  text-align: center;
+  color: #f8f8f8;
+  width: 100%;
+  transform-style: preserve-3d;
+  transform: translate3d(0, 0, 75px);
+  transition: 0.5s;
+  opacity: 0;
+  z-index: 10;
+}
+.company-list .company-card:hover .name {
+  top: 40px;
+  opacity: 1;
+}
+.company-list .company-card .buy {
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform-style: preserve-3d;
+  transform: translate3d(0, 0, 75px);
+  color: #fff;
+  background: #333;
+  padding: 10px 25px;
+  border-radius: 30px;
+  text-decoration: none;
+  transition: 0.5s;
+  opacity: 0;
+  z-index: 10;
+}
+.company-list .company-card:hover .buy {
+  bottom: 30px;
+  opacity: 1;
+}
+.company-list .company-card .circle {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 200px;
+  height: 200px;
+  border-radius: 50%;
+  transition: 0.5s;
+  background: #ffffff;
+  transform-style: preserve-3d;
+  z-index: 10;
+  opacity: 1;
+  transform: translate3d(-50%, -50%, 0px);
+}
+.company-list .company-card:hover .circle {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 200px;
+  height: 200px;
+  border-radius: 50%;
+  transition: 0.5s;
+  background: #ffffff;
+  transform-style: preserve-3d;
+  z-index: 10;
+  opacity: 1;
+  transform: translate3d(-50%, -50%, 35px);
+}
+
+.company-list .company-card .product {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  max-width: 300px;
+  transition: 0.5s;
+  z-index: 11;
+  transition: 0.5s;
+  transform-style: preserve-3d;
+  transform: translate3d(-50%, -50%, 0px) rotate(-15deg);
+}
+.company-list .company-card:hover .product {
+  transform: translate3d(-50%, -50%, 100px) rotate(-15deg);
+}
+.company-list .company-card:nth-child(1) .circle,
+.company-list .company-card:nth-child(1) .buy {
+  background: #9bdc28;
+}
+.company-list .company-card:nth-child(2) .circle,
+.company-list .company-card:nth-child(2) .buy {
+  background: #1da3c3;
+}
+.company-list .company-card:nth-child(3) .circle,
+.company-list .company-card:nth-child(3) .buy {
+  background: #eb0e2f;
+}

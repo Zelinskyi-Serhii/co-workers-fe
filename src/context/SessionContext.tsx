@@ -3,6 +3,17 @@
 import { FC, ReactNode, useCallback, useEffect, useState } from "react";
 import { createStrictContext, useStrictContext } from "./strictContext";
 import { useLazyGetUserInfoQuery } from "@/GlobalRedux/Features/user/userApi";
+import { usePathname, useRouter } from "next/navigation";
+
+enum ProtectedRoutes {
+  Company = "/company",
+  CompanyCreate = "/company/create",
+  Employee = "/employee",
+  EmployeeCreate = "/employee/create",
+  Settings = "/settings",
+}
+
+const protectedRoutes: string[] = Object.values(ProtectedRoutes);
 
 interface IUser {
   nickname: string;
@@ -22,14 +33,16 @@ const SessionContext = createStrictContext<ISessionContext | null>();
 export const SessionContextProvider: FC<{ children: ReactNode }> = ({
   children,
 }) => {
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
   const [user, setUser] = useState<IUser | null>(null);
-  const [triggerGetProfile, { data }] = useLazyGetUserInfoQuery();
+  const [triggerGetProfile, { isSuccess }] = useLazyGetUserInfoQuery();
+  const router = useRouter();
+  const pathname = usePathname();
 
   const logOut = () => {
     setUser(null);
     localStorage.removeItem("accessToken");
-    window.location.pathname = "/";
+    router.push("/");
   };
 
   const loadUserData = useCallback(async () => {
@@ -52,6 +65,12 @@ export const SessionContextProvider: FC<{ children: ReactNode }> = ({
   useEffect(() => {
     loadUserData();
   }, [loadUserData]);
+
+  useEffect(() => {
+    if (protectedRoutes.includes(pathname) && !user && isSuccess) {
+      router.push("/");
+    }
+  }, [pathname, router, user, isSuccess]);
 
   return (
     <SessionContext.Provider value={{ user, loadUserData, logOut, isLoading }}>

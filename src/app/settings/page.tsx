@@ -59,7 +59,7 @@ export default function AccountSettings() {
   const handleUpdatePassword = async () => {
     const newPassword = passwords.newPassword.trim();
     const oldPassword = passwords.oldPassword.trim();
-    
+
     if (!oldPassword || !newPassword) {
       toast.error("Password fields cannot be empty");
       return;
@@ -101,7 +101,9 @@ export default function AccountSettings() {
     }
 
     if (debauncedNickname.trim().length) {
-      const response = await dispatch(userSlice.changeNickname(debauncedNickname));
+      const response = await dispatch(
+        userSlice.changeNickname(debauncedNickname)
+      );
 
       if (response.payload) {
         toast.success("User nickname updated successfully");
