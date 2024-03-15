@@ -1,17 +1,14 @@
 "use client";
 
 import { useAppDispatch, useAppSelector } from "@/GlobalRedux/hooks";
-import { useEffect, useRef } from "react";
+import { useEffect } from "react";
 import * as companySlice from "@/GlobalRedux/Features/company/companySlice";
 import VanillaTilt from "vanilla-tilt";
-import { CompanyCard } from "@/components/CompanyCard";
-import { Loader } from "@/components/Loader";
 import "./page.scss";
-import Image from "next/image";
+import { CompanyCard } from "@/components/CompanyCard/CompanyCard";
 
 export default function Company() {
   const dispatch = useAppDispatch();
-  const boxRefs = useRef<HTMLDivElement[]>([]);
   const { company, isLoading } = useAppSelector((state) => state.company);
 
   useEffect(() => {
@@ -19,48 +16,34 @@ export default function Company() {
   }, [dispatch]);
 
   useEffect(() => {
-    const tiltElements: HTMLElement[] = document.querySelectorAll(
-      ".company-card"
-    ) as unknown as HTMLElement[];
+    setTimeout(() => {
+      const tiltElements: HTMLElement[] = document.querySelectorAll(
+        ".company-card"
+      ) as unknown as HTMLElement[];
 
-    tiltElements.forEach((element) => {
-      VanillaTilt.init(element, {
-        max: 15,
-        speed: 300,
-        easing: "cubic-bezier(.03,.98,.52,.99)",
-        scale: 1.05,
+      console.log(123123, tiltElements);
+
+      tiltElements.forEach((element) => {
+        VanillaTilt.init(element, {
+          max: 15,
+          speed: 300,
+          easing: "cubic-bezier(.03,.98,.52,.99)",
+          scale: 1.05,
+        });
       });
-    });
+    }, 2000);
   }, []);
 
   return (
-    <div className="grid grid-cols-[repeat(auto-fit,_minmax(350px,1fr))] gap-4">
-      {/* {isLoading && (
-        <div className="flex justify-center items-center border-4 border-[#B7BDBA] rounded-xl">
-          <Loader />
-        </div>
-      )} */}
-
+    <div>
+      <h1 className="text-[#FFF] text-center text-[30px] font-bold  mb-[30px] ">
+        Your Companies
+      </h1>
       <div className="company-list">
         {[...company, ...company].map((company) => (
-          <div className="company-card" key={company.id}>
-            <h2 className="name">Nike Air Max</h2>
-            <a href="https://codepen.io/krautgti" className="buy">
-              Buy Now
-            </a>
-            <div className="circle"></div>
-            <Image
-              width={200}
-              height={200}
-              className="product"
-              src="https://assets.codepen.io/7773162/green.png"
-              alt="Nike Air Max Green"
-            />
-          </div>
+          <CompanyCard company={company} key={company.id} />
         ))}
       </div>
-
-      {/* <CompanyCard key={company.id} company={company} /> */}
     </div>
   );
 }
