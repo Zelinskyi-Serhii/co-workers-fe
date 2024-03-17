@@ -1,27 +1,21 @@
 "use client";
 
-import { useAppDispatch, useAppSelector } from "@/GlobalRedux/hooks";
 import { useEffect } from "react";
-import * as companySlice from "@/GlobalRedux/Features/company/companySlice";
 import VanillaTilt from "vanilla-tilt";
-import "./page.scss";
 import { CompanyCard } from "@/components/CompanyCard/CompanyCard";
+import { Loader } from "@/components/Loader";
+import { useGetAllCompaniesQuery } from "@/GlobalRedux/Features/company/companyApi";
+import Link from "next/link";
+import { Button } from "@/components/Button";
 
 export default function Company() {
-  const dispatch = useAppDispatch();
-  const { company, isLoading } = useAppSelector((state) => state.company);
+  const { data: companies, isLoading, isSuccess } = useGetAllCompaniesQuery({});
 
   useEffect(() => {
-    dispatch(companySlice.getAllCompanies());
-  }, [dispatch]);
-
-  useEffect(() => {
-    setTimeout(() => {
+    if (isSuccess) {
       const tiltElements: HTMLElement[] = document.querySelectorAll(
         ".company-card"
       ) as unknown as HTMLElement[];
-
-      console.log(123123, tiltElements);
 
       tiltElements.forEach((element) => {
         VanillaTilt.init(element, {
@@ -31,19 +25,32 @@ export default function Company() {
           scale: 1.05,
         });
       });
-    }, 2000);
-  }, []);
+    }
+  }, [isSuccess]);
 
   return (
     <div>
-      <h1 className="text-[#FFF] text-center text-[30px] font-bold  mb-[30px] ">
-        Your Companies
-      </h1>
-      <div className="company-list">
-        {[...company, ...company].map((company) => (
-          <CompanyCard company={company} key={company.id} />
-        ))}
+      <div className="flex relative">
+        <h1 className="flex-[1] text-[#FFF] text-center text-[30px] font-bold  mb-[30px] ">
+          Your Companies
+        </h1>
+
+        <Link href="/company/create" className="flex-end absolute right-0">
+          <Button>+ Create new</Button>
+        </Link>
       </div>
+
+      {isLoading ? (
+        <div className="flex justify-center">
+          <Loader />
+        </div>
+      ) : (
+        <div className="grid mx-[auto] gap-[30px] grid-cols-[repeat(3,_1fr)]">
+          {companies?.map((company) => (
+            <CompanyCard company={company} key={company.id} />
+          ))}
+        </div>
+      )}
     </div>
   );
 }

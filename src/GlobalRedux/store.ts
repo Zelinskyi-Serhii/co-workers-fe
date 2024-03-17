@@ -1,23 +1,23 @@
 "use client";
 
 import { configureStore } from "@reduxjs/toolkit";
-import authReducer from "@/GlobalRedux/Features/auth/authSlice";
-import userReducer from "@/GlobalRedux/Features/user/userSlice";
-import companyReducer from "@/GlobalRedux/Features/company/companySlice";
 import { employeeApi } from "./Features/employee/employeeApi";
 import { setupListeners } from "@reduxjs/toolkit/query";
 import { userApi } from "./Features/user/userApi";
+import { companyApi } from "./Features/company/companyApi";
 
 export const store = configureStore({
   reducer: {
-    auth: authReducer,
-    user: userReducer,
-    company: companyReducer,
     [employeeApi.reducerPath]: employeeApi.reducer,
     [userApi.reducerPath]: userApi.reducer,
+    [companyApi.reducerPath]: companyApi.reducer,
   },
   middleware: (getDefaultMiddleware) =>
-    getDefaultMiddleware().concat(employeeApi.middleware, userApi.middleware),
+    getDefaultMiddleware().concat(
+      employeeApi.middleware,
+      userApi.middleware,
+      companyApi.middleware
+    ),
 });
 
 setupListeners(store.dispatch);

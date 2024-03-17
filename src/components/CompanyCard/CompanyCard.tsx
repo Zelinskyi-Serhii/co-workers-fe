@@ -1,9 +1,10 @@
-import { ICompany } from "@/GlobalRedux/Features/company/companySlice";
 import { convertDateToMonthAndYear } from "@/helpers/helperFunctions";
 import Image from "next/image";
 import { FC } from "react";
 
 import "./CompanyCard.scss";
+import Link from "next/link";
+import { ICompany } from "@/GlobalRedux/Features/company/companyApi";
 
 type Props = {
   company: ICompany;
@@ -21,9 +22,9 @@ export const CompanyCard: FC<Props> = ({ company }) => {
     >
       <h2 className="company-card__name">{name}</h2>
 
-      <a href="https://codepen.io/krautgti" className="company-card__buy">
+      <Link href={`/company/${id}`} className="company-card__buy">
         Employees
-      </a>
+      </Link>
 
       <div className="company-card__circle">{name}</div>
 

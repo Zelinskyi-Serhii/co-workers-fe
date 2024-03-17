@@ -35,7 +35,7 @@ export const SessionContextProvider: FC<{ children: ReactNode }> = ({
 }) => {
   const [isLoading, setIsLoading] = useState(true);
   const [user, setUser] = useState<IUser | null>(null);
-  const [triggerGetProfile, { isSuccess }] = useLazyGetUserInfoQuery();
+  const [triggerGetProfile, { isSuccess, isError }] = useLazyGetUserInfoQuery();
   const router = useRouter();
   const pathname = usePathname();
 
@@ -67,10 +67,10 @@ export const SessionContextProvider: FC<{ children: ReactNode }> = ({
   }, [loadUserData]);
 
   useEffect(() => {
-    if (protectedRoutes.includes(pathname) && !user && isSuccess) {
+    if (protectedRoutes.includes(pathname) && !user && (isSuccess || isError)) {
       router.push("/");
     }
-  }, [pathname, router, user, isSuccess]);
+  }, [pathname, router, user, isSuccess, isError]);
 
   return (
     <SessionContext.Provider value={{ user, loadUserData, logOut, isLoading }}>
