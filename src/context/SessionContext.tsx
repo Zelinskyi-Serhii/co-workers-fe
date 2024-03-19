@@ -7,6 +7,7 @@ import { usePathname, useRouter } from "next/navigation";
 
 enum ProtectedRoutes {
   Company = "/company",
+  CompanySettings = "/company/settings",
   CompanyCreate = "/company/create",
   Employee = "/employee",
   EmployeeCreate = "/employee/create",

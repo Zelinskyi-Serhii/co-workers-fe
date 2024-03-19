@@ -9,6 +9,7 @@ import { isValidFormData } from "@/helpers/helperFunctions";
 import { toast } from "react-toastify";
 import { useCreateEmployeeMutation } from "@/GlobalRedux/Features/employee/employeeApi";
 import { Button, ButtonColorByType } from "@/components/Button";
+import { useGetCompanyByIdQuery } from "@/GlobalRedux/Features/company/companyApi";
 
 const initialState = {
   firstname: "Serhii",
@@ -33,6 +34,9 @@ const CreateEmployee = () => {
   const router = useRouter();
   const searchParams = useSearchParams();
   const companyId = searchParams.get("companyId") || 0;
+  const { data: company } = useGetCompanyByIdQuery({
+    companyId: String(companyId),
+  });
   const [
     { firstname, lastname, position, avatarUrl, hireDate, birthday },
     setEmployee,
@@ -109,7 +113,7 @@ const CreateEmployee = () => {
   return (
     <div className="w-[500px] mx-auto bg-[#232323] border rounded-xl overflow-hidden">
       <h2 className="bg-[#1976d2] p-[10px] text-[#FFF] text-center text-lg font-semibold">
-        New Employee
+        New Employee for {company?.name}
       </h2>
 
       <div className="flex flex-col gap-[10px] justify-between p-[20px]">

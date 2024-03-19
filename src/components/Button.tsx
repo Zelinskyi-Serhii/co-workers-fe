@@ -19,6 +19,7 @@ type Props = {
   onClick?: () => void;
   isLoading?: boolean;
   buttonType?: ButtonColorByType;
+  className?: string;
 };
 
 export const Button: FC<Props> = ({
@@ -27,11 +28,15 @@ export const Button: FC<Props> = ({
   onClick,
   isLoading,
   buttonType = ButtonColorByType.ACTIVE,
+  className = "",
 }) => (
   <button
-    className={`flex justify-center ${
-      isDisabled ? "isDisabledButton" : buttonColorMap[buttonType]
-    } w-[200px] p-3 rounded-xl hover-scale text-white text-base font-semibold`}
+    className={`
+      flex justify-center 
+      ${isDisabled ? "isDisabledButton" : buttonColorMap[buttonType]} 
+      w-[200px] p-3 rounded-xl hover-scale text-white text-base font-semibold 
+      ${className}
+    `}
     onClick={onClick}
     disabled={isDisabled || isLoading}
   >

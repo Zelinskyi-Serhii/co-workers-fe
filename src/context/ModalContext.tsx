@@ -5,6 +5,8 @@ import { createStrictContext, useStrictContext } from "./strictContext";
 
 export enum ModalType {
   AUTH = "auth",
+  REVIEW = "review",
+  DELETE = "delete",
 }
 
 interface ModalState {

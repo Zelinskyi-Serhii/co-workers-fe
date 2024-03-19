@@ -42,12 +42,12 @@ export const AuthModal = () => {
     setAuthValue((prev) => ({ ...prev, [name]: value }));
   };
 
-  const handleLogin = async () => {
-    await loginUser({ email, password });
+  const handleLogin = () => {
+    loginUser({ email, password });
   };
 
-  const handleSignup = async () => {
-    await signupUser({ email, nickname, password });
+  const handleSignup = () => {
+    signupUser({ email, nickname, password });
   };
 
   useEffect(() => {

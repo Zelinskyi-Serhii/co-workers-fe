@@ -78,10 +78,10 @@ export const Header = () => {
                     <span className="text-[#FFFFFF]">{user.nickname}</span>
                     <ArrowDown />
                     {isOpenMenu && (
-                      <ul className="flex flex-col w-[170px] absolute bg-[#EDEDED] top-10 p-4 right-0 rounded-xl [&>a:hover]:text-[#ec4646] [&>a]:p-2 [&>a]:transition-all">
+                      <ul className="flex flex-col w-[190px] absolute z-20 bg-[#EDEDED] top-10 p-4 right-0 rounded-xl [&>a:hover]:text-[#ec4646] [&>a]:p-2 [&>a]:transition-all">
                         <Link href="/company">My Companies</Link>
                         <Link href="/company/create">Create Company</Link>
-                        <Link href="/settings">Settings</Link>
+                        <Link href="/company/settings">Company Settings</Link>
                         <Link
                           href=""
                           className="text-[#ec4646]"

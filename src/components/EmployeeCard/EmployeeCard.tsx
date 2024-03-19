@@ -1,7 +1,7 @@
 import { IEmployee } from "@/GlobalRedux/Features/employee/employeeApi";
 import {
   convertDateToMonthAndYear,
-  getTotalYearsFromBirthDate,
+  convertDateToString,
 } from "@/helpers/helperFunctions";
 import Image from "next/image";
 import { FC } from "react";
@@ -54,12 +54,12 @@ export const EmployeeCard: FC<Props> = ({ employee }) => {
               <span>Position:</span> <span>{position}</span>
             </p>
             <p>
-              <span>Years:</span>{" "}
-              <span>{getTotalYearsFromBirthDate(birthday)}</span>
+              <span>Birthday:</span>{" "}
+              <span>{convertDateToString(birthday)}</span>
             </p>
             <p>
               <span>Hired at:</span>
-              <span>{convertDateToMonthAndYear(hireDate)}</span>
+              <span>{convertDateToString(hireDate)}</span>
             </p>
           </div>
 

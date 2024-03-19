@@ -23,7 +23,7 @@ export const companyApi = createApi({
         return { url: `/company/${companyId}` };
       },
     }),
-    deleteCompanyById: builder.query<unknown, { companyId: string }>({
+    deleteCompanyById: builder.mutation<unknown, { companyId: string }>({
       query: ({ companyId }) => {
         return { url: `/company/delete/${companyId}`, method: "DELETE" };
       },
@@ -46,4 +46,5 @@ export const {
   useLazyGetAllCompaniesQuery,
   useGetCompanyByIdQuery,
   useCreateNewCompanyMutation,
+  useDeleteCompanyByIdMutation,
 } = companyApi;
