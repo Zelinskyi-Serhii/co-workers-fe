@@ -11,8 +11,8 @@ export const ReviewCard: FC<Props> = ({ reviewData }) => {
   const isLong = review.length > 160;
 
   return (
-    <div className="flex flex-col justify-between h-[200px] w-[24%] bg-[#232323] p-[10px] rounded-xl hover-scale">
-      <p className="text-[#FFF]  text-center overflow-hidden">
+    <div className="flex flex-col justify-between w-[24%] bg-[#232323] p-[10px] rounded-xl">
+      <p className="text-[#FFF] overflow-hidden">
         {isLong ? review.slice(0, 160) + "..." : review}
       </p>
       <div className="flex justify-between items-center">
@@ -21,7 +21,7 @@ export const ReviewCard: FC<Props> = ({ reviewData }) => {
         </p>
 
         {isLong && (
-          <button className="text-[#FFF] py-[4px] px-[8px] rounded-xl bg-[#1976d2]">
+          <button className="text-[#FFF] py-[2px] px-[8px] rounded-xl bg-[#6c7375] hover-scale">
             See More
           </button>
         )}

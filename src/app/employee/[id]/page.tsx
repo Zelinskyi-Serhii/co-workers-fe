@@ -10,9 +10,12 @@ import {
 import { useEffect } from "react";
 import { useGetAllReviewsQuery } from "@/GlobalRedux/Features/review/reviewApi";
 import { ReviewCard } from "@/components/ReviewCard";
+import { Button } from "@/components/Button";
+import { ModalType, useModalContext } from "@/context/ModalContext";
 
 export default function EmployeeInfo(props: any) {
   const { id } = props.params;
+  const { setModal } = useModalContext();
   const router = useRouter();
   const [
     dismissEmployee,
@@ -43,6 +46,14 @@ export default function EmployeeInfo(props: any) {
     dismissEmployee({ employeeId: id });
   };
 
+  const handleAddNewReview = () => {
+    setModal({
+      employeeReviewAdd: employee,
+      isOpen: true,
+      modalType: ModalType.REVIEW,
+    });
+  };
+
   useEffect(() => {
     if (isSuccessDismiss) {
       toast.success("Employee updated successfully");
@@ -71,12 +82,16 @@ export default function EmployeeInfo(props: any) {
   return (
     <>
       {employee && (
-        <div className="">
-          <h1 className="text-[#FFF] text-center font-semibold text-[30px]">
-            <span className="opacity-60">All Review about</span>
-            {` ${employee.firstname} ${employee.lastname}`}
-          </h1>
-          <div className="mb-[30px]"></div>
+        <div>
+          <div className="mb-[30px] relative">
+            <h1 className="text-[#FFF] text-center font-semibold text-[30px]">
+              <span className="opacity-60">All Review about</span>
+              {` ${employee.firstname} ${employee.lastname}`}
+              <div className="absolute top-0 right-0">
+                <Button onClick={handleAddNewReview}>+ Add new Review</Button>
+              </div>
+            </h1>
+          </div>
 
           <div className="flex flex-wrap gap-[15px]">
             {reviews?.map((review) => (

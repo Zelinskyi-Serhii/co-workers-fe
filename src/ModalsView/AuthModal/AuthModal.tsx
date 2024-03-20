@@ -23,6 +23,7 @@ export const AuthModal = () => {
   const authModalRef = useRef(null);
   const { loadUserData } = useSession();
   const [{ email, nickname, password }, setAuthValue] = useState(initialValue);
+  const [isRightPanelActive, setIsRightPanelActive] = useState(false);
   const [loginUser, { isSuccess, isLoading, isError }] = useLoginMutation();
   const [
     signupUser,
@@ -32,10 +33,10 @@ export const AuthModal = () => {
       isError: isErrorSignup,
     },
   ] = useSignupMutation();
+
   useClickOutside(authModalRef, () =>
     setModal({ isOpen: false, modalType: ModalType.AUTH })
   );
-  const [isRightPanelActive, setIsRightPanelActive] = useState(false);
 
   const handleInputChange = (event: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
@@ -49,14 +50,6 @@ export const AuthModal = () => {
   const handleSignup = () => {
     signupUser({ email, nickname, password });
   };
-
-  useEffect(() => {
-    window.document.body.style.overflow = "hidden";
-
-    return () => {
-      window.document.body.style.overflow = "visible";
-    };
-  }, []);
 
   useEffect(() => {
     if (isSuccess || isSuccessSignup) {

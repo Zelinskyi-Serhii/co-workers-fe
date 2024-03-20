@@ -2,16 +2,26 @@
 
 import { FC, ReactNode, useState } from "react";
 import { createStrictContext, useStrictContext } from "./strictContext";
+import { IEmployee } from "@/GlobalRedux/Features/employee/employeeApi";
 
 export enum ModalType {
   AUTH = "auth",
   REVIEW = "review",
-  DELETE = "delete",
+  CONFIRM = "confirm",
+}
+
+export interface IConfirm {
+  title: string;
+  desciprion: string;
+  cancel: () => void;
+  confirm: () => void;
 }
 
 interface ModalState {
   modalType?: ModalType;
   isOpen: boolean;
+  employeeReviewAdd?: IEmployee | null;
+  confirmState?: IConfirm | null;
 }
 
 interface IModalContext {

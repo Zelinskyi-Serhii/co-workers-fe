@@ -6,6 +6,7 @@ import {
 } from "@/GlobalRedux/Features/company/companyApi";
 import { Button } from "@/components/Button";
 import { Loader } from "@/components/Loader";
+import { ModalType, useModalContext } from "@/context/ModalContext";
 import { convertDateToString } from "@/helpers/helperFunctions";
 import { CopyIcon } from "@/svgComponents/CopyIcon";
 import Image from "next/image";
@@ -14,6 +15,7 @@ import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 
 export default function CompanySettingsPage() {
+  const { setModal } = useModalContext();
   const [deleteId, setDeleteId] = useState<number | null>(null);
   const {
     data: companies,
@@ -32,7 +34,21 @@ export default function CompanySettingsPage() {
 
   const handleCopyLink = (publicLink: string) => {
     navigator.clipboard.writeText(publicLink);
+
     toast.success("Publick Url copies successfully");
+  };
+
+  const handleDeleteCompany = (companyId: string) => {
+    setModal({
+      isOpen: true,
+      modalType: ModalType.CONFIRM,
+      confirmState: {
+        title: "Delete Company",
+        desciprion: "Do you realy want to delete company permanently?",
+        cancel: () => setModal({ isOpen: false, confirmState: null }),
+        confirm: () => deleteCompany({ companyId }),
+      },
+    });
   };
 
   useEffect(() => {
@@ -55,10 +71,13 @@ export default function CompanySettingsPage() {
   }, [isErrorDelete, isSuccessDelete]);
 
   return (
-    <div className="text-white">
+    <div className="text-white relative">
       <h1 className="text-3xl font-semibold text-center mb-6">
         Company Settings
       </h1>
+      <Link href="/company/create" className="flex-end absolute top-0 right-0">
+        <Button>+ Create new</Button>
+      </Link>
       <div className="overflow-x-auto">
         {isLoading && (
           <div className="flex justify-center h-[100px]">
@@ -87,9 +106,6 @@ export default function CompanySettingsPage() {
                       ? "border-b border-gray-700"
                       : ""
                   }`}
-                  // onClick={() => {
-                  //   router.push(`/company/${company.id}`);
-                  // }}
                 >
                   <td className="px-4 py-2">
                     <div className="w-12 h-12 overflow-hidden flex items-center">
@@ -121,7 +137,7 @@ export default function CompanySettingsPage() {
                     <Button
                       className="bg-red-500 hover:bg-red-600 text-white px-4 py-1 rounded w-[90px]"
                       isLoading={company.id === deleteId}
-                      onClick={() => setDeleteId(company.id)}
+                      onClick={() => handleDeleteCompany(String(company.id))}
                     >
                       Delete
                     </Button>
