@@ -1,24 +1,24 @@
 "use client";
-import { useAppDispatch, useAppSelector } from "@/GlobalRedux/hooks";
+
+import { ChangeEvent, useEffect, useState } from "react";
 import Image from "next/image";
-import Link from "next/link";
-import { ChangeEvent, useState } from "react";
-import * as companyActions from "@/GlobalRedux/Features/company/companySlice";
-import { Loader } from "@/components/Loader";
-import { isValidFormData } from "@/helpers/helperFunctions";
 import { toast } from "react-toastify";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
+import { isValidFormData } from "@/helpers/helperFunctions";
+import { Button, ButtonColorByType } from "@/components/Button";
+import { useCreateNewCompanyMutation } from "@/GlobalRedux/Features/company/companyApi";
 
 const initialValue = {
   name: "",
   ownerName: "",
-  ownedAt: new Date().toISOString(),
+  ownedAt: "",
   avatarUrl: "",
 };
 
 export default function CompanyCreate() {
-  const dispatch = useAppDispatch();
-  const { isLoading, error } = useAppSelector((state) => state.company);
+  const [createCompany, { isLoading, isSuccess, isError }] =
+    useCreateNewCompanyMutation();
   const router = useRouter();
   const [{ name, ownerName, ownedAt, avatarUrl }, setCompany] =
     useState(initialValue);
@@ -68,86 +68,97 @@ export default function CompanyCreate() {
     formData.append("ownedAt", new Date(ownedAt).toISOString());
     formData.append("avatarUrl", imageFile);
 
-    const res = await dispatch(companyActions.createCompany(formData));
+    createCompany(formData);
+  };
 
-    if (!res.payload) {
-      toast.error("Unable to create company");
-    } else {
+  useEffect(() => {
+    if (isSuccess) {
       toast.success("Company created successfully");
       router.push("/company");
     }
-  };
+    if (isError) {
+      toast.error("Unable to create company");
+    }
+  }, [isSuccess, isError, router]);
 
   return (
-    <div className="flex flex-col gap-4 justify-between items-center lg:items-stretch lg:gap-0 lg:flex-row border border-[#B4B4B8] rounded-lg p-6">
-      <div className="flex flex-col gap-4 lg:w-[60%] w-[100%] [&>label]:flex [&>label]:flex-col [&>label]:gap-1 [&>label]:text-[#B4B4B8] [&>label>input]:p-3 [&>label>input]:text-black [&>label>input]:border [&>label>input]:border-color-[#B4B4B8]">
-        <label>
-          Company name
-          <input
-            type="text"
-            placeholder="Enter name"
-            name="name"
-            value={name}
-            onChange={handleChange}
-          />
-        </label>
+    <div className="w-[500px] mx-auto bg-[#232323] border rounded-xl overflow-hidden">
+      <h2 className="bg-[#1976d2] p-[10px] text-[#FFF] text-center text-lg font-semibold">
+        New Company
+      </h2>
 
-        <label>
-          Owner Name
-          <input
-            type="text"
-            placeholder="Enter Owner"
-            name="ownerName"
-            value={ownerName}
-            onChange={handleChange}
-          />
-        </label>
+      <div className="flex flex-col gap-[10px] justify-between p-[20px]">
+        <div className="flex flex-col gap-[15px] [&>label]:text-[#999999]">
+          <label className="flex flex-col gap-[2px] text-[#FFF]">
+            Company name
+            <input
+              className="p-[6px] rounded-xl text-[#000]"
+              placeholder="Enter name"
+              type="text"
+              name="name"
+              value={name}
+              onChange={handleChange}
+            />
+          </label>
 
-        <label>
-          Owned At
-          <input
-            className="w-[200px]"
-            type="date"
-            name="ownedAt"
-            value={ownedAt}
-            onChange={handleChange}
-          />
-        </label>
+          <label className="flex flex-col gap-[2px] text-[#FFF]">
+            Owner Name
+            <input
+              className="p-[6px] rounded-xl text-[#000]"
+              type="text"
+              placeholder="Enter Owner"
+              name="ownerName"
+              value={ownerName}
+              onChange={handleChange}
+            />
+          </label>
 
-        <label>
-          <p className="p-3 bg-[#1976d2] text-white min-w-fit w-[50%] text-center font-bold mx-auto cursor-pointer hover-scale">
-            Upload Company logo
-          </p>
-          <input
-            className="hidden"
-            type="file"
-            accept="image/png, image/jpeg"
-            name="avatarUrl"
-            onChange={handleUploadImage}
-          />
-        </label>
-      </div>
+          <label className="flex flex-col gap-[2px] text-[#FFF]">
+            Owned At
+            <input
+              className="p-[6px] rounded-xl text-[#000]"
+              type="date"
+              name="ownedAt"
+              value={ownedAt}
+              onChange={handleChange}
+            />
+          </label>
 
-      <div className="flex flex-col gap-6 items-center lg:w-[35%] w-[100%] justify-between">
-        <Image
-          className="rounded-xl"
-          alt="Example"
-          width={200}
-          height={200}
-          src={avatarUrl || "https://placehold.co/200x200"}
-        />
+          <Image
+            className="rounded-[50%] mx-auto w-[150px] h-[150px]"
+            alt="Example"
+            width={150}
+            height={150}
+            src={avatarUrl || "https://placehold.co/200x200"}
+          />
+
+          <div className="mx-auto">
+            <Button>
+              <label>
+                Add Company Logo
+                <input
+                  className="hidden"
+                  type="file"
+                  accept="image/png, image/jpeg"
+                  name="avatarUrl"
+                  onChange={handleUploadImage}
+                />
+              </label>
+            </Button>
+          </div>
+        </div>
 
         <div className="flex justify-between w-[100%] [&>button]:p-4 [&>button]:w-[49%] [&>button]:text-center [&>button]:text-white [&>button]:font-bold [&>button]:rounded-md">
-          <button className="bg-[#DC004E] hover-scale">
+          <Button buttonType={ButtonColorByType.DELETE}>
             <Link href="/company">Cancel</Link>
-          </button>
-          <button
-            className="flex items-center justify-center bg-[#1976d2] hover-scale"
+          </Button>
+          <Button
+            isLoading={isLoading}
             onClick={handleCreateCompany}
-            disabled={isLoading}
+            isDisabled={isDisabled}
           >
-            {isLoading ? <Loader /> : "Create"}
-          </button>
+            Create
+          </Button>
         </div>
       </div>
     </div>

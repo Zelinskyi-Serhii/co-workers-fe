@@ -1,36 +1,62 @@
 "use client";
 
-import { useAppDispatch, useAppSelector } from "@/GlobalRedux/hooks";
 import { useEffect } from "react";
-import * as companySlice from "@/GlobalRedux/Features/company/companySlice";
-import { CompanyCard } from "@/components/CompanyCard";
-import { PlusCircle } from "@/svgComponents/PlusCircle";
+import VanillaTilt from "vanilla-tilt";
+import { CompanyCard } from "@/components/CompanyCard/CompanyCard";
 import { Loader } from "@/components/Loader";
+import { useGetAllCompaniesQuery } from "@/GlobalRedux/Features/company/companyApi";
 import Link from "next/link";
+import { Button } from "@/components/Button";
 
 export default function Company() {
-  const dispatch = useAppDispatch();
-  const { company, isLoading, error } = useAppSelector((state) => state.company);
+  const { data: companies, isLoading, isSuccess } = useGetAllCompaniesQuery({});
 
   useEffect(() => {
-    dispatch(companySlice.getAllCompanies());
-  }, [dispatch]);
+    if (isSuccess) {
+      const tiltElements: HTMLElement[] = document.querySelectorAll(
+        ".company-card"
+      ) as unknown as HTMLElement[];
+
+      tiltElements.forEach((element) => {
+        VanillaTilt.init(element, {
+          max: 15,
+          speed: 300,
+          easing: "cubic-bezier(.03,.98,.52,.99)",
+          scale: 1.05,
+        });
+      });
+    }
+  }, [isSuccess]);
 
   return (
-    <div className="grid grid-cols-[repeat(auto-fit,_minmax(350px,1fr))] gap-4">
-      <Link href="/company/create" className="flex justify-center items-center border-4 border-[#B7BDBA] rounded-xl min-h-[300px] hover-scale cursor-pointer">
-        <PlusCircle />
-      </Link>
+    <div>
+      <div className="flex relative">
+        <h1 className="flex-[1] text-[#FFF] text-center text-[30px] font-bold  mb-[30px] ">
+          Your Companies
+        </h1>
 
-      {isLoading && (
-        <div className="flex justify-center items-center border-4 border-[#B7BDBA] rounded-xl">
+        <Link href="/company/create" className="flex-end absolute right-0">
+          <Button>+ Create new</Button>
+        </Link>
+      </div>
+
+      {isLoading ? (
+        <div className="flex justify-center">
           <Loader />
+        </div>
+      ) : (
+        <div className="grid mx-[auto] gap-[30px] grid-cols-[repeat(3,_1fr)]">
+          {companies?.map((company) => (
+            <CompanyCard company={company} key={company.id} />
+          ))}
         </div>
       )}
 
-      {company.map((company) => (
-        <CompanyCard key={company.id} company={company} />
-      ))}
+      {isSuccess && !companies.length && (
+        <h3 className="mt-[60px] text-center mb-4 text-3xl">
+          You do not have any companies yet
+        </h3>
+      )}
     </div>
   );
 }

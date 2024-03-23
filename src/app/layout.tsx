@@ -1,12 +1,16 @@
 import type { Metadata } from "next";
-import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
-import "./globals.css";
-import {Providers} from "@/GlobalRedux/provider";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import "./globals.scss";
+import { Providers } from "@/GlobalRedux/provider";
 import { Header } from "@/components/Header";
+import { ModalContextProvider } from "@/context/ModalContext";
+import { ModalLayout } from "@/components/ModalLayout";
+import { Container } from "@/components/Container";
+import { SessionContextProvider } from "@/context/SessionContext";
 
 export const metadata: Metadata = {
-  title: "CO-WORKERS"
+  title: "CO-WORKERS",
 };
 
 export default function RootLayout({
@@ -16,11 +20,16 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" suppressHydrationWarning={true}>
-      <body suppressHydrationWarning={true} className="bg-[#F9F9F9]">
+      <body suppressHydrationWarning={true}>
         <Providers>
-          <Header />
-          <div className="max-w-[1200px] mx-auto px-4 py-8">{children}</div>
-          <ToastContainer />
+          <SessionContextProvider>
+            <ModalContextProvider>
+              <ModalLayout />
+              <Header />
+              <Container>{children}</Container>
+              <ToastContainer />
+            </ModalContextProvider>
+          </SessionContextProvider>
         </Providers>
       </body>
     </html>

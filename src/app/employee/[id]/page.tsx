@@ -1,106 +1,99 @@
 "use client";
 
-import { useMemo } from "react";
-import Image from "next/image";
-import * as employeeSlice from "@/GlobalRedux/Features/employee/employeeSlice";
-import { useAppDispatch, useAppSelector } from "@/GlobalRedux/hooks";
-import { Loader } from "@/components/Loader";
-import {
-  convertDateToMonthAndYear,
-  getTotalYearsFromBirthDate,
-} from "@/helpers/helperFunctions";
 import { toast } from "react-toastify";
 import { useRouter } from "next/navigation";
+import {
+  useDeleteEmployeeMutation,
+  useGetEmployeeByIdQuery,
+} from "@/GlobalRedux/Features/employee/employeeApi";
+import { useEffect } from "react";
+import { useGetAllReviewsQuery } from "@/GlobalRedux/Features/review/reviewApi";
+import { ReviewCard } from "@/components/ReviewCard";
+import { Button } from "@/components/Button";
+import { ModalType, useModalContext } from "@/context/ModalContext";
+import { Loader } from "@/components/Loader";
 
 export default function EmployeeInfo(props: any) {
   const { id } = props.params;
-  const dispatch = useAppDispatch();
+  const { setModal } = useModalContext();
   const router = useRouter();
-  const { employees, isLoading } = useAppSelector((state) => state.employee);
+  const [
+    deleteEmployee,
+    {
+      isLoading: isLoadingDelete,
+      isSuccess: isSuccessDelete,
+      isError: isErrorDelete,
+    },
+  ] = useDeleteEmployeeMutation();
 
-  const employeeDetails = useMemo(
-    () => employees.find((employee) => employee.id === Number(id)),
-    [employees, id]
-  );
+  const { data: employee } = useGetEmployeeByIdQuery({
+    employeeId: id,
+  });
 
-  const handleDeleteEmployee = async () => {
-    const response = await dispatch(employeeSlice.deleteEmployee(id));
+  const {
+    data: reviews,
+    isSuccess,
+    isLoading,
+  } = useGetAllReviewsQuery({
+    employeeId: id,
+  });
 
-    if (response.payload) {
-      toast.success("Employee delete successfully");
+  const fullname = ` ${employee?.firstname} ${employee?.lastname}`;
+
+  const handleDeleteEmployee = () => {
+    deleteEmployee({ employeeId: id });
+  };
+
+  const handleAddNewReview = () => {
+    setModal({
+      employeeReviewAdd: employee,
+      isOpen: true,
+      modalType: ModalType.REVIEW,
+    });
+  };
+
+  useEffect(() => {
+    if (isSuccessDelete) {
+      toast.success("Employee deleted successfully");
       router.push("/company");
-    } else {
+    }
+
+    if (isErrorDelete) {
       toast.error("Unable to delete employee");
     }
-  };
-
-  const handleDismissEmployee = async () => {
-    if (employeeDetails?.isDismissed) {
-      toast.error('Employee already dismissed')
-      return;
-    }
-
-    // todo: fix fresh reload
-    const response = await dispatch(employeeSlice.dismissEmployee(id));
-
-    if (response.payload) {
-      toast.success("Employee updated successfully");
-    } else {
-      toast.error("Unable to update employee");
-    }
-  };
+  }, [isErrorDelete, isSuccessDelete, router]);
 
   return (
-    <div>
-      {employeeDetails && (
-        <div className="relative flex items-center mx-auto mb-8 gap-20 w-fit border border-[#ada5a5] rounded-xl p-10">
-          {employeeDetails.isDismissed && (
-            <div className="marquee rounded-t-xl">
-              <div className="flex">
-                <p className="marquee__line">Dismissed</p>
-                <p className="marquee__line">Dismissed</p>
+    <>
+      {isLoading ? (
+        <div className="flex justify-center">
+          <Loader />
+        </div>
+      ) : (
+        <>
+          <div className="mb-[30px] relative">
+            <h1 className="text-[#FFF] text-center font-semibold text-[30px]">
+              <span className="opacity-60">All Review about</span>
+              {fullname}
+              <div className="absolute top-0 right-0">
+                <Button onClick={handleAddNewReview}>+ Add new Review</Button>
               </div>
-            </div>
-          )}
-          <Image
-            className=" rounded-xl"
-            src={employeeDetails.avatarUrl || ""}
-            height={200}
-            width={200}
-            alt="Company"
-          />
-          <div className="flex flex-col gap-4">
-            <h2 className="text-2xl font-bold">
-              {employeeDetails.firstname} {employeeDetails.lastname}
-            </h2>
-            <p className="text-xl font-medium">{employeeDetails.position}</p>
-            <p className="text-l font-light">
-              <span className="font-thin text-[#b4b3b3]">Hired:</span>{" "}
-              {convertDateToMonthAndYear(employeeDetails.hireDate)}
-            </p>
-            <p className="text-l font-light">
-              {getTotalYearsFromBirthDate(employeeDetails.birthday)} years
-            </p>
+            </h1>
           </div>
 
-          <div className="flex flex-col gap-4 [&>button]:p-4 [&>button]:text-center [&>button]:text-white [&>button]:font-bold [&>button]:rounded-md">
-            <button
-              onClick={handleDeleteEmployee}
-              className="flex justify-center items-center bg-[#DC004E] hover-scale"
-              disabled={isLoading}
-            >
-              {isLoading ? <Loader /> : "Delete"}
-            </button>
-            <button
-              className="flex items-center justify-center bg-[#1976d2] hover-scale"
-              onClick={handleDismissEmployee}
-              disabled={isLoading || employeeDetails.isDismissed}
-            >
-              {isLoading ? <Loader /> : "Dismiss"}
-            </button>
+          <div className="flex flex-wrap gap-[15px]">
+            {reviews?.map((review) => (
+              <ReviewCard reviewData={review} key={review.id} />
+            ))}
           </div>
-        </div>
+        </>
       )}
-    </div>
+
+      {isSuccess && !reviews.length && (
+        <h3 className="mt-[60px] text-center mb-4 text-3xl text-[#FFF]">
+          This employee do not have any reviews yet.
+        </h3>
+      )}
+    </>
   );
 }
