@@ -4,7 +4,6 @@ import { toast } from "react-toastify";
 import { useRouter } from "next/navigation";
 import {
   useDeleteEmployeeMutation,
-  useDismissEmployeeMutation,
   useGetEmployeeByIdQuery,
 } from "@/GlobalRedux/Features/employee/employeeApi";
 import { useEffect } from "react";
@@ -12,19 +11,12 @@ import { useGetAllReviewsQuery } from "@/GlobalRedux/Features/review/reviewApi";
 import { ReviewCard } from "@/components/ReviewCard";
 import { Button } from "@/components/Button";
 import { ModalType, useModalContext } from "@/context/ModalContext";
+import { Loader } from "@/components/Loader";
 
 export default function EmployeeInfo(props: any) {
   const { id } = props.params;
   const { setModal } = useModalContext();
   const router = useRouter();
-  const [
-    dismissEmployee,
-    {
-      isLoading: isLoadingDismiss,
-      isSuccess: isSuccessDismiss,
-      isError: isErrorDismiss,
-    },
-  ] = useDismissEmployeeMutation();
   const [
     deleteEmployee,
     {
@@ -33,17 +25,23 @@ export default function EmployeeInfo(props: any) {
       isError: isErrorDelete,
     },
   ] = useDeleteEmployeeMutation();
+
   const { data: employee } = useGetEmployeeByIdQuery({
     employeeId: id,
   });
-  const { data: reviews } = useGetAllReviewsQuery({ employeeId: id });
 
-  const handleDeleteEmployee = async () => {
+  const {
+    data: reviews,
+    isSuccess,
+    isLoading,
+  } = useGetAllReviewsQuery({
+    employeeId: id,
+  });
+
+  const fullname = ` ${employee?.firstname} ${employee?.lastname}`;
+
+  const handleDeleteEmployee = () => {
     deleteEmployee({ employeeId: id });
-  };
-
-  const handleDismissEmployee = async () => {
-    dismissEmployee({ employeeId: id });
   };
 
   const handleAddNewReview = () => {
@@ -55,10 +53,6 @@ export default function EmployeeInfo(props: any) {
   };
 
   useEffect(() => {
-    if (isSuccessDismiss) {
-      toast.success("Employee updated successfully");
-    }
-
     if (isSuccessDelete) {
       toast.success("Employee deleted successfully");
       router.push("/company");
@@ -67,26 +61,20 @@ export default function EmployeeInfo(props: any) {
     if (isErrorDelete) {
       toast.error("Unable to delete employee");
     }
-
-    if (isErrorDismiss) {
-      toast.error("Unable to update employee");
-    }
-  }, [
-    isErrorDelete,
-    isErrorDismiss,
-    isSuccessDelete,
-    isSuccessDismiss,
-    router,
-  ]);
+  }, [isErrorDelete, isSuccessDelete, router]);
 
   return (
     <>
-      {employee && (
-        <div>
+      {isLoading ? (
+        <div className="flex justify-center">
+          <Loader />
+        </div>
+      ) : (
+        <>
           <div className="mb-[30px] relative">
             <h1 className="text-[#FFF] text-center font-semibold text-[30px]">
               <span className="opacity-60">All Review about</span>
-              {` ${employee.firstname} ${employee.lastname}`}
+              {fullname}
               <div className="absolute top-0 right-0">
                 <Button onClick={handleAddNewReview}>+ Add new Review</Button>
               </div>
@@ -98,7 +86,13 @@ export default function EmployeeInfo(props: any) {
               <ReviewCard reviewData={review} key={review.id} />
             ))}
           </div>
-        </div>
+        </>
+      )}
+
+      {isSuccess && !reviews.length && (
+        <h3 className="mt-[60px] text-center mb-4 text-3xl text-[#FFF]">
+          This employee do not have any reviews yet.
+        </h3>
       )}
     </>
   );

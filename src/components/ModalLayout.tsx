@@ -2,18 +2,19 @@
 
 import { AddReview } from "@/ModalsView/AddReview/AddReview";
 import { AuthModal } from "@/ModalsView/AuthModal/AuthModal";
-import { ConfirmModal } from "@/ModalsView/Confirm/Confirm";
+import { DeleteCompany } from "@/ModalsView/DeleteCompany/DeleteCompany";
+import { DismissEmployee } from "@/ModalsView/DismissEmployee/DismissEmployee";
 import { ModalType, useModalContext } from "@/context/ModalContext";
 import { useEffect } from "react";
 
 export const ModalLayout = () => {
-  const { isOpen, modalType, employeeReviewAdd, confirmState } =
-    useModalContext().modal;
+  const { isOpen, modalType, employeeReviewAdd } = useModalContext().modal;
 
   const isOpenAuthModal = modalType === ModalType.AUTH;
   const isOpenAddReviewModal =
     modalType === ModalType.REVIEW && employeeReviewAdd;
-  const isOpenConfirmModal = modalType === ModalType.CONFIRM && confirmState;
+  const isOpenConfirmModal = modalType === ModalType.DELETE_COMPANY;
+  const isOpenDismissModal = modalType === ModalType.DISMISS_EMPLOYEE;
 
   useEffect(() => {
     if (isOpen) {
@@ -33,7 +34,8 @@ export const ModalLayout = () => {
         <div className="modalViewContainer">
           {isOpenAuthModal && <AuthModal />}
           {isOpenAddReviewModal && <AddReview />}
-          {isOpenConfirmModal && <ConfirmModal />}
+          {isOpenConfirmModal && <DeleteCompany />}
+          {isOpenDismissModal && <DismissEmployee />}
         </div>
       ) : null}
     </>

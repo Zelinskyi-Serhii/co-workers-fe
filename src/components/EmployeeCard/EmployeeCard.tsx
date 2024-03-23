@@ -1,18 +1,19 @@
 import { IEmployee } from "@/GlobalRedux/Features/employee/employeeApi";
-import {
-  convertDateToMonthAndYear,
-  convertDateToString,
-} from "@/helpers/helperFunctions";
+import { convertDateToString } from "@/helpers/helperFunctions";
 import Image from "next/image";
 import { FC } from "react";
 import "./EmployeeCard.scss";
 import Link from "next/link";
+import { Button } from "../Button";
+import { ModalType, useModalContext } from "@/context/ModalContext";
 
 type Props = {
   employee: IEmployee;
+  isAdmin?: boolean;
 };
 
-export const EmployeeCard: FC<Props> = ({ employee }) => {
+export const EmployeeCard: FC<Props> = ({ employee, isAdmin }) => {
+  const { setModal } = useModalContext();
   const {
     firstname,
     lastname,
@@ -20,16 +21,22 @@ export const EmployeeCard: FC<Props> = ({ employee }) => {
     position,
     birthday,
     hireDate,
-    isDismissed,
+    dismissed,
     id,
   } = employee;
 
-  const fullnameLenght = firstname.length + lastname.length;
+  const handleDismissEmployee = () => {
+    setModal({
+      isOpen: true,
+      modalType: ModalType.DISMISS_EMPLOYEE,
+      employeeForDismiss: employee,
+    });
+  };
 
   return (
     <div className="card">
       <div className="content">
-        {isDismissed && (
+        {dismissed && (
           <div className="marquee">
             <div className="flex">
               <p className="marquee__line">Dismissed</p>
@@ -53,19 +60,34 @@ export const EmployeeCard: FC<Props> = ({ employee }) => {
             <p>
               <span>Position:</span> <span>{position}</span>
             </p>
+
             <p>
               <span>Birthday:</span>{" "}
               <span>{convertDateToString(birthday)}</span>
             </p>
+
             <p>
               <span>Hired at:</span>
               <span>{convertDateToString(hireDate)}</span>
             </p>
+
+            {dismissed && (
+              <p>
+                <span>Dismissed at:</span>
+                <span>{convertDateToString(dismissed)}</span>
+              </p>
+            )}
           </div>
 
           <Link href={`/employee/${id}`} className="review">
             Look Reviews
           </Link>
+
+          {isAdmin && !dismissed && (
+            <div className="[&>button]:w-[100%] [&>button]:h-[36px] [&>button]:p-1 translate-z">
+              <Button onClick={handleDismissEmployee}>Dismiss</Button>
+            </div>
+          )}
         </div>
       </div>
     </div>

@@ -1,7 +1,7 @@
 "use client";
 
 import {
-  useDeleteCompanyByIdMutation,
+  ICompany,
   useGetAllCompaniesQuery,
 } from "@/GlobalRedux/Features/company/companyApi";
 import { Button } from "@/components/Button";
@@ -11,26 +11,15 @@ import { convertDateToString } from "@/helpers/helperFunctions";
 import { CopyIcon } from "@/svgComponents/CopyIcon";
 import Image from "next/image";
 import Link from "next/link";
-import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 
 export default function CompanySettingsPage() {
   const { setModal } = useModalContext();
-  const [deleteId, setDeleteId] = useState<number | null>(null);
   const {
     data: companies,
     isLoading,
     isSuccess,
   } = useGetAllCompaniesQuery(null);
-
-  const [
-    deleteCompany,
-    {
-      isSuccess: isSuccessDelete,
-      isError: isErrorDelete,
-      isLoading: isLoadingDelete,
-    },
-  ] = useDeleteCompanyByIdMutation();
 
   const handleCopyLink = (publicLink: string) => {
     navigator.clipboard.writeText(publicLink);
@@ -38,37 +27,13 @@ export default function CompanySettingsPage() {
     toast.success("Publick Url copies successfully");
   };
 
-  const handleDeleteCompany = (companyId: string) => {
+  const handleDeleteCompany = (company: ICompany) => {
     setModal({
       isOpen: true,
-      modalType: ModalType.CONFIRM,
-      confirmState: {
-        title: "Delete Company",
-        desciprion: "Do you realy want to delete company permanently?",
-        cancel: () => setModal({ isOpen: false, confirmState: null }),
-        confirm: () => deleteCompany({ companyId }),
-      },
+      modalType: ModalType.DELETE_COMPANY,
+      companyForDelete: company,
     });
   };
-
-  useEffect(() => {
-    (async () => {
-      if (deleteId) {
-        await deleteCompany({ companyId: String(deleteId) });
-        setDeleteId(null);
-      }
-    })();
-  }, [deleteCompany, deleteId]);
-
-  useEffect(() => {
-    if (isSuccessDelete) {
-      toast.success("Company deleted successfully");
-    }
-
-    if (isErrorDelete) {
-      toast.error("Unable to delete company");
-    }
-  }, [isErrorDelete, isSuccessDelete]);
 
   return (
     <div className="text-white relative">
@@ -76,7 +41,7 @@ export default function CompanySettingsPage() {
         Company Settings
       </h1>
       <Link href="/company/create" className="flex-end absolute top-0 right-0">
-        <Button>+ Create new</Button>
+        <Button>+ Create new Company</Button>
       </Link>
       <div className="overflow-x-auto">
         {isLoading && (
@@ -136,8 +101,7 @@ export default function CompanySettingsPage() {
                     </Button>
                     <Button
                       className="bg-red-500 hover:bg-red-600 text-white px-4 py-1 rounded w-[90px]"
-                      isLoading={company.id === deleteId}
-                      onClick={() => handleDeleteCompany(String(company.id))}
+                      onClick={() => handleDeleteCompany(company)}
                     >
                       Delete
                     </Button>
@@ -149,17 +113,9 @@ export default function CompanySettingsPage() {
         )}
 
         {isSuccess && !companies.length && (
-          <div className="mt-[60px]">
-            <h3 className="text-center mb-4">
-              You dont have any companies yet
-            </h3>
-            <Link
-              href="/company/create"
-              className="flex justify-center overflow-hidden"
-            >
-              <Button>+ Create new</Button>
-            </Link>
-          </div>
+          <h3 className="mt-[60px] text-center mb-4 text-3xl">
+            You dont have any companies yet
+          </h3>
         )}
       </div>
     </div>

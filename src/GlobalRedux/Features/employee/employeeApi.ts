@@ -10,7 +10,7 @@ export interface IEmployee {
   hireDate: Date;
   avatarUrl: string;
   birthday: Date;
-  isDismissed: boolean;
+  dismissed: Date | null;
 }
 
 export const employeeApi = createApi({
@@ -47,10 +47,16 @@ export const employeeApi = createApi({
     }),
     dismissEmployee: builder.mutation<
       { message: string },
-      { employeeId: number }
+      { employeeId: number; dismissed: string }
     >({
-      query: ({ employeeId }) => {
-        return { url: `/employee/dismiss/${employeeId}`, method: "PUT" };
+      query: ({ employeeId, dismissed }) => {
+        console.log(dismissed);
+
+        return {
+          url: `/employee/dismiss/${employeeId}`,
+          method: "PUT",
+          data: { dismissed },
+        };
       },
     }),
   }),

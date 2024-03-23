@@ -73,14 +73,14 @@
   display: flex;
   flex-direction: column;
   gap: 10px;
-  // margin-top: 40px;
+
   & > p {
     display: flex;
 
     & > span {
       &:first-child {
         text-align: start;
-        width: 35%;
+        width: 40%;
         font-size: 14px;
         opacity: 0.5;
       }

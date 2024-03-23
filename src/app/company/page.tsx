@@ -53,17 +53,9 @@ export default function Company() {
       )}
 
       {isSuccess && !companies.length && (
-        <div className="mt-[60px]">
-          <h3 className="text-center mb-4 text-[#FFF]">
-            You dont have any companies yet
-          </h3>
-          <Link
-            href="/company/create"
-            className="flex justify-center overflow-hidden"
-          >
-            <Button>+ Create new</Button>
-          </Link>
-        </div>
+        <h3 className="mt-[60px] text-center mb-4 text-3xl">
+          You do not have any companies yet
+        </h3>
       )}
     </div>
   );
