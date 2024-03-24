@@ -27,6 +27,11 @@ export const employeeApi = createApi({
         return { url: `/employee/getOne/${employeeId}` };
       },
     }),
+    getEmployeeBySearch: builder.query<IEmployee[], string>({
+      query: (searchParams) => {
+        return { url: `/employee/search/${searchParams}` };
+      },
+    }),
     createEmployee: builder.mutation<IEmployee, FormData>({
       query: (newEmployee: FormData) => {
         return {
@@ -68,4 +73,5 @@ export const {
   useDeleteEmployeeMutation,
   useDismissEmployeeMutation,
   useCreateEmployeeMutation,
+  useLazyGetEmployeeBySearchQuery,
 } = employeeApi;
