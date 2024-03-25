@@ -2,21 +2,29 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { useCallback, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { ArrowDown } from "@/svgComponents/ArrowDown";
 import { Search } from "@/svgComponents/Search";
 import { ModalType, useModalContext } from "@/context/ModalContext";
 import { useClickOutside } from "@/hooks/useClickOutside";
 import { useSession } from "@/context/SessionContext";
 import { Loader } from "./Loader";
+import { useDebounce } from "@/hooks/useDebounce";
+import { useLazyGetEmployeeBySearchQuery } from "@/GlobalRedux/Features/employee/employeeApi";
+import { getTotalYearsFromBirthDate } from "@/helpers/helperFunctions";
 
 export const Header = () => {
   const { user, logOut, isLoading } = useSession();
   const { setModal } = useModalContext();
   const [isOpenMenu, setIsOpenMenu] = useState(false);
+  const [isOpenEmployees, setIsOpenEmployees] = useState(false);
   const [search, setSearch] = useState("");
+  const debouncedSearch = useDebounce(search, 600);
   const dropdownRef = useRef(null);
   useClickOutside(dropdownRef, () => setIsOpenMenu(false));
+
+  const [searchEmployee, { data: searchedEmployees, isFetching }] =
+    useLazyGetEmployeeBySearchQuery();
 
   const handleToggleMenu = () => {
     setIsOpenMenu((prev) => !prev);
@@ -28,6 +36,13 @@ export const Header = () => {
       isOpen: true,
     });
   }, [setModal]);
+
+  useEffect(() => {
+    if (debouncedSearch.length > 2) {
+      searchEmployee(debouncedSearch);
+      setIsOpenEmployees(true);
+    }
+  }, [debouncedSearch, searchEmployee]);
 
   return (
     <header className="py-4 px-4 sm:px-10 bg-[#0f1121] h-[70px] border-b-2 border-b-[#3b3e4a]">
@@ -53,6 +68,52 @@ export const Header = () => {
           <div className="absolute top-[12px] right-[12px] cursor-pointer">
             <Search />
           </div>
+
+          {debouncedSearch.length > 2 && isOpenEmployees && (
+            <div className="absolute top-[45px] bg-[#FFF] rounded-xl w-[100%] py-2 px-4 z-10">
+              {isFetching && (
+                <div className="flex justify-center">
+                  <Loader />
+                </div>
+              )}
+
+              {searchedEmployees?.length ? (
+                <div className="flex flex-col gap-[10px]">
+                  {searchedEmployees?.map((employee) => (
+                    <div
+                      key={employee.id}
+                      className="flex items-center gap-[10px] [&:not(:last-child)]:border-b-[1px] border-[#999999] [&:not(:last-child)]:pb-2"
+                    >
+                      <Image
+                        className="h-[30px] w-[30px]"
+                        src={employee.avatarUrl}
+                        alt={employee.firstname}
+                        width={50}
+                        height={20}
+                      />
+                      <span>{`${employee.firstname} ${employee.lastname}`}</span>
+                      <span className="text-[14px]">
+                        <strong>
+                          {getTotalYearsFromBirthDate(employee.birthday)}
+                        </strong>{" "}
+                        years
+                      </span>
+                      <button
+                        className="bg-[#1976d2] ml-auto py-[2px] px-4 text-[#FFF] rounded-xl hover-scale"
+                        onClick={() => setIsOpenEmployees(false)}
+                      >
+                        <Link href={`/employee/${employee.id}`}>reviews</Link>
+                      </button>
+                    </div>
+                  ))}
+                </div>
+              ) : (
+                <p className="text-[14px]">
+                  No employees found matching the search criteria
+                </p>
+              )}
+            </div>
+          )}
         </div>
 
         <div className="flex items-center  max-sm:ml-auto">
