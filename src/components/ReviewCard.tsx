@@ -1,4 +1,5 @@
 import { IReview } from "@/GlobalRedux/Features/review/reviewApi";
+import { ModalType, useModalContext } from "@/context/ModalContext";
 import { convertDateToString } from "@/helpers/helperFunctions";
 import { FC } from "react";
 
@@ -7,6 +8,7 @@ type Props = {
 };
 
 export const ReviewCard: FC<Props> = ({ reviewData }) => {
+  const { setModal } = useModalContext();
   const { createdAt, review } = reviewData;
   const isLong = review.length > 160;
 
@@ -21,7 +23,16 @@ export const ReviewCard: FC<Props> = ({ reviewData }) => {
         </p>
 
         {isLong && (
-          <button className="text-[#FFF] py-[2px] px-[8px] rounded-xl bg-[#6c7375] hover-scale">
+          <button
+            className="text-[#FFF] py-[2px] px-[8px] rounded-xl bg-[#6c7375] hover-scale"
+            onClick={() => {
+              setModal({
+                isOpen: true,
+                review: reviewData,
+                modalType: ModalType.READ_REVIEW,
+              });
+            }}
+          >
             See More
           </button>
         )}

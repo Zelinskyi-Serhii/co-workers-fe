@@ -55,8 +55,6 @@ export const employeeApi = createApi({
       { employeeId: number; dismissed: string }
     >({
       query: ({ employeeId, dismissed }) => {
-        console.log(dismissed);
-
         return {
           url: `/employee/dismiss/${employeeId}`,
           method: "PUT",

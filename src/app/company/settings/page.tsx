@@ -96,7 +96,16 @@ export default function CompanySettingsPage() {
                     <CopyIcon />
                   </td>
                   <td className="px-4 py-2 [&>button]:inline">
-                    <Button className="bg-blue-500 hover:bg-blue-600 text-white px-4 py-1 rounded mr-2  w-[90px]">
+                    <Button
+                      className="bg-blue-500 hover:bg-blue-600 text-white px-4 py-1 rounded mr-2  w-[90px]"
+                      onClick={() => {
+                        setModal({
+                          isOpen: true,
+                          companyForUpdate: company,
+                          modalType: ModalType.UPDATE_COMPANY,
+                        });
+                      }}
+                    >
                       Update
                     </Button>
                     <Button

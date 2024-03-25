@@ -4,11 +4,14 @@ import { FC, ReactNode, useState } from "react";
 import { createStrictContext, useStrictContext } from "./strictContext";
 import { IEmployee } from "@/GlobalRedux/Features/employee/employeeApi";
 import { ICompany } from "@/GlobalRedux/Features/company/companyApi";
+import { IReview } from "@/GlobalRedux/Features/review/reviewApi";
 
 export enum ModalType {
   AUTH = "auth",
   REVIEW = "review",
+  READ_REVIEW = "read review",
   DELETE_COMPANY = "delete company",
+  UPDATE_COMPANY = "update company",
   DISMISS_EMPLOYEE = "dismiss employee",
 }
 
@@ -19,6 +22,7 @@ interface ModalState {
   employeeForDismiss?: IEmployee | null;
   companyForDelete?: ICompany | null;
   companyForUpdate?: ICompany | null;
+  review?: IReview;
 }
 
 interface IModalContext {

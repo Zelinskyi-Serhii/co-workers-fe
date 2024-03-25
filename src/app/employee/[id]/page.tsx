@@ -12,6 +12,7 @@ import { ReviewCard } from "@/components/ReviewCard";
 import { Button } from "@/components/Button";
 import { ModalType, useModalContext } from "@/context/ModalContext";
 import { Loader } from "@/components/Loader";
+import Image from "next/image";
 
 export default function EmployeeInfo(props: any) {
   const { id } = props.params;
@@ -72,9 +73,22 @@ export default function EmployeeInfo(props: any) {
       ) : (
         <>
           <div className="mb-[30px] relative">
-            <h1 className="text-[#FFF] text-center font-semibold text-[30px]">
+            <h1 className="flex justify-center gap-[15px] text-[#FFF] text-center font-semibold text-[30px]">
               <span className="opacity-60">All Review about</span>
-              {fullname}
+              {employee && (
+                <>
+                  {fullname}
+                  <span className="bg-[#FFF] rounded-xl">
+                    <Image
+                      alt={employee.firstname}
+                      src={employee.avatarUrl}
+                      width={50}
+                      height={70}
+                      className=""
+                    />
+                  </span>
+                </>
+              )}
               <div className="absolute top-0 right-0">
                 <Button onClick={handleAddNewReview}>+ Add new Review</Button>
               </div>

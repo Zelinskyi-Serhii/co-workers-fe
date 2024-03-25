@@ -38,6 +38,19 @@ export const companyApi = createApi({
         };
       },
     }),
+    updateCompany: builder.mutation<
+      unknown,
+      { newCompany: FormData; companyId: number }
+    >({
+      query: ({ newCompany, companyId }) => {
+        return {
+          url: `/company/update/${companyId}`,
+          method: "PUT",
+          data: newCompany,
+          header: { "Content-Type": "multipart/form-data" },
+        };
+      },
+    }),
   }),
 });
 
@@ -47,4 +60,5 @@ export const {
   useGetCompanyByIdQuery,
   useCreateNewCompanyMutation,
   useDeleteCompanyByIdMutation,
+  useUpdateCompanyMutation,
 } = companyApi;
