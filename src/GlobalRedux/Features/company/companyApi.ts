@@ -7,6 +7,7 @@ export interface ICompany {
   avatarUrl: string;
   ownedAt: Date;
   ownerName: string;
+  publickId: string | null;
 }
 
 export const companyApi = createApi({
@@ -51,6 +52,16 @@ export const companyApi = createApi({
         };
       },
     }),
+    generatePublickId: builder.mutation<unknown, number>({
+      query: (companyId) => {
+        return { url: `/company/generateId/${companyId}` };
+      },
+    }),
+    getCompanyByPublickId: builder.query<ICompany, string>({
+      query: (publickId) => {
+        return { url: `/company/getAll/${publickId}` };
+      },
+    }),
   }),
 });
 
@@ -61,4 +72,6 @@ export const {
   useCreateNewCompanyMutation,
   useDeleteCompanyByIdMutation,
   useUpdateCompanyMutation,
+  useGeneratePublickIdMutation,
+  useGetCompanyByPublickIdQuery,
 } = companyApi;

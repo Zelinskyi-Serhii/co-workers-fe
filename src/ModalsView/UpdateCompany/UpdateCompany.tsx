@@ -20,6 +20,7 @@ export const UpdateCompany = () => {
       ...companyForUpdate!,
       ownedAt: convertDateToISOString(companyForUpdate?.ownedAt!).slice(0, 10),
     });
+
   useClickOutside(companyRef, () => handleCloseModal());
   const [updateCompany, { isSuccess, isLoading, isError }] =
     useUpdateCompanyMutation();

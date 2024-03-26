@@ -2,6 +2,7 @@
 
 import {
   ICompany,
+  useGeneratePublickIdMutation,
   useGetAllCompaniesQuery,
 } from "@/GlobalRedux/Features/company/companyApi";
 import { Button } from "@/components/Button";
@@ -11,6 +12,7 @@ import { convertDateToString } from "@/helpers/helperFunctions";
 import { CopyIcon } from "@/svgComponents/CopyIcon";
 import Image from "next/image";
 import Link from "next/link";
+import { useEffect } from "react";
 import { toast } from "react-toastify";
 
 export default function CompanySettingsPage() {
@@ -20,6 +22,14 @@ export default function CompanySettingsPage() {
     isLoading,
     isSuccess,
   } = useGetAllCompaniesQuery(null);
+  const [
+    generatePublickId,
+    {
+      isSuccess: isSuccessGenerate,
+      isError: isErrorGenerate,
+      isLoading: isLoadingDenerate,
+    },
+  ] = useGeneratePublickIdMutation();
 
   const handleCopyLink = (publicLink: string) => {
     navigator.clipboard.writeText(publicLink);
@@ -34,6 +44,16 @@ export default function CompanySettingsPage() {
       companyForDelete: company,
     });
   };
+
+  useEffect(() => {
+    if (isSuccessGenerate) {
+      toast.success("Publick Link generated successfully");
+    }
+
+    if (isErrorGenerate) {
+      toast.error("Unable to generate publick link");
+    }
+  }, [isErrorGenerate, isSuccessGenerate]);
 
   return (
     <div className="text-white relative">
@@ -88,13 +108,31 @@ export default function CompanySettingsPage() {
                   <td className="px-4 py-2">
                     {convertDateToString(company.ownedAt)}
                   </td>
-                  <td
-                    className="flex items-center gap-2 h-[64px] px-4 py-2 hover:bg-gray-700 cursor-pointer transition-all duration-300"
-                    onClick={() => handleCopyLink("srgsrgrdgrd")}
-                  >
-                    weufiuehwirghuierug
-                    <CopyIcon />
-                  </td>
+
+                  {company.publickId ? (
+                    <td
+                      className="flex items-center w-[200px] overflow-x-auto gap-2 h-[64px] px-4 py-2 hover:bg-gray-700 cursor-pointer transition-all duration-300"
+                      onClick={() =>
+                        handleCopyLink(
+                          `http://localhost:3000/publick/company/${company.publickId}`
+                        )
+                      }
+                    >
+                      {`http://localhost:3000/publick/company/${company.publickId}`}
+                      <CopyIcon />
+                    </td>
+                  ) : (
+                    <td>
+                      <Button
+                        className="bg-blue-500 hover:bg-blue-600 text-white px-4 py-1 rounded mr-2"
+                        onClick={() => generatePublickId(Number(company.id))}
+                        isLoading={isLoadingDenerate}
+                      >
+                        Generate publick link
+                      </Button>
+                    </td>
+                  )}
+
                   <td className="px-4 py-2 [&>button]:inline">
                     <Button
                       className="bg-blue-500 hover:bg-blue-600 text-white px-4 py-1 rounded mr-2  w-[90px]"
