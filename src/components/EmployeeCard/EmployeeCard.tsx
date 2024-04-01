@@ -25,6 +25,8 @@ export const EmployeeCard: FC<Props> = ({ employee, isAdmin }) => {
     id,
   } = employee;
 
+  const linkToReview = isAdmin ? `/employee/${id}` : `/publick/employee/${id}`;
+
   const handleDismissEmployee = () => {
     setModal({
       isOpen: true,
@@ -79,7 +81,7 @@ export const EmployeeCard: FC<Props> = ({ employee, isAdmin }) => {
             )}
           </div>
 
-          <Link href={`/employee/${id}`} className="review">
+          <Link href={linkToReview} className="review">
             Look Reviews
           </Link>
 

@@ -1,6 +1,10 @@
 "use client";
 
-import { useGetCompanyByPublickIdQuery } from "@/GlobalRedux/Features/company/companyApi";
+import { useGetCompanyByPublicIdQuery } from "@/GlobalRedux/Features/company/companyApi";
+import { EmployeeCard } from "@/components/EmployeeCard/EmployeeCard";
+import { Loader } from "@/components/Loader";
+import { useEffect } from "react";
+import { toast } from "react-toastify";
 
 export default function PublickEmployee(props: { params: { id: string } }) {
   const {
@@ -8,13 +12,43 @@ export default function PublickEmployee(props: { params: { id: string } }) {
     isLoading,
     isSuccess,
     isError,
-  } = useGetCompanyByPublickIdQuery(props.params.id);
+  } = useGetCompanyByPublicIdQuery(props.params.id);
 
-  console.log(company);
+  useEffect(() => {
+    if (isError) {
+      toast.error(
+        "Unable to get employees for company. Maybe this url expired"
+      );
+    }
+  }, [isError]);
 
   return (
-    <section className="text-[#FFF]">
-      Publick Company page {props.params.id}
-    </section>
+    <div>
+      <h1 className="flex-[1] text-[#fff] font-semibild text-[30px] text-center mb-[20px]">
+        Employees in a{" "}
+        <span className="font-bold text-3xl border-b-2">{company?.name}</span>{" "}
+        company
+      </h1>
+
+      {isLoading ? (
+        <div className="flex justify-center">
+          <Loader />
+        </div>
+      ) : (
+        <div className="grid grid-cols-[repeat(auto-fit,_minmax(250px,1fr))] gap-4 mx-auto">
+          <>
+            {company?.employee?.map((employee) => (
+              <EmployeeCard key={employee.id} employee={employee} />
+            ))}
+          </>
+        </div>
+      )}
+
+      {isSuccess && !company?.employee?.length && (
+        <h3 className="mt-[60px] text-center mb-4 text-3xl text-[#FFF]">
+          This Company do not have any employees yet
+        </h3>
+      )}
+    </div>
   );
 }

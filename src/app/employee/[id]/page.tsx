@@ -89,9 +89,9 @@ export default function EmployeeInfo(props: any) {
                   </span>
                 </>
               )}
-              {/* <div className="absolute top-0 right-0">
+              <div className="absolute top-0 right-0">
                 <Button onClick={handleAddNewReview}>+ Add new Review</Button>
-              </div> */}
+              </div>
             </h1>
           </div>
 

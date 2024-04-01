@@ -15,6 +15,8 @@ import Link from "next/link";
 import { useEffect } from "react";
 import { toast } from "react-toastify";
 
+const DOMAIN = process.env.NEXT_PUBLIC_FRONTEND_DOMAIN;
+
 export default function CompanySettingsPage() {
   const { setModal } = useModalContext();
   const {
@@ -114,12 +116,12 @@ export default function CompanySettingsPage() {
                       className="flex items-center w-[200px] overflow-x-auto gap-2 h-[64px] px-4 py-2 hover:bg-gray-700 cursor-pointer transition-all duration-300 text-nowrap"
                       onClick={() =>
                         handleCopyLink(
-                          `http://localhost:3000/publick/company/${company.publickId}`
+                          `${DOMAIN}/publick/company/${company.publickId}`
                         )
                       }
                     >
-                      {`http://localhost:3000/publick/company/${company.publickId}`}
-                      {/* <CopyIcon /> */}
+                      <CopyIcon />
+                      {`${DOMAIN}/publick/company/${company.publickId}`}
                     </td>
                   ) : (
                     <td>

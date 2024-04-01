@@ -1,5 +1,6 @@
 import { axiosBaseQuery } from "@/api/axios";
 import { createApi } from "@reduxjs/toolkit/query/react";
+import { IEmployee } from "../employee/employeeApi";
 
 export interface ICompany {
   id: number;
@@ -7,7 +8,15 @@ export interface ICompany {
   avatarUrl: string;
   ownedAt: Date;
   ownerName: string;
-  publickId: string | null;
+}
+
+interface IPublicCompany {
+  id: number;
+  name: string;
+  avatarUrl: string;
+  ownedAt: Date;
+  ownerName: string;
+  employee: IEmployee[];
 }
 
 export const companyApi = createApi({
@@ -57,9 +66,9 @@ export const companyApi = createApi({
         return { url: `/company/generateId/${companyId}` };
       },
     }),
-    getCompanyByPublickId: builder.query<ICompany, string>({
+    getCompanyByPublicId: builder.query<IPublicCompany, string>({
       query: (publickId) => {
-        return { url: `/company/getAll/${publickId}` };
+        return { url: `/company/getByPublicId/${publickId}` };
       },
     }),
   }),
@@ -73,5 +82,5 @@ export const {
   useDeleteCompanyByIdMutation,
   useUpdateCompanyMutation,
   useGeneratePublickIdMutation,
-  useGetCompanyByPublickIdQuery,
+  useGetCompanyByPublicIdQuery,
 } = companyApi;

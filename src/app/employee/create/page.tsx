@@ -204,7 +204,7 @@ const CreateEmployee = () => {
 
         <div className="flex justify-between w-[100%] [&>button]:p-4 [&>button]:w-[49%] [&>button]:text-center [&>button]:text-white [&>button]:font-bold [&>button]:rounded-md">
           <Button buttonType={ButtonColorByType.DELETE}>
-            <Link href="/company">Cancel</Link>
+            <Link href={`/company/${companyId}`}>Cancel</Link>
           </Button>
           <Button
             isLoading={isLoading}
