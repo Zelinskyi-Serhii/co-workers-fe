@@ -17,3 +17,19 @@ body {
   background-color: var(--body-background-color);
   scroll-behavior: smooth;
 }
+
+/* Style for the scroll bar */
+::-webkit-scrollbar {
+  width: 5px; /* Width of the scrollbar */
+  height: 3px;
+}
+
+/* Track (the area on which the thumb rests) */
+::-webkit-scrollbar-track {
+  background: #f1f1f1; /* Color of the track */
+}
+
+/* Handle (the draggable part of the scrollbar) */
+::-webkit-scrollbar-thumb {
+  background: #888; /* Color of the handle */
+}

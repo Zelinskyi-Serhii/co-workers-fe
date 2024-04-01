@@ -111,7 +111,7 @@ export default function CompanySettingsPage() {
 
                   {company.publickId ? (
                     <td
-                      className="flex items-center w-[200px] overflow-x-auto gap-2 h-[64px] px-4 py-2 hover:bg-gray-700 cursor-pointer transition-all duration-300"
+                      className="flex items-center w-[200px] overflow-x-auto gap-2 h-[64px] px-4 py-2 hover:bg-gray-700 cursor-pointer transition-all duration-300 text-nowrap"
                       onClick={() =>
                         handleCopyLink(
                           `http://localhost:3000/publick/company/${company.publickId}`
@@ -119,7 +119,7 @@ export default function CompanySettingsPage() {
                       }
                     >
                       {`http://localhost:3000/publick/company/${company.publickId}`}
-                      <CopyIcon />
+                      {/* <CopyIcon /> */}
                     </td>
                   ) : (
                     <td>
