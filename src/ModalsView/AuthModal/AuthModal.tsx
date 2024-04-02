@@ -14,8 +14,8 @@ import { toast } from "react-toastify";
 
 const initialValue = {
   nickname: "",
-  email: "sepyh1@gmail.com",
-  password: "123456",
+  email: "",
+  password: "",
 };
 
 export const AuthModal = () => {

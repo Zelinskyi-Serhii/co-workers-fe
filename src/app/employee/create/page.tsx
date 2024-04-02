@@ -18,12 +18,12 @@ import {
 } from "@/constants";
 
 const initialState = {
-  firstname: "Serhii",
-  lastname: "Zel",
-  position: "Frontend",
+  firstname: "",
+  lastname: "",
+  position: "",
   avatarUrl: "",
-  hireDate: new Date().toISOString(),
-  birthday: new Date().toISOString(),
+  hireDate: "",
+  birthday: "",
 };
 
 export default function CreateEmployeePage() {
