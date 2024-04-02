@@ -8,6 +8,7 @@ import Link from "next/link";
 import { isValidFormData } from "@/helpers/helperFunctions";
 import { Button, ButtonColorByType } from "@/components/Button";
 import { useCreateNewCompanyMutation } from "@/GlobalRedux/Features/company/companyApi";
+import { minValueForCompanyOwned, today } from "@/constants";
 
 const initialValue = {
   name: "",
@@ -121,6 +122,8 @@ export default function CompanyCreate() {
               name="ownedAt"
               value={ownedAt}
               onChange={handleChange}
+              min={minValueForCompanyOwned}
+              max={today}
             />
           </label>
 

@@ -10,9 +10,10 @@ import { ModalType, useModalContext } from "@/context/ModalContext";
 type Props = {
   employee: IEmployee;
   isAdmin?: boolean;
+  linkTo?: string;
 };
 
-export const EmployeeCard: FC<Props> = ({ employee, isAdmin }) => {
+export const EmployeeCard: FC<Props> = ({ employee, isAdmin, linkTo }) => {
   const { setModal } = useModalContext();
   const {
     firstname,
@@ -25,7 +26,7 @@ export const EmployeeCard: FC<Props> = ({ employee, isAdmin }) => {
     id,
   } = employee;
 
-  const linkToReview = isAdmin ? `/employee/${id}` : `/publick/employee/${id}`;
+  const linkToReview = linkTo ?? `/employee/${id}`;
 
   const handleDismissEmployee = () => {
     setModal({

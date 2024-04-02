@@ -1,6 +1,10 @@
 import { axiosBaseQuery } from "@/api/axios";
 import { createApi } from "@reduxjs/toolkit/query/react";
 import { IEmployee } from "../employee/employeeApi";
+import { IReview } from "../review/reviewApi";
+interface IEmployeeWithReview extends IEmployee {
+  review: IReview[];
+}
 
 export interface ICompany {
   id: number;
@@ -8,6 +12,7 @@ export interface ICompany {
   avatarUrl: string;
   ownedAt: Date;
   ownerName: string;
+  publicId?: string;
 }
 
 interface IPublicCompany {
@@ -17,6 +22,10 @@ interface IPublicCompany {
   ownedAt: Date;
   ownerName: string;
   employee: IEmployee[];
+}
+
+interface ICompanyWithReviewsResponse extends ICompany {
+  employee: IEmployeeWithReview[];
 }
 
 export const companyApi = createApi({
@@ -71,6 +80,14 @@ export const companyApi = createApi({
         return { url: `/company/getByPublicId/${publickId}` };
       },
     }),
+    getReviewByPublicId: builder.query<
+      ICompanyWithReviewsResponse,
+      { companyId: string; employeeId: string }
+    >({
+      query: ({ companyId, employeeId }) => {
+        return { url: `/company/getReviews/${companyId}/${employeeId}` };
+      },
+    }),
   }),
 });
 
@@ -83,4 +100,5 @@ export const {
   useUpdateCompanyMutation,
   useGeneratePublickIdMutation,
   useGetCompanyByPublicIdQuery,
+  useGetReviewByPublicIdQuery,
 } = companyApi;

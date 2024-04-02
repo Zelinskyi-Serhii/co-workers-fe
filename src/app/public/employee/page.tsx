@@ -1,28 +1,35 @@
 "use client";
 
-import { useGetEmployeeByIdQuery } from "@/GlobalRedux/Features/employee/employeeApi";
-import { useGetAllReviewsQuery } from "@/GlobalRedux/Features/review/reviewApi";
 import { ReviewCard } from "@/components/ReviewCard";
 import { Button } from "@/components/Button";
 import { ModalType, useModalContext } from "@/context/ModalContext";
 import { Loader } from "@/components/Loader";
 import Image from "next/image";
+import { Suspense } from "react";
+import { useSearchParams } from "next/navigation";
+import { useGetReviewByPublicIdQuery } from "@/GlobalRedux/Features/company/companyApi";
 
-export default function EmployeeInfo(props: any) {
-  const { id } = props.params;
+export default function EmployeeInfoPage() {
+  return (
+    <Suspense fallback={<Loader />}>
+      <EmployeeInfoContent />
+    </Suspense>
+  );
+}
+
+function EmployeeInfoContent() {
+  const searchParams = useSearchParams();
+  const companyId = searchParams.get("companyId") || "";
+  const employeeId = searchParams.get("employeeId") || "";
   const { setModal } = useModalContext();
 
-  const { data: employee } = useGetEmployeeByIdQuery({
-    employeeId: id,
+  const { data, isLoading, isSuccess } = useGetReviewByPublicIdQuery({
+    companyId,
+    employeeId,
   });
 
-  const {
-    data: reviews,
-    isSuccess,
-    isLoading,
-  } = useGetAllReviewsQuery({
-    employeeId: id,
-  });
+  const employee = data?.employee?.[0];
+  const reviews = employee?.review || [];
 
   const fullname = ` ${employee?.firstname} ${employee?.lastname}`;
 

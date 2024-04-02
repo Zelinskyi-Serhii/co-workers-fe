@@ -1,5 +1,6 @@
 import { useUpdateCompanyMutation } from "@/GlobalRedux/Features/company/companyApi";
 import { Button, ButtonColorByType } from "@/components/Button";
+import { minValueForCompanyOwned, today } from "@/constants";
 import { useModalContext } from "@/context/ModalContext";
 import {
   convertDateToISOString,
@@ -139,6 +140,8 @@ export const UpdateCompany = () => {
             name="ownedAt"
             value={ownedAt}
             onChange={handleChange}
+            min={minValueForCompanyOwned}
+            max={today}
           />
         </label>
 

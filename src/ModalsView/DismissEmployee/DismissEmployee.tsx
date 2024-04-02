@@ -1,5 +1,6 @@
 import { useDismissEmployeeMutation } from "@/GlobalRedux/Features/employee/employeeApi";
 import { Button, ButtonColorByType } from "@/components/Button";
+import { today } from "@/constants";
 import { useModalContext } from "@/context/ModalContext";
 import { useClickOutside } from "@/hooks/useClickOutside";
 import { useRef, useState } from "react";
@@ -10,8 +11,11 @@ export const DismissEmployee = () => {
   const { employeeForDismiss } = modal;
   const dismissRef = useRef(null);
   const [dismissDate, setDismissDate] = useState("");
-
   const [dismissEmployee, { isLoading }] = useDismissEmployeeMutation();
+
+  const minValueForDismiss = (
+    employeeForDismiss?.hireDate as unknown as string
+  ).split("T")[0];
 
   useClickOutside(dismissRef, () => handleCloseModal());
 
@@ -55,6 +59,8 @@ export const DismissEmployee = () => {
           name="ownedAt"
           value={dismissDate}
           onChange={({ target }) => setDismissDate(target.value)}
+          min={minValueForDismiss}
+          max={today}
         />
       </div>
 

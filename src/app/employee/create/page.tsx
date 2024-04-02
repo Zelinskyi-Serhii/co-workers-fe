@@ -10,6 +10,12 @@ import { toast } from "react-toastify";
 import { useCreateEmployeeMutation } from "@/GlobalRedux/Features/employee/employeeApi";
 import { Button, ButtonColorByType } from "@/components/Button";
 import { useGetCompanyByIdQuery } from "@/GlobalRedux/Features/company/companyApi";
+import {
+  maxValueForEmployeeBirthday,
+  minValueForEmployeeBirthday,
+  minValueForEmployeeHireDate,
+  today,
+} from "@/constants";
 
 const initialState = {
   firstname: "Serhii",
@@ -163,6 +169,8 @@ const CreateEmployee = () => {
                 name="birthday"
                 value={birthday}
                 onChange={handleChange}
+                min={minValueForEmployeeBirthday}
+                max={maxValueForEmployeeBirthday}
               />
             </label>
 
@@ -174,6 +182,8 @@ const CreateEmployee = () => {
                 name="hireDate"
                 value={hireDate}
                 onChange={handleChange}
+                min={minValueForEmployeeHireDate}
+                max={today}
               />
             </label>
           </div>

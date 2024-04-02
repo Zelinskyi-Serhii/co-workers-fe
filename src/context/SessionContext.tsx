@@ -68,7 +68,7 @@ export const SessionContextProvider: FC<{ children: ReactNode }> = ({
   }, [loadUserData]);
 
   useEffect(() => {
-    if (protectedRoutes.includes(pathname) && !user && (isSuccess || isError)) {
+    if (!pathname.includes("public") && !user && (isSuccess || isError)) {
       router.push("/");
     }
   }, [pathname, router, user, isSuccess, isError]);

@@ -7,12 +7,13 @@ import { useEffect } from "react";
 import { toast } from "react-toastify";
 
 export default function PublickEmployee(props: { params: { id: string } }) {
+  const companyPublicId = props.params.id;
   const {
     data: company,
     isLoading,
     isSuccess,
     isError,
-  } = useGetCompanyByPublicIdQuery(props.params.id);
+  } = useGetCompanyByPublicIdQuery(companyPublicId);
 
   useEffect(() => {
     if (isError) {
@@ -37,9 +38,16 @@ export default function PublickEmployee(props: { params: { id: string } }) {
       ) : (
         <div className="grid grid-cols-[repeat(auto-fit,_minmax(250px,1fr))] gap-4 mx-auto">
           <>
-            {company?.employee?.map((employee) => (
-              <EmployeeCard key={employee.id} employee={employee} />
-            ))}
+            {company?.employee?.map((employee) => {
+              const linkTo = `/public/employee?companyId=${companyPublicId}&employeeId=${employee.id}`;
+              return (
+                <EmployeeCard
+                  key={employee.id}
+                  employee={employee}
+                  linkTo={linkTo}
+                />
+              );
+            })}
           </>
         </div>
       )}

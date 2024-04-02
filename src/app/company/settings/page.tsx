@@ -111,17 +111,17 @@ export default function CompanySettingsPage() {
                     {convertDateToString(company.ownedAt)}
                   </td>
 
-                  {company.publickId ? (
+                  {company.publicId ? (
                     <td
                       className="flex items-center w-[200px] overflow-x-auto gap-2 h-[64px] px-4 py-2 hover:bg-gray-700 cursor-pointer transition-all duration-300 text-nowrap"
                       onClick={() =>
                         handleCopyLink(
-                          `${DOMAIN}/publick/company/${company.publickId}`
+                          `${DOMAIN}/public/company/${company.publicId}`
                         )
                       }
                     >
                       <CopyIcon />
-                      {`${DOMAIN}/publick/company/${company.publickId}`}
+                      {`${DOMAIN}/public/company/${company.publicId}`}
                     </td>
                   ) : (
                     <td>
@@ -130,7 +130,7 @@ export default function CompanySettingsPage() {
                         onClick={() => generatePublickId(Number(company.id))}
                         isLoading={isLoadingDenerate}
                       >
-                        Generate publick link
+                        Generate public link
                       </Button>
                     </td>
                   )}
