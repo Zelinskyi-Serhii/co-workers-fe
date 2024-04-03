@@ -6,6 +6,7 @@ import {
   useGetAllCompaniesQuery,
 } from "@/GlobalRedux/Features/company/companyApi";
 import { Button } from "@/components/Button";
+import { GoBackButton } from "@/components/GoBackButton";
 import { Loader } from "@/components/Loader";
 import { ModalType, useModalContext } from "@/context/ModalContext";
 import { convertDateToString } from "@/helpers/helperFunctions";
@@ -59,12 +60,18 @@ export default function CompanySettingsPage() {
 
   return (
     <div className="text-white relative">
+      <div className="absolute top-3 left-0">
+        <GoBackButton />
+      </div>
+
       <h1 className="text-3xl font-semibold text-center mb-6">
         Company Settings
       </h1>
+
       <Link href="/company/create" className="flex-end absolute top-0 right-0">
         <Button>+ Create new Company</Button>
       </Link>
+
       <div className="overflow-x-auto">
         {isLoading && (
           <div className="flex justify-center h-[100px]">

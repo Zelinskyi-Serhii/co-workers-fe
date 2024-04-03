@@ -8,6 +8,7 @@ import Image from "next/image";
 import { Suspense } from "react";
 import { useSearchParams } from "next/navigation";
 import { useGetReviewByPublicIdQuery } from "@/GlobalRedux/Features/company/companyApi";
+import { GoBackButton } from "@/components/GoBackButton";
 
 export default function EmployeeInfoPage() {
   return (
@@ -51,6 +52,10 @@ function EmployeeInfoContent() {
         <>
           <div className="mb-[30px] relative">
             <h1 className="flex justify-center gap-[15px] text-[#FFF] text-center font-semibold text-[30px]">
+              <div className="absolute top-0 left-0">
+                <GoBackButton />
+              </div>
+
               <span className="opacity-60">All Review about</span>
               {employee && (
                 <>
@@ -66,6 +71,7 @@ function EmployeeInfoContent() {
                   </span>
                 </>
               )}
+
               <div className="absolute top-0 right-0">
                 <Button onClick={handleAddNewReview}>+ Add new Review</Button>
               </div>

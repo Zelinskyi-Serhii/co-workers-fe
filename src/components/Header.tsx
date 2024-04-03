@@ -78,7 +78,7 @@ export const Header = () => {
               )}
 
               {searchedEmployees?.length ? (
-                <div className="flex flex-col gap-[10px]">
+                <div className="flex flex-col gap-[10px] max-h-[200px] overflow-y-auto">
                   {searchedEmployees?.map((employee) => (
                     <div
                       key={employee.id}

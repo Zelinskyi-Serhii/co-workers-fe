@@ -1,31 +1,13 @@
 "use client";
 
-import { toast } from "react-toastify";
-import { useRouter } from "next/navigation";
-import {
-  useDeleteEmployeeMutation,
-  useGetEmployeeByIdQuery,
-} from "@/GlobalRedux/Features/employee/employeeApi";
-import { useEffect } from "react";
+import { useGetEmployeeByIdQuery } from "@/GlobalRedux/Features/employee/employeeApi";
 import { useGetAllReviewsQuery } from "@/GlobalRedux/Features/review/reviewApi";
 import { ReviewCard } from "@/components/ReviewCard";
-import { Button } from "@/components/Button";
-import { ModalType, useModalContext } from "@/context/ModalContext";
 import { Loader } from "@/components/Loader";
 import Image from "next/image";
 
 export default function EmployeeInfo(props: any) {
   const { id } = props.params;
-  const { setModal } = useModalContext();
-  const router = useRouter();
-  const [
-    deleteEmployee,
-    {
-      isLoading: isLoadingDelete,
-      isSuccess: isSuccessDelete,
-      isError: isErrorDelete,
-    },
-  ] = useDeleteEmployeeMutation();
 
   const { data: employee } = useGetEmployeeByIdQuery({
     employeeId: id,
@@ -40,29 +22,6 @@ export default function EmployeeInfo(props: any) {
   });
 
   const fullname = ` ${employee?.firstname} ${employee?.lastname}`;
-
-  const handleDeleteEmployee = () => {
-    deleteEmployee({ employeeId: id });
-  };
-
-  const handleAddNewReview = () => {
-    setModal({
-      employeeReviewAdd: employee,
-      isOpen: true,
-      modalType: ModalType.REVIEW,
-    });
-  };
-
-  useEffect(() => {
-    if (isSuccessDelete) {
-      toast.success("Employee deleted successfully");
-      router.push("/company");
-    }
-
-    if (isErrorDelete) {
-      toast.error("Unable to delete employee");
-    }
-  }, [isErrorDelete, isSuccessDelete, router]);
 
   return (
     <>
@@ -89,9 +48,6 @@ export default function EmployeeInfo(props: any) {
                   </span>
                 </>
               )}
-              <div className="absolute top-0 right-0">
-                <Button onClick={handleAddNewReview}>+ Add new Review</Button>
-              </div>
             </h1>
           </div>
 

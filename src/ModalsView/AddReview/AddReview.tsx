@@ -5,11 +5,13 @@ import { useAddNewReviewMutation } from "@/GlobalRedux/Features/review/reviewApi
 import { Button, ButtonColorByType } from "@/components/Button";
 import { useModalContext } from "@/context/ModalContext";
 import { useClickOutside } from "@/hooks/useClickOutside";
+import { useRouter } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 import { toast } from "react-toastify";
 
 export const AddReview = () => {
   const { modal, setModal } = useModalContext();
+  const router = useRouter();
   const { id, firstname, lastname } = modal.employeeReviewAdd as IEmployee;
   const [review, setReview] = useState("");
   const addReviewRef = useRef(null);
@@ -30,12 +32,13 @@ export const AddReview = () => {
     if (isSuccess) {
       toast.success("Thank you. Your Review added successfully");
       setModal({ isOpen: false, employeeReviewAdd: null });
+      router.back();
     }
 
     if (isError) {
       toast.error("Unable to add review");
     }
-  }, [isError, isSuccess, setModal]);
+  }, [isError, isSuccess, router, setModal]);
 
   return (
     <div

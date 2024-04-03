@@ -42,6 +42,14 @@ export const companyApi = createApi({
         return { url: `/company/${companyId}` };
       },
     }),
+    getCompanyAndEmployees: builder.query<
+      IPublicCompany,
+      { companyId: string }
+    >({
+      query: ({ companyId }) => {
+        return { url: `/company/${companyId}` };
+      },
+    }),
     deleteCompanyById: builder.mutation<unknown, { companyId: string }>({
       query: ({ companyId }) => {
         return { url: `/company/delete/${companyId}`, method: "DELETE" };
@@ -101,4 +109,5 @@ export const {
   useGeneratePublickIdMutation,
   useGetCompanyByPublicIdQuery,
   useGetReviewByPublicIdQuery,
+  useGetCompanyAndEmployeesQuery,
 } = companyApi;

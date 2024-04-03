@@ -13,6 +13,7 @@ export enum ModalType {
   DELETE_COMPANY = "delete company",
   UPDATE_COMPANY = "update company",
   DISMISS_EMPLOYEE = "dismiss employee",
+  DELETE_EMPLOYEE = "delete employee",
 }
 
 interface ModalState {
@@ -20,6 +21,7 @@ interface ModalState {
   isOpen: boolean;
   employeeReviewAdd?: IEmployee | null;
   employeeForDismiss?: IEmployee | null;
+  employeeForDelete?: IEmployee | null;
   companyForDelete?: ICompany | null;
   companyForUpdate?: ICompany | null;
   review?: IReview;

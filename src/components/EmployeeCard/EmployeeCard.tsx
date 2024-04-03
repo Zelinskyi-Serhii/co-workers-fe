@@ -4,7 +4,7 @@ import Image from "next/image";
 import { FC } from "react";
 import "./EmployeeCard.scss";
 import Link from "next/link";
-import { Button } from "../Button";
+import { Button, ButtonColorByType } from "../Button";
 import { ModalType, useModalContext } from "@/context/ModalContext";
 
 type Props = {
@@ -36,6 +36,14 @@ export const EmployeeCard: FC<Props> = ({ employee, isAdmin, linkTo }) => {
     });
   };
 
+  const handleDeleteEmployee = () => {
+    setModal({
+      isOpen: true,
+      modalType: ModalType.DELETE_EMPLOYEE,
+      employeeForDelete: employee,
+    });
+  };
+
   return (
     <div className="card">
       <div className="content">
@@ -47,6 +55,7 @@ export const EmployeeCard: FC<Props> = ({ employee, isAdmin, linkTo }) => {
             </div>
           </div>
         )}
+
         <div className="front">
           <Image
             src={avatarUrl}
@@ -57,6 +66,7 @@ export const EmployeeCard: FC<Props> = ({ employee, isAdmin, linkTo }) => {
           />
           <h2 className="text-[30px]">{`${firstname} ${lastname}`}</h2>
         </div>
+
         <div className="back">
           <h2 className="text-[30px]">{`${firstname} ${lastname}`}</h2>
           <div className="back-content">
@@ -89,6 +99,16 @@ export const EmployeeCard: FC<Props> = ({ employee, isAdmin, linkTo }) => {
           {isAdmin && !dismissed && (
             <div className="[&>button]:w-[100%] [&>button]:h-[36px] [&>button]:p-1 translate-z">
               <Button onClick={handleDismissEmployee}>Dismiss</Button>
+            </div>
+          )}
+          {isAdmin && (
+            <div className="[&>button]:w-[100%] [&>button]:h-[36px] [&>button]:p-1 translate-z">
+              <Button
+                onClick={handleDeleteEmployee}
+                buttonType={ButtonColorByType.DELETE}
+              >
+                Delete
+              </Button>
             </div>
           )}
         </div>

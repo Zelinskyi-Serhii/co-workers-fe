@@ -7,6 +7,7 @@ import { Loader } from "@/components/Loader";
 import { useGetAllCompaniesQuery } from "@/GlobalRedux/Features/company/companyApi";
 import Link from "next/link";
 import { Button } from "@/components/Button";
+import { GoBackButton } from "@/components/GoBackButton";
 
 export default function Company() {
   const { data: companies, isLoading, isSuccess } = useGetAllCompaniesQuery({});
@@ -31,6 +32,10 @@ export default function Company() {
   return (
     <div>
       <div className="flex relative">
+        <div className="absolute top-0 left-0">
+          <GoBackButton />
+        </div>
+
         <h1 className="flex-[1] text-[#FFF] text-center text-[30px] font-bold  mb-[30px] ">
           Your Companies
         </h1>
@@ -53,7 +58,7 @@ export default function Company() {
       )}
 
       {isSuccess && !companies.length && (
-        <h3 className="mt-[60px] text-center mb-4 text-3xl">
+        <h3 className="mt-[60px] text-center mb-4 text-3xl text-[#FFF]">
           You do not have any companies yet
         </h3>
       )}
