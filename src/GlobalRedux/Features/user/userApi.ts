@@ -6,6 +6,7 @@ interface IUser {
   email: string;
   avatarUrl: string;
   accessToken: string;
+  refreshToken: string;
 }
 
 interface ILogin {
@@ -15,14 +16,6 @@ interface ILogin {
 
 interface ISignup extends ILogin {
   nickname: string;
-}
-
-export interface IAuthResponse {
-  success: boolean;
-  data: {
-    accessToken?: string;
-  };
-  message: string;
 }
 
 export const userApi = createApi({
@@ -40,6 +33,7 @@ export const userApi = createApi({
       },
       transformResponse: (response: IUser) => {
         localStorage.setItem("accessToken", response.accessToken);
+        localStorage.setItem("refreshToken", response.refreshToken);
         return response;
       },
     }),
@@ -49,6 +43,7 @@ export const userApi = createApi({
       },
       transformResponse: (response: IUser) => {
         localStorage.setItem("accessToken", response.accessToken);
+        localStorage.setItem("refreshToken", response.refreshToken);
         return response;
       },
     }),

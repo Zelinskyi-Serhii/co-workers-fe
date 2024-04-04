@@ -4,17 +4,7 @@ import { FC, ReactNode, useCallback, useEffect, useState } from "react";
 import { createStrictContext, useStrictContext } from "./strictContext";
 import { useLazyGetUserInfoQuery } from "@/GlobalRedux/Features/user/userApi";
 import { usePathname, useRouter } from "next/navigation";
-
-enum ProtectedRoutes {
-  Company = "/company",
-  CompanySettings = "/company/settings",
-  CompanyCreate = "/company/create",
-  Employee = "/employee",
-  EmployeeCreate = "/employee/create",
-  Settings = "/settings",
-}
-
-const protectedRoutes: string[] = Object.values(ProtectedRoutes);
+import { axiosInstance } from "@/api/axios";
 
 interface IUser {
   nickname: string;
@@ -43,6 +33,7 @@ export const SessionContextProvider: FC<{ children: ReactNode }> = ({
   const logOut = () => {
     setUser(null);
     localStorage.removeItem("accessToken");
+    localStorage.removeItem("refreshToken");
     router.push("/");
   };
 
