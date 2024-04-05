@@ -1,5 +1,5 @@
 import { BaseQueryFn } from "@reduxjs/toolkit/query";
-import axios, { AxiosError, AxiosRequestConfig } from "axios";
+import axios, { AxiosError, AxiosRequestConfig, AxiosResponse } from "axios";
 
 export const axiosInstance = axios.create({
   baseURL: process.env.NEXT_PUBLIC_BASE_URL,
@@ -26,19 +26,17 @@ axiosInstance.interceptors.request.use(
 axiosInstance.interceptors.response.use(
   (response) => response,
   async (error) => {
-    console.log(1);
-
     if (error.response?.status !== 401) {
       return Promise.reject(error);
     }
 
     const originalConfig = error.config;
-    const refreshToken = localStorage.getItem("refreshToken");
-    console.log(2);
 
     if (originalConfig.url.includes("auth/refresh")) {
       return Promise.reject(error);
     }
+    
+    const refreshToken = localStorage.getItem("refreshToken");
 
     if (!refreshToken) {
       // logOut();
@@ -46,17 +44,16 @@ axiosInstance.interceptors.response.use(
     }
 
     try {
-      const data: { refreshToken: string; accessToken: string } =
+      const data: AxiosResponse<{ refreshToken: string; accessToken: string }> =
         await axiosInstance.post("/auth/refresh", { refreshToken });
-      console.log("data12345", data);
 
-      if (!data.accessToken || !data.refreshToken) {
+      if (!data.data.accessToken || !data.data.refreshToken) {
         // logOut();
         return;
       }
 
-      localStorage.setItem("accessToken", data.accessToken);
-      localStorage.setItem("refreshToken", data.refreshToken);
+      localStorage.setItem("accessToken", data.data.accessToken);
+      localStorage.setItem("refreshToken", data.data.refreshToken);
 
       return axiosInstance(originalConfig);
     } catch (err) {
