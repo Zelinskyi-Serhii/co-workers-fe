@@ -62,10 +62,6 @@ export const SessionContextProvider: FC<{ children: ReactNode }> = ({
     if (!pathname.includes("public") && !user && (isSuccess || isError)) {
       router.push("/");
     }
-
-    if (pathname.includes("public") && user) {
-      router.push("/");
-    }
   }, [pathname, router, user, isSuccess, isError]);
 
   return (

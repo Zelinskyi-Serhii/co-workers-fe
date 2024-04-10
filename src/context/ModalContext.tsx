@@ -25,12 +25,14 @@ interface ModalState {
   companyForDelete?: ICompany | null;
   companyForUpdate?: ICompany | null;
   review?: IReview;
+  closeModalCallback?: () => void;
 }
 
 interface IModalContext {
   modal: ModalState;
   setModal: (state: ModalState) => void;
   handleCloseModal: () => void;
+  handleCloseWithRefetch: () => void;
 }
 
 const initialState = {
@@ -42,14 +44,21 @@ const ModalContext = createStrictContext<IModalContext | null>();
 export const ModalContextProvider: FC<{ children: ReactNode }> = ({
   children,
 }) => {
-  const [modal, setModal] = useState(initialState);
+  const [modal, setModal] = useState<ModalState>(initialState);
 
   const handleCloseModal = () => {
     setModal(initialState);
   };
 
+  const handleCloseWithRefetch = () => {
+    modal.closeModalCallback?.();
+    setModal(initialState);
+  };
+
   return (
-    <ModalContext.Provider value={{ modal, setModal, handleCloseModal }}>
+    <ModalContext.Provider
+      value={{ modal, setModal, handleCloseModal, handleCloseWithRefetch }}
+    >
       {children}
     </ModalContext.Provider>
   );

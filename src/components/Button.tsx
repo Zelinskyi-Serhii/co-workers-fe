@@ -20,6 +20,7 @@ type Props = {
   isLoading?: boolean;
   buttonType?: ButtonColorByType;
   className?: string;
+  type?: "button" | "submit" | "reset";
 };
 
 export const Button: FC<Props> = ({
@@ -29,6 +30,7 @@ export const Button: FC<Props> = ({
   isLoading,
   buttonType = ButtonColorByType.ACTIVE,
   className = "",
+  type = "button",
 }) => (
   <button
     className={`
@@ -39,6 +41,7 @@ export const Button: FC<Props> = ({
     `}
     onClick={onClick}
     disabled={isDisabled || isLoading}
+    type={type}
   >
     {isLoading ? <Loader /> : children}
   </button>

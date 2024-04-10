@@ -4,7 +4,6 @@ import { ChangeEvent, useEffect, useState } from "react";
 import Image from "next/image";
 import { toast } from "react-toastify";
 import { useRouter } from "next/navigation";
-import Link from "next/link";
 import { isValidFormData } from "@/helpers/helperFunctions";
 import { Button, ButtonColorByType } from "@/components/Button";
 import { useCreateNewCompanyMutation } from "@/GlobalRedux/Features/company/companyApi";
@@ -75,7 +74,7 @@ export default function CompanyCreate() {
   useEffect(() => {
     if (isSuccess) {
       toast.success("Company created successfully");
-      router.push("/company");
+      router.back();
     }
     if (isError) {
       toast.error("Unable to create company");
@@ -152,8 +151,11 @@ export default function CompanyCreate() {
         </div>
 
         <div className="flex justify-between w-[100%] [&>button]:p-4 [&>button]:w-[49%] [&>button]:text-center [&>button]:text-white [&>button]:font-bold [&>button]:rounded-md">
-          <Button buttonType={ButtonColorByType.DELETE}>
-            <Link href="/company">Cancel</Link>
+          <Button
+            buttonType={ButtonColorByType.DELETE}
+            onClick={() => router.back()}
+          >
+            Cancel
           </Button>
           <Button
             isLoading={isLoading}

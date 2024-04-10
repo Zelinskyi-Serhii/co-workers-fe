@@ -11,9 +11,15 @@ type Props = {
   employee: IEmployee;
   isAdmin?: boolean;
   linkTo?: string;
+  refetch?: () => void;
 };
 
-export const EmployeeCard: FC<Props> = ({ employee, isAdmin, linkTo }) => {
+export const EmployeeCard: FC<Props> = ({
+  employee,
+  isAdmin,
+  linkTo,
+  refetch,
+}) => {
   const { setModal } = useModalContext();
   const {
     firstname,
@@ -33,6 +39,7 @@ export const EmployeeCard: FC<Props> = ({ employee, isAdmin, linkTo }) => {
       isOpen: true,
       modalType: ModalType.DISMISS_EMPLOYEE,
       employeeForDismiss: employee,
+      closeModalCallback: refetch,
     });
   };
 
@@ -41,6 +48,7 @@ export const EmployeeCard: FC<Props> = ({ employee, isAdmin, linkTo }) => {
       isOpen: true,
       modalType: ModalType.DELETE_EMPLOYEE,
       employeeForDelete: employee,
+      closeModalCallback: refetch,
     });
   };
 

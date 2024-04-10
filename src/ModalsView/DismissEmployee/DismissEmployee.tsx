@@ -7,7 +7,7 @@ import { useRef, useState } from "react";
 import { toast } from "react-toastify";
 
 export const DismissEmployee = () => {
-  const { modal, handleCloseModal } = useModalContext();
+  const { modal, handleCloseModal, handleCloseWithRefetch } = useModalContext();
   const { employeeForDismiss } = modal;
   const dismissRef = useRef(null);
   const [dismissDate, setDismissDate] = useState("");
@@ -28,7 +28,7 @@ export const DismissEmployee = () => {
         dismissed: new Date(dismissDate).toISOString(),
       });
       toast.success("Employee dismisses successfully");
-      handleCloseModal();
+      handleCloseWithRefetch();
     } catch (error) {
       toast.error("Unable to dismiss employee. Please try again later.");
     }

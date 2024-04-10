@@ -1,21 +1,23 @@
 "use client";
 
+import { useEffect } from "react";
 import { Loader } from "@/components/Loader";
 import { IEmployee } from "@/GlobalRedux/Features/employee/employeeApi";
 import { EmployeeCard } from "@/components/EmployeeCard/EmployeeCard";
-import { useGetCompanyAndEmployeesQuery } from "@/GlobalRedux/Features/company/companyApi";
+import { useLazyGetCompanyAndEmployeesQuery } from "@/GlobalRedux/Features/company/companyApi";
 import { Button } from "@/components/Button";
 import Link from "next/link";
 
 export default function CompanyDetails(props: { params: { id: string } }) {
   const id = props.params.id;
-  const {
-    data: company,
-    isLoading,
-    isSuccess,
-  } = useGetCompanyAndEmployeesQuery({ companyId: id });
+  const [getEmployees, { data: company, isLoading, isSuccess }] =
+    useLazyGetCompanyAndEmployeesQuery();
 
   const employees: IEmployee[] = company?.employee || [];
+
+  useEffect(() => {
+    getEmployees({ companyId: id });
+  }, [getEmployees, id]);
 
   return (
     <div>
@@ -46,7 +48,12 @@ export default function CompanyDetails(props: { params: { id: string } }) {
         <div className="grid grid-cols-[repeat(auto-fit,_minmax(250px,1fr))] gap-4 mx-auto">
           <>
             {employees?.map((employee) => (
-              <EmployeeCard key={employee.id} employee={employee} isAdmin />
+              <EmployeeCard
+                key={employee.id}
+                employee={employee}
+                isAdmin
+                refetch={() => getEmployees({ companyId: id })}
+              />
             ))}
           </>
         </div>

@@ -5,6 +5,7 @@ import { useGetAllReviewsQuery } from "@/GlobalRedux/Features/review/reviewApi";
 import { ReviewCard } from "@/components/ReviewCard";
 import { Loader } from "@/components/Loader";
 import Image from "next/image";
+import { GoBackButton } from "@/components/GoBackButton";
 
 export default function EmployeeInfo(props: any) {
   const { id } = props.params;
@@ -32,7 +33,8 @@ export default function EmployeeInfo(props: any) {
       ) : (
         <>
           <div className="mb-[30px] relative">
-            <h1 className="flex justify-center gap-[15px] text-[#FFF] text-center font-semibold text-[30px]">
+            <h1 className="flex justify-center gap-[15px] text-[#FFF] text-center font-semibold text-[30px] relative">
+              <GoBackButton className="absolute left-0 top-2" />
               <span className="opacity-60">All Review about</span>
               {employee && (
                 <>
@@ -43,7 +45,6 @@ export default function EmployeeInfo(props: any) {
                       src={employee.avatarUrl}
                       width={50}
                       height={70}
-                      className=""
                     />
                   </span>
                 </>

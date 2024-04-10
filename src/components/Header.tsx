@@ -23,7 +23,7 @@ export const Header = () => {
   const dropdownRef = useRef(null);
   useClickOutside(dropdownRef, () => setIsOpenMenu(false));
 
-  const [searchEmployee, { data: searchedEmployees, isFetching }] =
+  const [searchEmployee, { data: searchedEmployees, isFetching, isSuccess }] =
     useLazyGetEmployeeBySearchQuery();
 
   const handleToggleMenu = () => {
@@ -63,7 +63,9 @@ export const Header = () => {
             value={search}
             onChange={({ target }) => setSearch(target.value)}
             placeholder="Search Employee"
-            className="py-2 pl-2 pr-10 border border-[#B7BDBA] rounded-xl outline-none  w-[400px] "
+            className="py-2 pl-2 pr-10 border border-[#B7BDBA] rounded-xl outline-none  w-[400px]"
+            onBlur={() => setSearch("")}
+            disabled
           />
           <div className="absolute top-[12px] right-[12px] cursor-pointer">
             <Search />
@@ -77,7 +79,7 @@ export const Header = () => {
                 </div>
               )}
 
-              {searchedEmployees?.length ? (
+              {Boolean(searchedEmployees?.length) && (
                 <div className="flex flex-col gap-[10px] max-h-[200px] overflow-y-auto">
                   {searchedEmployees?.map((employee) => (
                     <div
@@ -99,7 +101,7 @@ export const Header = () => {
                         years
                       </span>
                       <button
-                        className="bg-[#1976d2] ml-auto py-[2px] px-4 text-[#FFF] rounded-xl hover-scale"
+                        className="bg-[#1976d2] ml-auto py-[2px] px-4 text-[#FFF] rounded-xl"
                         onClick={() => setIsOpenEmployees(false)}
                       >
                         <Link href={`/employee/${employee.id}`}>reviews</Link>
@@ -107,7 +109,9 @@ export const Header = () => {
                     </div>
                   ))}
                 </div>
-              ) : (
+              )}
+
+              {!isFetching && !searchedEmployees?.length && (
                 <p className="text-[14px]">
                   No employees found matching the search criteria
                 </p>

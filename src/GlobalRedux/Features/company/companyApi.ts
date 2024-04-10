@@ -109,5 +109,5 @@ export const {
   useGeneratePublickIdMutation,
   useGetCompanyByPublicIdQuery,
   useGetReviewByPublicIdQuery,
-  useGetCompanyAndEmployeesQuery,
+  useLazyGetCompanyAndEmployeesQuery,
 } = companyApi;

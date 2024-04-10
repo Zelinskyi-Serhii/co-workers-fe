@@ -10,7 +10,7 @@ import { useEffect, useRef, useState } from "react";
 import { toast } from "react-toastify";
 
 export const AddReview = () => {
-  const { modal, setModal } = useModalContext();
+  const { modal, handleCloseModal, handleCloseWithRefetch } = useModalContext();
   const router = useRouter();
   const { id, firstname, lastname } = modal.employeeReviewAdd as IEmployee;
   const [review, setReview] = useState("");
@@ -24,21 +24,16 @@ export const AddReview = () => {
 
   useClickOutside(addReviewRef, () => handleCloseModal());
 
-  const handleCloseModal = () => {
-    setModal({ isOpen: false, employeeReviewAdd: null });
-  };
-
   useEffect(() => {
     if (isSuccess) {
       toast.success("Thank you. Your Review added successfully");
-      setModal({ isOpen: false, employeeReviewAdd: null });
-      router.back();
+      handleCloseWithRefetch();
     }
 
     if (isError) {
       toast.error("Unable to add review");
     }
-  }, [isError, isSuccess, router, setModal]);
+  }, [handleCloseWithRefetch, isError, isSuccess, router]);
 
   return (
     <div

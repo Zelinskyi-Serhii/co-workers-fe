@@ -22,6 +22,7 @@ export default function CompanySettingsPage() {
   const { setModal } = useModalContext();
   const {
     data: companies,
+    refetch,
     isLoading,
     isSuccess,
   } = useGetAllCompaniesQuery(null);
@@ -45,18 +46,33 @@ export default function CompanySettingsPage() {
       isOpen: true,
       modalType: ModalType.DELETE_COMPANY,
       companyForDelete: company,
+      closeModalCallback: refetch,
+    });
+  };
+
+  const handleUpdateCompany = (company: ICompany) => {
+    setModal({
+      isOpen: true,
+      companyForUpdate: company,
+      modalType: ModalType.UPDATE_COMPANY,
+      closeModalCallback: refetch,
     });
   };
 
   useEffect(() => {
     if (isSuccessGenerate) {
       toast.success("Publick Link generated successfully");
+      refetch();
     }
 
     if (isErrorGenerate) {
       toast.error("Unable to generate publick link");
     }
-  }, [isErrorGenerate, isSuccessGenerate]);
+  }, [isErrorGenerate, isSuccessGenerate, refetch]);
+
+  useEffect(() => {
+    refetch();
+  }, [refetch]);
 
   return (
     <div className="text-white relative">
@@ -145,13 +161,7 @@ export default function CompanySettingsPage() {
                   <td className="px-4 py-2 [&>button]:inline">
                     <Button
                       className="bg-blue-500 hover:bg-blue-600 text-white px-4 py-1 rounded mr-2  w-[90px]"
-                      onClick={() => {
-                        setModal({
-                          isOpen: true,
-                          companyForUpdate: company,
-                          modalType: ModalType.UPDATE_COMPANY,
-                        });
-                      }}
+                      onClick={() => handleUpdateCompany(company)}
                     >
                       Update
                     </Button>

@@ -1,6 +1,6 @@
 "use client";
 
-import { ChangeEvent, useEffect, useRef, useState } from "react";
+import { ChangeEvent, FormEvent, useEffect, useRef, useState } from "react";
 import "./AuthModal.scss";
 import { ModalType, useModalContext } from "@/context/ModalContext";
 import { useClickOutside } from "@/hooks/useClickOutside";
@@ -11,6 +11,7 @@ import {
 } from "@/GlobalRedux/Features/user/userApi";
 import { useSession } from "@/context/SessionContext";
 import { toast } from "react-toastify";
+import { isValidFormData } from "@/helpers/helperFunctions";
 
 const initialValue = {
   nickname: "",
@@ -19,12 +20,13 @@ const initialValue = {
 };
 
 export const AuthModal = () => {
-  const { setModal } = useModalContext();
+  const { setModal, handleCloseModal } = useModalContext();
   const authModalRef = useRef(null);
   const { loadUserData } = useSession();
   const [{ email, nickname, password }, setAuthValue] = useState(initialValue);
   const [isRightPanelActive, setIsRightPanelActive] = useState(false);
-  const [loginUser, { isSuccess, isLoading, isError }] = useLoginMutation();
+  const [loginUser, { isSuccess, isLoading, isError, error }] =
+    useLoginMutation();
   const [
     signupUser,
     {
@@ -33,6 +35,12 @@ export const AuthModal = () => {
       isError: isErrorSignup,
     },
   ] = useSignupMutation();
+
+  const isDisabledSignupButton =
+    isValidFormData(email, nickname) || password.trim().length < 6;
+
+  const isDisabledLoginButton =
+    isValidFormData(email) || password.trim().length < 6;
 
   useClickOutside(authModalRef, () =>
     setModal({ isOpen: false, modalType: ModalType.AUTH })
@@ -43,28 +51,35 @@ export const AuthModal = () => {
     setAuthValue((prev) => ({ ...prev, [name]: value }));
   };
 
-  const handleLogin = () => {
+  const handleLogin = (event: FormEvent) => {
+    event.preventDefault();
+
     loginUser({ email, password });
   };
 
-  const handleSignup = () => {
+  const handleSignup = (event: FormEvent) => {
+    event.preventDefault();
     signupUser({ email, nickname, password });
   };
 
   useEffect(() => {
     if (isSuccess || isSuccessSignup) {
       loadUserData();
-      setModal({ isOpen: false });
+      handleCloseModal();
     }
 
-    if (isError || isErrorSignup) {
-      toast.error("Unable to autorize");
+    if (isErrorSignup) {
+      toast.error("User with this email already exist");
+    }
+
+    if (isError) {
+      toast.error("Wrong email or password");
     }
   }, [
     isSuccess,
     loadUserData,
     isError,
-    setModal,
+    handleCloseModal,
     isSuccessSignup,
     isErrorSignup,
   ]);
@@ -75,7 +90,7 @@ export const AuthModal = () => {
       ref={authModalRef}
     >
       <div className="container__form container--signup">
-        <form action="#" className="form" id="form1">
+        <form className="form" id="form1" onSubmit={handleSignup}>
           <h2 className="form__title">Sign Up</h2>
           <input
             type="text"
@@ -95,20 +110,24 @@ export const AuthModal = () => {
           />
           <input
             type="password"
-            placeholder="Password"
+            placeholder="Password. At least 6 characters"
             className="input"
             name="password"
             value={password}
             onChange={handleInputChange}
           />
-          <Button onClick={handleSignup} isLoading={isLoadingSignUp}>
+          <Button
+            isLoading={isLoadingSignUp}
+            isDisabled={isDisabledSignupButton}
+            type="submit"
+          >
             Sign Up
           </Button>
         </form>
       </div>
 
       <div className="container__form container--signin">
-        <form action="#" className="form" id="form2">
+        <form className="form" id="form2" onSubmit={handleLogin}>
           <h2 className="form__title">Sign In</h2>
           <input
             type="email"
@@ -129,7 +148,11 @@ export const AuthModal = () => {
           <a href="#" className="link">
             Forgot your password?
           </a>
-          <Button isLoading={isLoading} onClick={handleLogin}>
+          <Button
+            isLoading={isLoading}
+            type="submit"
+            isDisabled={isDisabledLoginButton}
+          >
             Sign In
           </Button>
         </form>

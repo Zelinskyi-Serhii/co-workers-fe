@@ -5,7 +5,7 @@ import { Button } from "@/components/Button";
 import { ModalType, useModalContext } from "@/context/ModalContext";
 import { Loader } from "@/components/Loader";
 import Image from "next/image";
-import { Suspense } from "react";
+import { Suspense, useEffect } from "react";
 import { useSearchParams } from "next/navigation";
 import { useGetReviewByPublicIdQuery } from "@/GlobalRedux/Features/company/companyApi";
 import { GoBackButton } from "@/components/GoBackButton";
@@ -24,7 +24,7 @@ function EmployeeInfoContent() {
   const employeeId = searchParams.get("employeeId") || "";
   const { setModal } = useModalContext();
 
-  const { data, isLoading, isSuccess } = useGetReviewByPublicIdQuery({
+  const { data, isLoading, isSuccess, refetch } = useGetReviewByPublicIdQuery({
     companyId,
     employeeId,
   });
@@ -39,6 +39,7 @@ function EmployeeInfoContent() {
       employeeReviewAdd: employee,
       isOpen: true,
       modalType: ModalType.REVIEW,
+      closeModalCallback: refetch,
     });
   };
 

@@ -7,7 +7,7 @@ import { useRef } from "react";
 import { toast } from "react-toastify";
 
 export const DeleteEmployee = () => {
-  const { modal, handleCloseModal } = useModalContext();
+  const { modal, handleCloseModal, handleCloseWithRefetch } = useModalContext();
   const deleteRef = useRef(null);
   const { employeeForDelete } = modal;
 
@@ -22,7 +22,7 @@ export const DeleteEmployee = () => {
       await deleteEmployee({ employeeId: employeeForDelete.id });
       toast.success("Employee deleted successfully");
 
-      handleCloseModal();
+      handleCloseWithRefetch();
     } catch (error) {
       toast.error("Unable to delete employee");
     }

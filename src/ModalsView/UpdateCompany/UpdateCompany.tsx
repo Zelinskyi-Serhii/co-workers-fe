@@ -12,7 +12,7 @@ import { ChangeEvent, useEffect, useRef, useState } from "react";
 import { toast } from "react-toastify";
 
 export const UpdateCompany = () => {
-  const { modal, handleCloseModal } = useModalContext();
+  const { modal, handleCloseModal, handleCloseWithRefetch } = useModalContext();
   const { companyForUpdate } = modal;
   const companyRef = useRef(null);
   const [imageFile, setImageFile] = useState<File | null>(null);
@@ -88,13 +88,13 @@ export const UpdateCompany = () => {
   useEffect(() => {
     if (isSuccess) {
       toast.success("Company updated successfully");
-      handleCloseModal();
+      handleCloseWithRefetch();
     }
 
     if (isError) {
       toast.error("Unable to update company");
     }
-  }, [handleCloseModal, isError, isSuccess]);
+  }, [handleCloseWithRefetch, isError, isSuccess]);
 
   return (
     <div

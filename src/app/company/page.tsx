@@ -4,13 +4,14 @@ import { useEffect } from "react";
 import VanillaTilt from "vanilla-tilt";
 import { CompanyCard } from "@/components/CompanyCard/CompanyCard";
 import { Loader } from "@/components/Loader";
-import { useGetAllCompaniesQuery } from "@/GlobalRedux/Features/company/companyApi";
+import { useLazyGetAllCompaniesQuery } from "@/GlobalRedux/Features/company/companyApi";
 import Link from "next/link";
 import { Button } from "@/components/Button";
 import { GoBackButton } from "@/components/GoBackButton";
 
 export default function Company() {
-  const { data: companies, isLoading, isSuccess } = useGetAllCompaniesQuery({});
+  const [getCompanies, { data: companies, isLoading, isSuccess }] =
+    useLazyGetAllCompaniesQuery();
 
   useEffect(() => {
     if (isSuccess) {
@@ -28,6 +29,10 @@ export default function Company() {
       });
     }
   }, [isSuccess]);
+
+  useEffect(() => {
+    getCompanies(null);
+  }, [getCompanies]);
 
   return (
     <div>
