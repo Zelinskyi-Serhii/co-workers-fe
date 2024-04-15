@@ -2,7 +2,7 @@
 
 import {
   ICompany,
-  useGeneratePublickIdMutation,
+  useGeneratePublicIdMutation,
   useGetAllCompaniesQuery,
 } from "@/GlobalRedux/Features/company/companyApi";
 import { Button } from "@/components/Button";
@@ -13,13 +13,14 @@ import { convertDateToString } from "@/helpers/helperFunctions";
 import { CopyIcon } from "@/svgComponents/CopyIcon";
 import Image from "next/image";
 import Link from "next/link";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 
 const DOMAIN = process.env.NEXT_PUBLIC_FRONTEND_DOMAIN;
 
 export default function CompanySettingsPage() {
   const { setModal } = useModalContext();
+  const [isLoadingId, setIsLoadingId] = useState<number | null>(null);
   const {
     data: companies,
     refetch,
@@ -27,18 +28,17 @@ export default function CompanySettingsPage() {
     isSuccess,
   } = useGetAllCompaniesQuery(null);
   const [
-    generatePublickId,
+    generatePublicId,
     {
       isSuccess: isSuccessGenerate,
       isError: isErrorGenerate,
-      isLoading: isLoadingDenerate,
     },
-  ] = useGeneratePublickIdMutation();
+  ] = useGeneratePublicIdMutation();
 
   const handleCopyLink = (publicLink: string) => {
     navigator.clipboard.writeText(publicLink);
 
-    toast.success("Publick Url copies successfully");
+    toast.success("Public Url copies successfully");
   };
 
   const handleDeleteCompany = (company: ICompany) => {
@@ -61,12 +61,14 @@ export default function CompanySettingsPage() {
 
   useEffect(() => {
     if (isSuccessGenerate) {
-      toast.success("Publick Link generated successfully");
+      toast.success("Public Link generated successfully");
+      setIsLoadingId(null);
       refetch();
     }
 
     if (isErrorGenerate) {
-      toast.error("Unable to generate publick link");
+      toast.error("Unable to generate public link");
+      setIsLoadingId(null);
     }
   }, [isErrorGenerate, isSuccessGenerate, refetch]);
 
@@ -150,8 +152,11 @@ export default function CompanySettingsPage() {
                     <td>
                       <Button
                         className="bg-blue-500 hover:bg-blue-600 text-white px-4 py-1 rounded mr-2"
-                        onClick={() => generatePublickId(Number(company.id))}
-                        isLoading={isLoadingDenerate}
+                          onClick={() => {
+                            setIsLoadingId(Number(company.id));
+                            generatePublicId(Number(company.id))
+                          }}
+                        isLoading={isLoadingId === Number(company.id)}
                       >
                         Generate public link
                       </Button>

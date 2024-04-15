@@ -106,7 +106,7 @@ export const EmployeeCard: FC<Props> = ({
 
           {isAdmin && !dismissed && (
             <div className="[&>button]:w-[100%] [&>button]:h-[36px] [&>button]:p-1 translate-z">
-              <Button onClick={handleDismissEmployee}>Dismiss</Button>
+              <Button onClick={handleDismissEmployee} buttonType={ButtonColorByType.DISMISS}>Dismiss</Button>
             </div>
           )}
           {isAdmin && (

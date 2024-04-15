@@ -28,7 +28,7 @@ export default function Company() {
         });
       });
     }
-  }, [isSuccess]);
+  }, [isSuccess, companies?.length]);
 
   useEffect(() => {
     getCompanies(null);

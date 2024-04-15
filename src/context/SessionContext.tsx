@@ -60,9 +60,9 @@ export const SessionContextProvider: FC<{ children: ReactNode }> = ({
 
   useEffect(() => {
     if (!pathname.includes("public") && !user && (isSuccess || isError)) {
-      router.push("/");
+      logOut()
     }
-  }, [pathname, router, user, isSuccess, isError]);
+  }, [pathname, user, isSuccess, isError, logOut]);
 
   return (
     <SessionContext.Provider value={{ user, loadUserData, logOut, isLoading }}>

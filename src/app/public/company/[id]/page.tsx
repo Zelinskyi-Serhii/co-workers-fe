@@ -6,7 +6,7 @@ import { Loader } from "@/components/Loader";
 import { useEffect } from "react";
 import { toast } from "react-toastify";
 
-export default function PublickEmployee(props: { params: { id: string } }) {
+export default function PublicEmployee(props: { params: { id: string } }) {
   const companyPublicId = props.params.id;
   const {
     data: company,

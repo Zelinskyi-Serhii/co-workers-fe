@@ -7,6 +7,7 @@ import { EmployeeCard } from "@/components/EmployeeCard/EmployeeCard";
 import { useLazyGetCompanyAndEmployeesQuery } from "@/GlobalRedux/Features/company/companyApi";
 import { Button } from "@/components/Button";
 import Link from "next/link";
+import { GoBackButton } from "@/components/GoBackButton";
 
 export default function CompanyDetails(props: { params: { id: string } }) {
   const id = props.params.id;
@@ -22,6 +23,8 @@ export default function CompanyDetails(props: { params: { id: string } }) {
   return (
     <div>
       <div className="relative flex w-[100%]">
+        <GoBackButton className="absolute h-fit top-[10px]"/>
+
         {company && (
           <h1 className="flex-[1] text-[#fff] font-semibild text-[30px] text-center mb-[20px]">
             Employees in a{" "}
@@ -31,6 +34,7 @@ export default function CompanyDetails(props: { params: { id: string } }) {
             company
           </h1>
         )}
+
         <div className="absolute right-0">
           <Button>
             <Link href={`/employee/create/?companyId=${id}`}>

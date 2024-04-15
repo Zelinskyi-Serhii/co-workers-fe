@@ -5,12 +5,14 @@ export enum ButtonColorByType {
   ACTIVE = "active",
   DISABLED = "disabled",
   DELETE = "delete",
+  DISMISS = "Dismiss",
 }
 
 const buttonColorMap: Record<ButtonColorByType, string> = {
   [ButtonColorByType.ACTIVE]: "bg-[#1976d2]",
   [ButtonColorByType.DISABLED]: "bg-[#999999]",
   [ButtonColorByType.DELETE]: "bg-[#da160b]",
+  [ButtonColorByType.DISMISS]: "bg-[#c7950a]",
 };
 
 type Props = {

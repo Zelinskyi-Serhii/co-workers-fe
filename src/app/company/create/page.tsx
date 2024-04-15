@@ -127,10 +127,10 @@ export default function CompanyCreate() {
           </label>
 
           <Image
-            className="rounded-[50%] mx-auto w-[150px] h-[150px]"
+            className="mx-auto max-w-[150px] max-h-[150px] object-contain"
             alt="Example"
-            width={150}
-            height={150}
+            width={100}
+            height={100}
             src={avatarUrl || "https://placehold.co/200x200"}
           />
 

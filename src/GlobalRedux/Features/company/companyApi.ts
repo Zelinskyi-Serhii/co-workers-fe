@@ -78,14 +78,14 @@ export const companyApi = createApi({
         };
       },
     }),
-    generatePublickId: builder.mutation<unknown, number>({
+    generatePublicId: builder.mutation<unknown, number>({
       query: (companyId) => {
         return { url: `/company/generateId/${companyId}` };
       },
     }),
     getCompanyByPublicId: builder.query<IPublicCompany, string>({
-      query: (publickId) => {
-        return { url: `/company/getByPublicId/${publickId}` };
+      query: (publicId) => {
+        return { url: `/company/getByPublicId/${publicId}` };
       },
     }),
     getReviewByPublicId: builder.query<
@@ -106,7 +106,7 @@ export const {
   useCreateNewCompanyMutation,
   useDeleteCompanyByIdMutation,
   useUpdateCompanyMutation,
-  useGeneratePublickIdMutation,
+  useGeneratePublicIdMutation,
   useGetCompanyByPublicIdQuery,
   useGetReviewByPublicIdQuery,
   useLazyGetCompanyAndEmployeesQuery,

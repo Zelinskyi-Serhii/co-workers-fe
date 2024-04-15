@@ -1,10 +1,4 @@
 .company-card {
-  position: relative;
-  height: 370px;
-  background: #232323;
-  border-radius: 20px;
-  transform-style: preserve-3d;
-
   &::before,
   &::after {
     position: absolute;
@@ -36,13 +30,6 @@
   }
 
   &__name {
-    position: absolute;
-    top: 0;
-    left: 0;
-    text-align: center;
-    color: #f8f8f8;
-    width: 100%;
-    transform-style: preserve-3d;
     transform: translate3d(0, 0, 75px);
     transition: 0.5s;
     opacity: 0;
@@ -110,7 +97,7 @@
     height: 0;
     top: 50%;
     left: 50%;
-    border-radius: 50%;
+    object-fit: contain;
     max-width: 300px;
     z-index: 11;
     transition: 0.5s;
@@ -123,17 +110,4 @@
     height: 50%;
     transform: translate3d(-50%, -50%, 100px);
   }
-}
-
-.company-card:nth-child(1) .circle,
-.company-card:nth-child(1) .buy {
-  background: #9bdc28;
-}
-.company-card:nth-child(2) .circle,
-.company-card:nth-child(2) .buy {
-  background: #1da3c3;
-}
-.company-card:nth-child(3) .circle,
-.company-card:nth-child(3) .buy {
-  background: #eb0e2f;
 }

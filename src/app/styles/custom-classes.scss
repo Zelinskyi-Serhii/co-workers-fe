@@ -54,3 +54,7 @@
 .translate-z {
   transform: translateZ(75px);
 }
+
+.transform-preserve {
+  transform-style: preserve-3d;
+}

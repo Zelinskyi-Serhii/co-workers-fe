@@ -39,7 +39,7 @@ export default function EmployeeInfo(props: any) {
               {employee && (
                 <>
                   {fullname}
-                  <span className="bg-[#FFF] rounded-xl">
+                  <span className="bg-[#FFF]">
                     <Image
                       alt={employee.firstname}
                       src={employee.avatarUrl}
