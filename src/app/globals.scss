@@ -8,6 +8,7 @@
 
 * {
   box-sizing: border-box;
+  scroll-behavior: smooth;
 }
 
 body {
@@ -15,7 +16,6 @@ body {
   position: relative;
   min-height: 100vh;
   background-color: var(--body-background-color);
-  scroll-behavior: smooth;
 }
 
 /* Style for the scroll bar */

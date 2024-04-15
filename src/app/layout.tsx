@@ -8,6 +8,7 @@ import { ModalContextProvider } from "@/context/ModalContext";
 import { ModalLayout } from "@/components/ModalLayout";
 import { Container } from "@/components/Container";
 import { SessionContextProvider } from "@/context/SessionContext";
+import { ScrollToTop } from "@/components/ScrollToTop";
 
 export const metadata: Metadata = {
   title: "CO-WORKERS",
@@ -20,7 +21,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" suppressHydrationWarning={true}>
-      <body suppressHydrationWarning={true}>
+      <body suppressHydrationWarning={true} className="relative">
         <Providers>
           <SessionContextProvider>
             <ModalContextProvider>
@@ -31,6 +32,7 @@ export default function RootLayout({
             </ModalContextProvider>
           </SessionContextProvider>
         </Providers>
+        <ScrollToTop />
       </body>
     </html>
   );
