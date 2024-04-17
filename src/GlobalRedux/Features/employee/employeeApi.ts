@@ -2,7 +2,7 @@ import { axiosBaseQuery } from "@/api/axios";
 import { createApi } from "@reduxjs/toolkit/query/react";
 
 export interface IEmployee {
-  id: number;
+  id: string;
   companyId: number;
   firstname: string;
   lastname: string;
@@ -22,7 +22,7 @@ export const employeeApi = createApi({
         return { url: `/employee/getAll/${companyId}` };
       },
     }),
-    getEmployeeById: builder.query<IEmployee, { employeeId: number }>({
+    getEmployeeById: builder.query<IEmployee, { employeeId: string }>({
       query: ({ employeeId }) => {
         return { url: `/employee/getOne/${employeeId}` };
       },
@@ -44,7 +44,7 @@ export const employeeApi = createApi({
     }),
     deleteEmployee: builder.mutation<
       { message: string },
-      { employeeId: number }
+      { employeeId: string }
     >({
       query: ({ employeeId }) => {
         return { url: `/employee/delete/${employeeId}`, method: "DELETE" };
@@ -52,7 +52,7 @@ export const employeeApi = createApi({
     }),
     dismissEmployee: builder.mutation<
       { message: string },
-      { employeeId: number; dismissed: string }
+      { employeeId: string; dismissed: string }
     >({
       query: ({ employeeId, dismissed }) => {
         return {

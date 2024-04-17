@@ -3,7 +3,7 @@ import { createApi } from "@reduxjs/toolkit/query/react";
 
 export interface IReview {
   id: number;
-  employeeId: number;
+  employeeId: string;
   review: string;
   createdAt: Date;
 }

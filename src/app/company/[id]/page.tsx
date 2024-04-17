@@ -79,7 +79,7 @@ export default function CompanyDetails(props: { params: { id: string } }) {
             Filter by Fullname
             <input
               type="text"
-              placeholder="fullname"
+              placeholder="search"
               value={filterByFullname}
               onChange={({ target }) => setFilterByFullname(target.value)}
               className="text-[#000] outline-none px-2 py-1 rounded-sm"
@@ -89,6 +89,7 @@ export default function CompanyDetails(props: { params: { id: string } }) {
           <label className="flex gap-1">
             <input
               type="checkbox"
+              className="h-5 w-5 flex"
               checked={isHiddenDismissed}
               onChange={({ target }) => setIsHiddenDismissed(target.checked)}
             />
@@ -96,10 +97,10 @@ export default function CompanyDetails(props: { params: { id: string } }) {
           </label>
 
           <button
-            className="border border-[#FFF] text-[#FFF] px-5 py-1 rounded-lg hover:bg-[#FFF] hover:text-[#000] transition-all"
+            className="border border-[#FFF] text-[#FFF] px-5 py-1 rounded-lg hover:bg-[#FFF] hover:text-[#000] transition-all ml-auto"
             onClick={handleClearFilterParams}
           >
-            Clear
+            Clear Filters
           </button>
         </div>
       )}

@@ -110,7 +110,7 @@ export default function CompanySettingsPage() {
               </tr>
             </thead>
             <tbody>
-              {companies.map((company, index) => (
+              {companies?.map((company, index) => (
                 <tr
                   key={company.id}
                   className={`bg-gray-800 ${
