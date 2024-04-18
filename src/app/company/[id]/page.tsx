@@ -122,7 +122,7 @@ export default function CompanyDetails(props: { params: { id: string } }) {
 
       {isSuccess &&
         !filteredEmployees.length &&
-        Boolean(company.employee.length) && (
+        Boolean(company?.employee?.length) && (
           <h4 className="text-center text-[#FFF] font-semibold text-[24px]">
             You have not employees by search params
           </h4>
