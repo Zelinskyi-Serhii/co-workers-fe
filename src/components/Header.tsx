@@ -4,7 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { ArrowDown } from "@/svgComponents/ArrowDown";
-import { Search } from "@/svgComponents/Search";
+import { SearchIcon } from "@/svgComponents/SearchIcon";
 import { ModalType, useModalContext } from "@/context/ModalContext";
 import { useClickOutside } from "@/hooks/useClickOutside";
 import { useSession } from "@/context/SessionContext";
@@ -65,10 +65,10 @@ export const Header = () => {
             placeholder="Search Employee"
             className="py-2 pl-2 pr-10 border border-[#B7BDBA] rounded-xl outline-none  w-[400px]"
             onBlur={() => setSearch("")}
-            disabled
+            // disabled
           />
           <div className="absolute top-[12px] right-[12px] cursor-pointer">
-            <Search />
+            <SearchIcon />
           </div>
 
           {debouncedSearch.length > 2 && isOpenEmployees && (
@@ -104,7 +104,7 @@ export const Header = () => {
                         className="bg-[#1976d2] ml-auto py-[2px] px-4 text-[#FFF] rounded-xl"
                         onClick={() => setIsOpenEmployees(false)}
                       >
-                        <Link href={`/employee/${employee.id}`}>reviews</Link>
+                        <Link href={`/public/employee/${employee.id}`}>reviews</Link>
                       </button>
                     </div>
                   ))}

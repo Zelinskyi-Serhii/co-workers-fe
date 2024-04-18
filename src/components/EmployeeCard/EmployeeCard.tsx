@@ -32,7 +32,7 @@ export const EmployeeCard: FC<Props> = ({
     id,
   } = employee;
 
-  const linkToReview = linkTo ?? `/employee/${id}`;
+  const linkToReview = linkTo ?? `/public/employee/${id}`;
 
   const handleDismissEmployee = () => {
     setModal({

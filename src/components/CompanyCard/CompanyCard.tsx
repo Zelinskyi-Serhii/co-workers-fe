@@ -22,7 +22,7 @@ export const CompanyCard: FC<Props> = ({ company }) => {
     >
       <h2 className="company-card__name transform-preserve absolute top-0 left-0 text-center text-[#f8f8f8] w-full">{name}</h2>
 
-      <Link href={`/company/${id}`} className="company-card__buy">
+      <Link href={`/company/${id}`} className="company-card__button">
         Employees
       </Link>
 
