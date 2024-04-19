@@ -26,10 +26,12 @@ export default function PublicEmployee(props: { params: { id: string } }) {
   return (
     <div>
       <h1 className="flex-[1] text-[#fff] font-semibild text-[30px] text-center mb-[20px]">
-        Employees in a{" "}
-        <span className="font-bold text-3xl border-b-2">{company?.name}</span>{" "}
-        company
-      </h1>
+            Employees in a{" "}
+            <span className="inline-block mx-1 font-bold text-3xl border-b-2 truncate max-w-[300px]">
+              {company?.name}
+            </span>{" "}
+            company
+          </h1>
 
       {isLoading ? (
         <div className="flex justify-center">

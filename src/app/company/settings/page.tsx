@@ -130,8 +130,8 @@ export default function CompanySettingsPage() {
                       />
                     </div>
                   </td>
-                  <td className="px-4 py-2">{company.name}</td>
-                  <td className="px-4 py-2">{company.ownerName}</td>
+                  <td className="px-4 py-2  truncate max-w-[200px]">{company.name}</td>
+                  <td className="px-4 py-2  truncate max-w-[200px]">{company.ownerName}</td>
                   <td className="px-4 py-2">
                     {convertDateToString(company.ownedAt)}
                   </td>

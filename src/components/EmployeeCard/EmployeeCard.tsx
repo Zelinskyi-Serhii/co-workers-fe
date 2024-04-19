@@ -72,14 +72,15 @@ export const EmployeeCard: FC<Props> = ({
             height={300}
             className="img"
           />
-          <h2 className="text-[30px]">{`${firstname} ${lastname}`}</h2>
+            <p className="truncate max-w-[300px] text-[30px]">{firstname} </p>
+            <p className="truncate max-w-[300px] text-[30px]">{lastname}</p>
         </div>
 
         <div className="back">
-          <h2 className="text-[30px]">{`${firstname} ${lastname}`}</h2>
+          <h2 className="text-[30px] truncate max-w-[300px]">{`${firstname} ${lastname}`}</h2>
           <div className="back-content">
             <p>
-              <span>Position:</span> <span>{position}</span>
+              <span>Position:</span> <span className=" truncate max-w-[160px]">{position}</span>
             </p>
 
             <p>

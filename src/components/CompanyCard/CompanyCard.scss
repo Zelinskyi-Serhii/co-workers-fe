@@ -10,9 +10,12 @@
 
   &::before {
     content: attr(data-before);
+    text-overflow: ellipsis;
+    max-width: 300px;
     top: 0;
     left: 50%;
     font-size: 50px;
+    overflow: hidden;
 
     transform: translate(-50%);
   }
@@ -37,6 +40,7 @@
   }
 
   &:hover .company-card__name {
+    display: none;
     top: 40px;
     opacity: 1;
   }

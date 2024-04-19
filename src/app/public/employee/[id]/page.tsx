@@ -37,8 +37,8 @@ export default function EmployeeInfo(props: any) {
               <GoBackButton className="absolute left-0 top-2" />
               <span className="opacity-60">All Review about</span>
               {employee && (
-                <>
-                  {fullname}
+                  <>
+                  <span className=" truncate max-w-[300px]">{fullname}</span>
                   <span className="bg-[#FFF]">
                     <Image
                       alt={employee.firstname}

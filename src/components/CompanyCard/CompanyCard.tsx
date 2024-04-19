@@ -20,13 +20,17 @@ export const CompanyCard: FC<Props> = ({ company }) => {
       data-before={ownerName}
       data-after={convertDateToMonthAndYear(ownedAt)}
     >
-      <h2 className="company-card__name transform-preserve absolute top-0 left-0 text-center text-[#f8f8f8] w-full">{name}</h2>
+      <h2 className="company-card__name transform-preserve absolute top-0 left-0 text-center text-[#f8f8f8] w-full truncate max-w-[200px]">
+        {name}
+      </h2>
 
       <Link href={`/company/${id}`} className="company-card__button">
         Employees
       </Link>
 
-      <div className="company-card__circle">{name}</div>
+      <div className="company-card__circle">
+        <span className="truncate max-w-[180px]">{name}</span>
+      </div>
 
       <Image
         width={150}

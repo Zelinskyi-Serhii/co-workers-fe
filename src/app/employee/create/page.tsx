@@ -118,8 +118,9 @@ const CreateEmployee = () => {
 
   return (
     <div className="w-[500px] mx-auto bg-[#232323] border rounded-xl overflow-hidden">
-      <h2 className="bg-[#1976d2] p-[10px] text-[#FFF] text-center text-lg font-semibold">
-        New Employee for {company?.name}
+      <h2 className="flex justify-center gap-2 bg-[#1976d2] p-[10px] text-[#FFF] text-center text-lg font-semibold">
+        New Employee for
+        <span className="block truncate max-w-[200px]">{company?.name}</span>
       </h2>
 
       <div className="flex flex-col gap-[10px] justify-between p-[20px]">

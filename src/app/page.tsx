@@ -24,8 +24,8 @@ export default function Home() {
         toggleActions: 'play none none none',
       },
     });
-    section2Tl.to('.section-2-title', { opacity: 1, duration: 1, left: 0 })
-      .to('.section-2-cards', { opacity: 1, duration: 1, bottom: 0, stagger: 0.3 });
+    section2Tl.to('.section-2-title', { opacity: 1, duration: 0.5, left: 0 })
+      .to('.section-2-cards', { opacity: 1, duration: 0.6, bottom: 0, stagger: 0.2 });
 
     // Section 3 Animation
     const section3Tl = gsap.timeline({
@@ -36,17 +36,17 @@ export default function Home() {
       },
     });
     section3Tl.to('.section-3-title', { opacity: 1, duration: 1, left: 0 })
-    .to('.section-3-cards', { opacity: 1, duration: 1, bottom: 0, stagger: 0.3 });
+    .to('.section-3-cards', { opacity: 1, duration: 0.6, bottom: 0, stagger: 0.2 });
 
     // Section 4 Animation
     const section4Tl = gsap.timeline({
       scrollTrigger: {
         trigger: '.section-4',
-        start: 'top center+=200',
+        start: 'top center+=400',
         toggleActions: 'play none none none',
       },
     });
-    section4Tl.to('.section-4-title', { opacity: 1, duration: 1, left: 0 })
+    section4Tl.to('.section-4-title', { opacity: 1, duration: 0.5, left: 0 })
     .to('.section-4-card', { opacity: 1, duration: 1, bottom: 0 })
 
     // Clean up

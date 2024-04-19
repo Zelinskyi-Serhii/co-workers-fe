@@ -65,7 +65,6 @@ export const Header = () => {
             placeholder="Search Employee"
             className="py-2 pl-2 pr-10 border border-[#B7BDBA] rounded-xl outline-none  w-[400px]"
             onBlur={() => setSearch("")}
-            // disabled
           />
           <div className="absolute top-[12px] right-[12px] cursor-pointer">
             <SearchIcon />
@@ -82,9 +81,10 @@ export const Header = () => {
               {Boolean(searchedEmployees?.length) && (
                 <div className="flex flex-col gap-[10px] max-h-[200px] overflow-y-auto">
                   {searchedEmployees?.map((employee) => (
-                    <div
+                    <Link
                       key={employee.id}
                       className="flex items-center gap-[10px] [&:not(:last-child)]:border-b-[1px] border-[#999999] [&:not(:last-child)]:pb-2"
+                      href={`/public/employee/${employee.id}`}
                     >
                       <Image
                         className="h-[30px] w-[30px]"
@@ -106,7 +106,7 @@ export const Header = () => {
                       >
                         <Link href={`/public/employee/${employee.id}`}>reviews</Link>
                       </button>
-                    </div>
+                    </Link>
                   ))}
                 </div>
               )}
@@ -120,7 +120,7 @@ export const Header = () => {
           )}
         </div>
 
-        <div className="flex items-center  max-sm:ml-auto">
+        <div className="flex items-center justify-end max-sm:ml-auto w-[300px]">
           {isLoading ? (
             <Loader />
           ) : (
@@ -140,7 +140,7 @@ export const Header = () => {
                     onClick={handleToggleMenu}
                     ref={dropdownRef}
                   >
-                    <span className="text-[#FFFFFF]">{user.nickname}</span>
+                    <span className="text-[#FFFFFF] truncate max-w-[150px]" title={user.nickname}>{user.nickname}</span>
                     <ArrowDown />
                     {isOpenMenu && (
                       <ul className="flex flex-col w-[190px] absolute z-20 bg-[#EDEDED] top-10 p-4 right-0 rounded-xl [&>a:hover]:text-[#ec4646] [&>a]:p-2 [&>a]:transition-all">
