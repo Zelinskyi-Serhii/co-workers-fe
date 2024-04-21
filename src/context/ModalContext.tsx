@@ -38,7 +38,6 @@ interface IModalContext {
 
 const initialState = {
   isOpen: false,
-  // modalType: ModalType.RESET_PASSWORD,
 };
 
 const ModalContext = createStrictContext<IModalContext | null>();

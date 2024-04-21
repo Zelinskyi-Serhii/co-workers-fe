@@ -9,6 +9,7 @@ import { ModalLayout } from "@/components/ModalLayout";
 import { Container } from "@/components/Container";
 import { SessionContextProvider } from "@/context/SessionContext";
 import { ScrollToTop } from "@/components/ScrollToTop";
+import { Footer } from "@/components/Footer";
 
 export const metadata: Metadata = {
   title: "CO-WORKERS",
@@ -28,6 +29,7 @@ export default function RootLayout({
               <ModalLayout />
               <Header />
               <Container>{children}</Container>
+              <Footer />
               <ToastContainer />
             </ModalContextProvider>
           </SessionContextProvider>
