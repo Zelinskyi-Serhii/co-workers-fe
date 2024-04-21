@@ -14,6 +14,7 @@ export enum ModalType {
   UPDATE_COMPANY = "update company",
   DISMISS_EMPLOYEE = "dismiss employee",
   DELETE_EMPLOYEE = "delete employee",
+  RESET_PASSWORD = "reset password",
 }
 
 interface ModalState {
@@ -37,6 +38,7 @@ interface IModalContext {
 
 const initialState = {
   isOpen: false,
+  // modalType: ModalType.RESET_PASSWORD,
 };
 
 const ModalContext = createStrictContext<IModalContext | null>();

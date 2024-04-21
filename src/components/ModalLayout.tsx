@@ -6,6 +6,7 @@ import { DeleteCompany } from "@/ModalsView/DeleteCompany/DeleteCompany";
 import { DeleteEmployee } from "@/ModalsView/DeleteEmployee/DeleteEmployee";
 import { DismissEmployee } from "@/ModalsView/DismissEmployee/DismissEmployee";
 import { ReadReview } from "@/ModalsView/ReadReview/ReadReview";
+import { ResetPasswordModal } from "@/ModalsView/ResetPasswordModal/ResetPasswordModal";
 import { UpdateCompany } from "@/ModalsView/UpdateCompany/UpdateCompany";
 import { ModalType, useModalContext } from "@/context/ModalContext";
 import { useEffect } from "react";
@@ -20,6 +21,7 @@ export const ModalLayout = () => {
   const isOpenReadReview = modalType === ModalType.READ_REVIEW;
   const isOpenUpdateCompany = modalType === ModalType.UPDATE_COMPANY;
   const isOpenDeleteEmployee = modalType === ModalType.DELETE_EMPLOYEE;
+  const isOpenResetPassword = modalType === ModalType.RESET_PASSWORD;
 
   useEffect(() => {
     if (isOpen) {
@@ -44,6 +46,7 @@ export const ModalLayout = () => {
           {isOpenReadReview && <ReadReview />}
           {isOpenUpdateCompany && <UpdateCompany />}
           {isOpenDeleteEmployee && <DeleteEmployee />}
+          {isOpenResetPassword && <ResetPasswordModal />}
         </div>
       ) : null}
     </>

@@ -47,6 +47,35 @@ export const userApi = createApi({
         return response;
       },
     }),
+    sendResetPasswordCode: builder.mutation({
+      query: (email: string) => {
+        return {
+          url: "/auth/sendResetPasswordCode",
+          method: "POST",
+          data: { email },
+        };
+      },
+    }),
+    verifyResetPasswordCode: builder.mutation<
+      { data: { message: string } },
+      { email: string; code: number }
+    >({
+      query: ({ email, code }) => {
+        return {
+          url: "/auth/verifyResetCode",
+          method: "POST",
+          data: { email, code },
+        };
+      },
+    }),
+    resetPassword: builder.mutation<
+      { data: { message: string } },
+      { email: string; code: number; password: string }
+    >({
+      query: (data) => {
+        return { url: "/auth/resetPassword", method: "POST", data };
+      },
+    }),
   }),
 });
 
@@ -55,4 +84,7 @@ export const {
   useGetUserInfoQuery,
   useLoginMutation,
   useSignupMutation,
+  useSendResetPasswordCodeMutation,
+  useVerifyResetPasswordCodeMutation,
+  useResetPasswordMutation,
 } = userApi;

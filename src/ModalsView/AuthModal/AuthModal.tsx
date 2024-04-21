@@ -62,6 +62,10 @@ export const AuthModal = () => {
     signupUser({ email, nickname, password });
   };
 
+  const handlForgotPassword = () => {
+    setModal({ isOpen: true, modalType: ModalType.RESET_PASSWORD });
+  };
+
   useEffect(() => {
     if (isSuccess || isSuccessSignup) {
       loadUserData();
@@ -92,6 +96,7 @@ export const AuthModal = () => {
       <div className="container__form container--signup">
         <form className="form" id="form1" onSubmit={handleSignup}>
           <h2 className="form__title">Sign Up</h2>
+
           <input
             type="text"
             placeholder="Nickname"
@@ -100,6 +105,7 @@ export const AuthModal = () => {
             value={nickname}
             onChange={handleInputChange}
           />
+
           <input
             type="email"
             placeholder="Email"
@@ -108,6 +114,7 @@ export const AuthModal = () => {
             value={email}
             onChange={handleInputChange}
           />
+
           <input
             type="password"
             placeholder="Password. At least 6 characters"
@@ -116,6 +123,7 @@ export const AuthModal = () => {
             value={password}
             onChange={handleInputChange}
           />
+
           <Button
             isLoading={isLoadingSignUp}
             isDisabled={isDisabledSignupButton}
@@ -129,6 +137,7 @@ export const AuthModal = () => {
       <div className="container__form container--signin">
         <form className="form" id="form2" onSubmit={handleLogin}>
           <h2 className="form__title">Sign In</h2>
+
           <input
             type="email"
             placeholder="Email"
@@ -137,6 +146,7 @@ export const AuthModal = () => {
             value={email}
             onChange={handleInputChange}
           />
+
           <input
             type="password"
             placeholder="Password"
@@ -145,9 +155,11 @@ export const AuthModal = () => {
             value={password}
             onChange={handleInputChange}
           />
-          <a href="#" className="link">
+
+          <button className="link" onClick={handlForgotPassword}>
             Forgot your password?
-          </a>
+          </button>
+
           <Button
             isLoading={isLoading}
             type="submit"

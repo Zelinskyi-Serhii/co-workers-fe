@@ -36,10 +36,10 @@ export const Button: FC<Props> = ({
 }) => (
   <button
     className={`
-      flex justify-center 
-      ${isDisabled ? "isDisabledButton" : buttonColorMap[buttonType]} 
-      w-[200px] p-3 rounded-xl hover-scale text-white text-base font-semibold 
-      ${className}
+    flex justify-center 
+    ${isDisabled ? "isDisabledButton" : buttonColorMap[buttonType]} 
+    w-[200px] p-3 rounded-xl hover-scale text-white text-base font-semibold 
+    ${className}
     `}
     onClick={onClick}
     disabled={isDisabled || isLoading}
