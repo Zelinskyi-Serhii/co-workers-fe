@@ -1,6 +1,7 @@
 "use client";
 
 import PinInput from "react-pin-input";
+import { toast } from "react-toastify";
 import {
   useResetPasswordMutation,
   useSendResetPasswordCodeMutation,
@@ -10,7 +11,6 @@ import { Button, ButtonColorByType } from "@/components/Button";
 import { ModalType, useModalContext } from "@/context/ModalContext";
 import { useClickOutside } from "@/hooks/useClickOutside";
 import { FormEvent, useEffect, useRef, useState } from "react";
-import { toast } from "react-toastify";
 import { Loader } from "@/components/Loader";
 
 enum ResetPasswordStep {
@@ -49,9 +49,9 @@ export const ResetPasswordModal = () => {
   const [email, setEmail] = useState("");
   const [varificationCode, setVarificationCode] = useState("");
   const [newPassword, setNewPassword] = useState("");
-  const resetpasswordRef = useRef(null);
+  const resetPasswordRef = useRef(null);
 
-  useClickOutside(resetpasswordRef, handleCloseModal);
+  useClickOutside(resetPasswordRef, handleCloseModal);
 
   const handleSendEmail = (e: FormEvent) => {
     e.preventDefault();
@@ -106,7 +106,7 @@ export const ResetPasswordModal = () => {
   ]);
 
   return (
-    <div ref={resetpasswordRef} className="bg-[#FFF] p-4 rounded-md">
+    <div ref={resetPasswordRef} className="bg-[#FFF] p-4 rounded-md">
       <h1 className="text-center mb-4 font-semibold text-[28px]">
         Reset Password
       </h1>
@@ -116,7 +116,7 @@ export const ResetPasswordModal = () => {
           <input
             type="email"
             placeholder="Email"
-            className="w-[300px]  mb-4 outline-none border-2 py-2 px-[8px]"
+            className="w-[300px] mb-4 outline-none border-2 py-2 px-[8px]"
             value={email}
             onChange={({ target }) => setEmail(target.value)}
           />

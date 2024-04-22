@@ -3,11 +3,7 @@
 import Image from "next/image";
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import mainImage from '../assets/workers-1-removebg-preview.png';
-// import mainImage from '../assets/workers-1.jpg';
-// import mainImage from '../assets/main-image.png';
-// import mainImage from '../assets/coworkers-main-image.jpg';
-// import mainImage from '../assets/home-main-image.png';
+import mainImage from '../assets/home-main-image-2.png';
 import { useEffect } from "react";
 
 gsap.registerPlugin(ScrollTrigger);
@@ -67,7 +63,9 @@ export default function Home() {
     <div className="min-h-screen py-8 px-4 sm:px-8 lg:px-16 xl:px-20">
       <section className="mb-12">
         <div className="max-w-4xl mx-auto text-center">
-          <h2 className="relative text-3xl font-bold mb-4 text-[#FFF] main-title opacity-0 top-[-50px]">Welcome to CO-Workers</h2>
+          <h2 className="relative text-3xl font-bold mb-4 text-[#FFF] main-title opacity-0 top-[-50px]">
+            Welcome to CO-Workers
+          </h2>
           <Image
             src={mainImage}
             alt="Illustration of a diverse team collaborating in an office setting"
@@ -83,10 +81,14 @@ export default function Home() {
 
       <section className="mb-12 section-2">
         <div className="max-w-4xl mx-auto">
-          <h2 className="text-2xl font-bold mb-4 text-[#FFF] section-2-title relative opacity-0 left-[-50px]">Key Features</h2>
+          <h2 className="text-2xl font-bold mb-4 text-[#FFF] section-2-title relative opacity-0 left-[-50px]">
+            Key Features
+          </h2>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             <div className="bg-white rounded-lg shadow-md p-6 section-2-cards relative opacity-0 bottom-[-100px]">
-              <h3 className="text-lg font-semibold mb-2">Create and Customize Companies</h3>
+              <h3 className="text-lg font-semibold mb-2">
+                Create and Customize Companies
+              </h3>
               <p className="text-gray-600">
                 Easily create and customize company profiles with essential details like
                 the owner&apos;s name, establishment date, company logo, and name.
@@ -94,7 +96,9 @@ export default function Home() {
             </div>
 
             <div className="bg-white rounded-lg shadow-md p-6 section-2-cards relative opacity-0 bottom-[-100px]" >
-              <h3 className="text-lg font-semibold mb-2">Effortless Employee Management</h3>
+              <h3 className="text-lg font-semibold mb-2">
+                Effortless Employee Management
+              </h3>
               <p className="text-gray-600">
                 Add, update, or remove employees effortlessly. Capture vital employee
                 information such as first and last names, positions, birthdays, hire dates, and avatars.
@@ -102,7 +106,9 @@ export default function Home() {
             </div>
 
             <div className="bg-white rounded-lg shadow-md p-6 section-2-cards relative opacity-0 bottom-[-100px]">
-              <h3 className="text-lg font-semibold mb-2">Seamless Sharing with Public URLs</h3>
+              <h3 className="text-lg font-semibold mb-2">
+                Seamless Sharing with Public URLs
+              </h3>
               <p className="text-gray-600">
                 Generate public URLs to share with your team members. Allow employees to access
                 a dedicated webpage showcasing the company&apos;s roster.
@@ -114,7 +120,9 @@ export default function Home() {
 
       <section  className="mb-12 section-3">
         <div className="max-w-4xl mx-auto">
-          <h2 className="text-2xl font-bold mb-4 text-[#FFF] section-3-title relative opacity-0 left-[-50px]">Engage and Improve</h2>
+          <h2 className="text-2xl font-bold mb-4 text-[#FFF] section-3-title relative opacity-0 left-[-50px]">
+            Engage and Improve
+          </h2>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             <div className="bg-white rounded-lg shadow-md p-6  section-3-cards relative opacity-0 bottom-[-100px]">
               <h3 className="text-lg font-semibold mb-2">Enhance Employee Experience</h3>
@@ -125,7 +133,9 @@ export default function Home() {
             </div>
 
             <div className="bg-white rounded-lg shadow-md p-6 section-3-cards relative opacity-0 bottom-[-100px]">
-              <h3 className="text-lg font-semibold mb-2">Transparent Feedback System</h3>
+              <h3 className="text-lg font-semibold mb-2">
+                Transparent Feedback System
+              </h3>
               <p className="text-gray-600">
                 Enable visitors and employees to leave anonymous reviews for individual employees.
                 Gather valuable insights and create a culture of continuous improvement.
@@ -133,7 +143,9 @@ export default function Home() {
             </div>
 
             <div className="bg-white rounded-lg shadow-md p-6  section-3-cards relative opacity-0 bottom-[-100px]">
-              <h3 className="text-lg font-semibold mb-2">Your Platform, Your Vision</h3>
+              <h3 className="text-lg font-semibold mb-2">
+                Your Platform, Your Vision
+              </h3>
               <p className="text-gray-600">
                 CO-Workers adapts to your unique needs, offering a user-friendly interface
                 and robust features to elevate your company&apos;s performance.
@@ -145,7 +157,9 @@ export default function Home() {
 
       <section className="mb-12 section-4">
         <div className="max-w-4xl mx-auto">
-          <h2 className="text-2xl font-bold mb-4 text-[#FFF] section-4-title relative opacity-0 left-[-50px]">Search Employee by Fullname</h2>
+          <h2 className="text-2xl font-bold mb-4 text-[#FFF] section-4-title relative opacity-0 left-[-50px]">
+            Search Employee by Fullname
+          </h2>
           <div className="bg-white rounded-lg shadow-md p-6 section-4-card relative opacity-0 bottom-[-100px]">
             <p className="text-gray-600">
               Easily find employees by their full names using the powerful search functionality.
