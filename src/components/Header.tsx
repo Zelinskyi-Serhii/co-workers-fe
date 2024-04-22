@@ -14,7 +14,7 @@ import { useLazyGetEmployeeBySearchQuery } from "@/GlobalRedux/Features/employee
 import { getTotalYearsFromBirthDate } from "@/helpers/helperFunctions";
 
 export const Header = () => {
-  const { user, logOut, isLoading } = useSession();
+  const { user, logout, isLoading } = useSession();
   const { setModal } = useModalContext();
   const [isOpenMenu, setIsOpenMenu] = useState(false);
   const [isOpenEmployees, setIsOpenEmployees] = useState(false);
@@ -47,7 +47,7 @@ export const Header = () => {
   return (
     <header className="py-4 px-4 sm:px-10 bg-[#0f1121] h-[70px] border-b-2 border-b-[#3b3e4a]">
       <div className="flex flex-wrap items-center justify-between gap-5 relative">
-        <Link href="/" className="hidden md:block ">
+        <Link href="/" className="hidden md:block w-[300px]">
           <Image
             src="https://res.cloudinary.com/dzuxudptr/image/upload/v1708516652/h6rlzdqtgx9wdvm4nmm7.png"
             alt="Company Logo"
@@ -141,7 +141,9 @@ export const Header = () => {
                     ref={dropdownRef}
                   >
                     <span className="text-[#FFFFFF] truncate max-w-[150px]" title={user.nickname}>{user.nickname}</span>
+                    
                     <ArrowDown />
+                      
                     {isOpenMenu && (
                       <ul className="flex flex-col w-[190px] absolute z-20 bg-[#EDEDED] top-10 p-4 right-0 rounded-xl [&>a:hover]:text-[#ec4646] [&>a]:p-2 [&>a]:transition-all">
                         <Link href="/company">My Companies</Link>
@@ -150,7 +152,7 @@ export const Header = () => {
                         <Link
                           href=""
                           className="text-[#ec4646]"
-                          onClick={logOut}
+                          onClick={logout}
                         >
                           Logout
                         </Link>

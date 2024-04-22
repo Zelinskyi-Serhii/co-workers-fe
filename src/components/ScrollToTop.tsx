@@ -26,7 +26,7 @@ export const ScrollToTop = () => {
     <>
       {isVisible ? (
         <button
-          className="fixed bg-[#FFF] p-[4px] bottom-[30px] right-[30px] hover-scale rounded-md"
+          className="fixed bg-[#FFF] p-[4px] bottom-[80px] right-[30px] hover-scale rounded-md"
           onClick={handleScrollToTop}
         >
           <svg

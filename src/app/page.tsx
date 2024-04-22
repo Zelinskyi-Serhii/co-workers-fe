@@ -3,7 +3,11 @@
 import Image from "next/image";
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import mainImage from '../assets/home-main-image.png';
+import mainImage from '../assets/workers-1-removebg-preview.png';
+// import mainImage from '../assets/workers-1.jpg';
+// import mainImage from '../assets/main-image.png';
+// import mainImage from '../assets/coworkers-main-image.jpg';
+// import mainImage from '../assets/home-main-image.png';
 import { useEffect } from "react";
 
 gsap.registerPlugin(ScrollTrigger);
@@ -46,7 +50,7 @@ export default function Home() {
         toggleActions: 'play none none none',
       },
     });
-    section4Tl.to('.section-4-title', { opacity: 1, duration: 0.5, left: 0 })
+    section4Tl.to('.section-4-title', { opacity: 1, duration: 1, left: 0 })
     .to('.section-4-card', { opacity: 1, duration: 1, bottom: 0 })
 
     // Clean up
@@ -141,7 +145,7 @@ export default function Home() {
 
       <section className="mb-12 section-4">
         <div className="max-w-4xl mx-auto">
-          <h2 className="text-2xl font-bold mb-4 text-[#FFF] section-4-title relative opacity-0 left-[-50px]">Search Employee by Full Name</h2>
+          <h2 className="text-2xl font-bold mb-4 text-[#FFF] section-4-title relative opacity-0 left-[-50px]">Search Employee by Fullname</h2>
           <div className="bg-white rounded-lg shadow-md p-6 section-4-card relative opacity-0 bottom-[-100px]">
             <p className="text-gray-600">
               Easily find employees by their full names using the powerful search functionality.

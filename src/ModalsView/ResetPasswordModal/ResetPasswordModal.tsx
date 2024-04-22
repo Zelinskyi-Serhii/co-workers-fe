@@ -139,9 +139,9 @@ export const ResetPasswordModal = () => {
               type="numeric"
               inputStyle={{ borderColor: "grey" }}
               inputFocusStyle={{ borderColor: "blue" }}
-              onChange={(value) => setVarificationCode(value)}
               onComplete={(value) => {
                 verifyCode({ email, code: Number(value) });
+                setVarificationCode(value);
               }}
               autoSelect={true}
               regexCriteria={/^[ A-Za-z0-9_@./#&+-]*$/}
