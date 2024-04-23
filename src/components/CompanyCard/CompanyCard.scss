@@ -12,6 +12,7 @@
     content: attr(data-before);
     text-overflow: ellipsis;
     max-width: 300px;
+    text-wrap: nowrap;
     top: 0;
     left: 50%;
     font-size: 50px;

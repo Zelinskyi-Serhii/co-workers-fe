@@ -66,7 +66,7 @@ export const Header = () => {
             className="py-2 pl-2 pr-10 border border-[#B7BDBA] rounded-xl outline-none  w-[400px]"
             onBlur={() => setSearch("")}
           />
-          <div className="absolute top-[12px] right-[12px] cursor-pointer">
+          <div className="absolute top-[12px] right-[12px]">
             <SearchIcon />
           </div>
 
@@ -93,7 +93,7 @@ export const Header = () => {
                         width={50}
                         height={20}
                       />
-                      <span>{`${employee.firstname} ${employee.lastname}`}</span>
+                      <span className="truncate max-w-[100px]">{`${employee.firstname} ${employee.lastname}`}</span>
                       <span className="text-[14px]">
                         <strong>
                           {getTotalYearsFromBirthDate(employee.birthday)}
@@ -104,7 +104,9 @@ export const Header = () => {
                         className="bg-[#1976d2] ml-auto py-[2px] px-4 text-[#FFF] rounded-xl"
                         onClick={() => setIsOpenEmployees(false)}
                       >
-                        <Link href={`/public/employee/${employee.id}`}>reviews</Link>
+                        <Link href={`/public/employee/${employee.id}`}>
+                          reviews
+                        </Link>
                       </button>
                     </Link>
                   ))}
@@ -140,10 +142,15 @@ export const Header = () => {
                     onClick={handleToggleMenu}
                     ref={dropdownRef}
                   >
-                    <span className="text-[#FFFFFF] truncate max-w-[150px]" title={user.nickname}>{user.nickname}</span>
-                    
-                    <ArrowDown />
-                      
+                    <span
+                      className="text-[#FFFFFF] truncate max-w-[150px]"
+                      title={user.nickname}
+                    >
+                      {user.nickname}
+                    </span>
+
+                    <ArrowDown isOpen={isOpenMenu} />
+
                     {isOpenMenu && (
                       <ul className="flex flex-col w-[190px] absolute z-20 bg-[#EDEDED] top-10 p-4 right-0 rounded-xl [&>a:hover]:text-[#ec4646] [&>a]:p-2 [&>a]:transition-all">
                         <Link href="/company">My Companies</Link>
@@ -163,25 +170,12 @@ export const Header = () => {
               )}
 
               {!user && (
-                <>
-                  <button className="px-4 py-2 text-sm rounded-full font-bold text-white border-2 border-[#007bff] bg-[#007bff] transition-all ease-in-out duration-300 hover:bg-transparent hover:text-[#007bff]">
-                    <button onClick={handleAuth}>Login/Signup</button>
-                  </button>
-                  <button id="toggle" className="lg:hidden ml-7">
-                    <svg
-                      className="w-7 h-7"
-                      fill="#000"
-                      viewBox="0 0 20 20"
-                      xmlns="http://www.w3.org/2000/svg"
-                    >
-                      <path
-                        fillRule="evenodd"
-                        d="M3 5a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 10a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 15a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z"
-                        clipRule="evenodd"
-                      ></path>
-                    </svg>
-                  </button>
-                </>
+                <button
+                  onClick={handleAuth}
+                  className="px-4 py-2 text-sm rounded-full font-bold text-white border-2 border-[#007bff] bg-[#007bff] transition-all ease-in-out duration-300 hover:bg-transparent hover:text-[#007bff]"
+                >
+                  Login/Signup
+                </button>
               )}
             </>
           )}

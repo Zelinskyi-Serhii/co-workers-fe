@@ -102,7 +102,7 @@ export const UpdateCompany = () => {
       className="w-[500px] p-[20px] rounded-xl"
       style={{ backgroundColor: "#545b5c" }}
     >
-      <h2 className="text-center mb-[20px] text-[30px] text-[#FFF]">
+      <h2 className="text-center mb-[20px] text-[30px] text-[#FFF] truncate max-w-[400px]">
         Update{" "}
         <span className="font-semibold">{modal.companyForUpdate?.name}</span>
       </h2>

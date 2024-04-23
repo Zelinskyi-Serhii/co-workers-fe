@@ -1,5 +1,5 @@
 export const Footer = () => (
-  <footer className="absolute bottom-0 left-[10px] right-[10px] flex justify-between h-[60px] bg-[#888] p-4 rounded-md opacity-70">
+  <footer className="absolute bottom-4 left-[10px] right-[10px] flex justify-between h-[60px] bg-[#888] p-4 rounded-md opacity-70">
     <div className="flex items-center gap-4">
       <span>Source code:</span>
       <div className="flex flex-col [&>a]:text-[#FFF]">
