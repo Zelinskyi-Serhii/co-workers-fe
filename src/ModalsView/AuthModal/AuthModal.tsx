@@ -1,6 +1,9 @@
 "use client";
 
 import { ChangeEvent, FormEvent, useEffect, useRef, useState } from "react";
+import { useForm } from "react-hook-form";
+import { yupResolver } from "@hookform/resolvers/yup";
+import * as yup from "yup";
 import "./AuthModal.scss";
 import { ModalType, useModalContext } from "@/context/ModalContext";
 import { useClickOutside } from "@/hooks/useClickOutside";
@@ -12,6 +15,23 @@ import {
 import { useSession } from "@/context/SessionContext";
 import { toast } from "react-toastify";
 import { isValidFormData } from "@/helpers/helperFunctions";
+import { TextField } from "@/components/TextField";
+
+const signupValidationSchema = yup.object().shape({
+  nickname: yup.string().trim().required("Nickname is required"),
+  email: yup.string().email("Invalid email").required("Email is required"),
+  password: yup
+    .string()
+    .min(6, "Password must be at least 6 characters")
+    .max(16, "Password must be no longer then 16 characters")
+    .required("Password is required"),
+});
+
+type FormValues = {
+  nickname: string;
+  email: string;
+  password: string;
+};
 
 const initialValue = {
   nickname: "",
@@ -36,8 +56,15 @@ export const AuthModal = () => {
     },
   ] = useSignupMutation();
 
-  const isDisabledSignupButton =
-    isValidFormData(email, nickname) || password.trim().length < 6;
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm({
+    resolver: yupResolver(signupValidationSchema),
+  });
+
+  console.log(errors);
 
   const isDisabledLoginButton =
     isValidFormData(email) || password.trim().length < 6;
@@ -57,9 +84,8 @@ export const AuthModal = () => {
     loginUser({ email, password });
   };
 
-  const handleSignup = (event: FormEvent) => {
-    event.preventDefault();
-    signupUser({ email, nickname, password });
+  const handleSignup = (values: FormValues) => {
+    signupUser({ ...values });
   };
 
   const handlForgotPassword = () => {
@@ -94,41 +120,29 @@ export const AuthModal = () => {
       ref={authModalRef}
     >
       <div className="container__form container--signup">
-        <form className="form" id="form1" onSubmit={handleSignup}>
+        <form className="form" onSubmit={handleSubmit(handleSignup)}>
           <h2 className="form__title">Sign Up</h2>
 
-          <input
-            type="text"
-            placeholder="Nickname"
-            className="input"
-            name="nickname"
-            value={nickname}
-            onChange={handleInputChange}
+          <TextField
+            title={"Nickname"}
+            {...register("nickname")}
+            helpText={errors.nickname?.message}
           />
 
-          <input
-            type="email"
-            placeholder="Email"
-            className="input"
-            name="email"
-            value={email}
-            onChange={handleInputChange}
+          <TextField
+            title="Email"
+            {...register("email")}
+            helpText={errors.email?.message}
           />
 
-          <input
+          <TextField
+            title="Password"
+            {...register("password")}
+            helpText={errors.password?.message}
             type="password"
-            placeholder="Password. At least 6 characters"
-            className="input"
-            name="password"
-            value={password}
-            onChange={handleInputChange}
           />
 
-          <Button
-            isLoading={isLoadingSignUp}
-            isDisabled={isDisabledSignupButton}
-            type="submit"
-          >
+          <Button isLoading={isLoadingSignUp} type="submit">
             Sign Up
           </Button>
         </form>
