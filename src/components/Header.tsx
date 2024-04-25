@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { useCallback, useEffect, useRef, useState } from "react";
+import { ChangeEvent, useCallback, useEffect, useRef, useState } from "react";
 import { ArrowDown } from "@/svgComponents/ArrowDown";
 import { SearchIcon } from "@/svgComponents/SearchIcon";
 import { ModalType, useModalContext } from "@/context/ModalContext";
@@ -12,22 +12,57 @@ import { Loader } from "./Loader";
 import { useDebounce } from "@/hooks/useDebounce";
 import { useLazyGetEmployeeBySearchQuery } from "@/GlobalRedux/Features/employee/employeeApi";
 import { getTotalYearsFromBirthDate } from "@/helpers/helperFunctions";
+import { useChangeUserAvatarMutation } from "@/GlobalRedux/Features/user/userApi";
+import { toast } from "react-toastify";
 
 export const Header = () => {
   const { user, logout, isLoading } = useSession();
   const { setModal } = useModalContext();
   const [isOpenMenu, setIsOpenMenu] = useState(false);
   const [isOpenEmployees, setIsOpenEmployees] = useState(false);
+  const [userAvatar, setUserAvatar] = useState("");
   const [search, setSearch] = useState("");
   const debouncedSearch = useDebounce(search, 600);
   const dropdownRef = useRef(null);
   useClickOutside(dropdownRef, () => setIsOpenMenu(false));
 
-  const [searchEmployee, { data: searchedEmployees, isFetching, isSuccess }] =
+  const [searchEmployee, { data: searchedEmployees, isFetching }] =
     useLazyGetEmployeeBySearchQuery();
+  const [
+    changeAvatar,
+    { isSuccess: isSuccessChangeAvatar, isError: isErrorChangeAvatar },
+  ] = useChangeUserAvatarMutation();
+
+  const handleUploadImage = (event: ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+
+    if (!file) {
+      return;
+    }
+
+    const reader = new FileReader();
+
+    const formData = new FormData();
+    formData.append("avatarUrl", file);
+
+    changeAvatar(formData);
+
+    reader.onloadend = () => {
+      setUserAvatar(reader.result as string);
+    };
+
+    reader.readAsDataURL(file);
+  };
 
   const handleToggleMenu = () => {
     setIsOpenMenu((prev) => !prev);
+  };
+
+  const handleOpenEditUserModal = () => {
+    setModal({
+      isOpen: true,
+      modalType: ModalType.EDIT_USER,
+    });
   };
 
   const handleAuth = useCallback(() => {
@@ -43,6 +78,16 @@ export const Header = () => {
       setIsOpenEmployees(true);
     }
   }, [debouncedSearch, searchEmployee]);
+
+  useEffect(() => {
+    if (isSuccessChangeAvatar) {
+      toast.success("Avatar changed successfully");
+    }
+
+    if (isErrorChangeAvatar) {
+      setUserAvatar(user?.avatarUrl || "");
+    }
+  }, [isErrorChangeAvatar, isSuccessChangeAvatar, user?.avatarUrl]);
 
   return (
     <header className="py-4 px-4 sm:px-10 bg-[#0f1121] h-[70px] border-b-2 border-b-[#3b3e4a]">
@@ -129,16 +174,26 @@ export const Header = () => {
             <>
               {user && (
                 <div className="flex items-center cursor-pointer gap-2 px-4 bg-grey-500">
-                  <Image
-                    src={user.avatarUrl}
-                    height={40}
-                    width={40}
-                    alt="User Profile"
-                    className="rounded-full max-w-[40px] max-h-[40px]"
-                  />
+                  <label className="relative  mr-[10px]">
+                    <input
+                      type="file"
+                      className="hidden"
+                      onChange={handleUploadImage}
+                    />
+                    <Image
+                      src={userAvatar || user.avatarUrl}
+                      height={40}
+                      width={40}
+                      alt="User Profile"
+                      className="rounded-full w-[40px] h-[40px]"
+                    />
+                    <div className="absolute flex justify-center items-center rounded-[50%] top-0 h-[40px] w-full bg-[#888] bg-opacity-50 hover-opacity cursor-pointer">
+                      <span className="text-white text-4xl font-bold">+</span>
+                    </div>
+                  </label>
 
                   <div
-                    className="relative flex items-center gap-3"
+                    className="relative flex items-center gap-1"
                     onClick={handleToggleMenu}
                     ref={dropdownRef}
                   >
@@ -156,6 +211,7 @@ export const Header = () => {
                         <Link href="/company">My Companies</Link>
                         <Link href="/company/create">Create Company</Link>
                         <Link href="/company/settings">Company Settings</Link>
+                        {/* <a onClick={handleOpenEditUserModal}>User Settings</a> */}
                         <Link
                           href=""
                           className="text-[#ec4646]"

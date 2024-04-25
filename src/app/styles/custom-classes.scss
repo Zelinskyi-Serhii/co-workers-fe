@@ -14,6 +14,14 @@
     transform: scale(1.05);
   }
 }
+.hover-opacity {
+  opacity: 0;
+  transition: all 0.3s ease-in-out;
+
+  &:hover {
+    opacity: 0.9;
+  }
+}
 
 .marquee {
   position: absolute;

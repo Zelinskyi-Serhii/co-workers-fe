@@ -45,12 +45,16 @@ export const DeleteCompany = () => {
 
       <div className="flex gap-4 justify-center">
         <Button
-          buttonType={ButtonColorByType.DELETE}
+          buttonType={ButtonColorByType.DISMISS}
           onClick={handleCloseModal}
         >
           Cancel
         </Button>
-        <Button onClick={handleConfirm} isLoading={isLoading}>
+        <Button
+          onClick={handleConfirm}
+          isLoading={isLoading}
+          buttonType={ButtonColorByType.DELETE}
+        >
           Delete
         </Button>
       </div>

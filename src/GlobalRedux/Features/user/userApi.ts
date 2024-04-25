@@ -76,6 +76,16 @@ export const userApi = createApi({
         return { url: "/auth/resetPassword", method: "POST", data };
       },
     }),
+    changeUserAvatar: builder.mutation<IUser, FormData>({
+      query: (newAvatar) => {
+        return {
+          url: "/auth/changeAvatar",
+          method: "PUT",
+          data: newAvatar,
+          header: { "Content-Type": "multipart/form-data" },
+        };
+      },
+    }),
   }),
 });
 
@@ -87,4 +97,5 @@ export const {
   useSendResetPasswordCodeMutation,
   useVerifyResetPasswordCodeMutation,
   useResetPasswordMutation,
+  useChangeUserAvatarMutation,
 } = userApi;

@@ -15,6 +15,7 @@ export enum ModalType {
   DISMISS_EMPLOYEE = "dismiss employee",
   DELETE_EMPLOYEE = "delete employee",
   RESET_PASSWORD = "reset password",
+  EDIT_USER = "edit user",
 }
 
 interface ModalState {
