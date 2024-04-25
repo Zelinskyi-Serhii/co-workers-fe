@@ -23,46 +23,6 @@ axiosInstance.interceptors.request.use(
   }
 );
 
-// axiosInstance.interceptors.response.use(
-//   (response) => response,
-//   async (error) => {
-//     if (error.response?.status !== 401) {
-//       return Promise.reject(error);
-//     }
-
-//     const originalConfig = error.config;
-
-//     if (originalConfig.url.includes("auth/refresh")) {
-//       return Promise.reject(error);
-//     }
-    
-//     const refreshToken = localStorage.getItem("refreshToken");
-
-//     if (!refreshToken) {
-//       // logOut();
-//       return Promise.reject(error);
-//     }
-
-//     try {
-//       const data: AxiosResponse<{ refreshToken: string; accessToken: string }> =
-//         await axiosInstance.post("/auth/refresh", { refreshToken });
-
-//       if (!data.data.accessToken || !data.data.refreshToken) {
-//         // logOut();
-//         return;
-//       }
-
-//       localStorage.setItem("accessToken", data.data.accessToken);
-//       localStorage.setItem("refreshToken", data.data.refreshToken);
-
-//       return axiosInstance(originalConfig);
-//     } catch (err) {
-//       // logOut();
-
-//       return Promise.reject(err);
-//     }
-//   }
-// );
 export interface IRequestData {
   url: string;
   method?: AxiosRequestConfig["method"];

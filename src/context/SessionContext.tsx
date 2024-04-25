@@ -31,12 +31,18 @@ export const SessionContextProvider: FC<{ children: ReactNode }> = ({
   const router = useRouter();
   const pathname = usePathname();
 
-  const logout = useCallback(() => {
-    setUser(null);
-    localStorage.removeItem("accessToken");
-    localStorage.removeItem("refreshToken");
-    router.push("/");
-  }, [router]);
+  const logout = useCallback(
+    (withRegirectToHome?: boolean) => {
+      setUser(null);
+      localStorage.removeItem("accessToken");
+      localStorage.removeItem("refreshToken");
+
+      if (withRegirectToHome) {
+        router.push("/");
+      }
+    },
+    [router]
+  );
 
   const loadUserData = useCallback(async () => {
     try {
@@ -61,36 +67,38 @@ export const SessionContextProvider: FC<{ children: ReactNode }> = ({
       if (error.response?.status !== 401) {
         return Promise.reject(error);
       }
-  
+
       const originalConfig = error.config;
-  
+
       if (originalConfig.url.includes("auth/refresh")) {
         return Promise.reject(error);
       }
-      
+
       const refreshToken = localStorage.getItem("refreshToken");
-  
+
       if (!refreshToken) {
         logout();
         return Promise.reject(error);
       }
-  
+
       try {
-        const data: AxiosResponse<{ refreshToken: string; accessToken: string }> =
-          await axiosInstance.post("/auth/refresh", { refreshToken });
-  
+        const data: AxiosResponse<{
+          refreshToken: string;
+          accessToken: string;
+        }> = await axiosInstance.post("/auth/refresh", { refreshToken });
+
         if (!data.data.accessToken || !data.data.refreshToken) {
           logout();
           return;
         }
-  
+
         localStorage.setItem("accessToken", data.data.accessToken);
         localStorage.setItem("refreshToken", data.data.refreshToken);
-  
+
         return axiosInstance(originalConfig);
       } catch (err) {
         logout();
-  
+
         return Promise.reject(err);
       }
     }
@@ -102,7 +110,7 @@ export const SessionContextProvider: FC<{ children: ReactNode }> = ({
 
   useEffect(() => {
     if (!pathname.includes("public") && !user && (isSuccess || isError)) {
-      logout()
+      logout(true);
     }
   }, [pathname, user, isSuccess, isError, logout]);
 
