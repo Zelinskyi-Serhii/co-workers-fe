@@ -1,21 +1,17 @@
 import { forwardRef } from "react";
 
-interface IProps
-  extends React.HTMLProps<HTMLInputElement | HTMLTextAreaElement> {
+interface IProps extends React.HTMLProps<HTMLInputElement> {
   title?: string;
   value?: string;
   onChange?: (evt: { target: any }) => void;
   helpText?: string;
   isError?: boolean;
-  ref?: React.ForwardedRef<HTMLInputElement & HTMLTextAreaElement>;
+  ref?: React.ForwardedRef<HTMLInputElement>;
   data?: any;
   className?: string;
 }
 
-export const TextField = forwardRef<
-  HTMLInputElement & HTMLTextAreaElement,
-  IProps
->((props, ref) => {
+export const TextField = forwardRef<HTMLInputElement, IProps>((props, ref) => {
   const { helpText, title, className, ...restProps } = props;
 
   return (
