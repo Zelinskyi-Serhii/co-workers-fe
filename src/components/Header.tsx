@@ -58,13 +58,6 @@ export const Header = () => {
     setIsOpenMenu((prev) => !prev);
   };
 
-  const handleOpenEditUserModal = () => {
-    setModal({
-      isOpen: true,
-      modalType: ModalType.EDIT_USER,
-    });
-  };
-
   const handleAuth = useCallback(() => {
     setModal({
       modalType: ModalType.AUTH,
@@ -211,7 +204,6 @@ export const Header = () => {
                         <Link href="/company">My Companies</Link>
                         <Link href="/company/create">Create Company</Link>
                         <Link href="/company/settings">Company Settings</Link>
-                        {/* <a onClick={handleOpenEditUserModal}>User Settings</a> */}
                         <Link
                           href=""
                           className="text-[#ec4646]"
