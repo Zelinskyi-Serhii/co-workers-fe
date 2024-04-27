@@ -5,7 +5,6 @@ import { AuthModal } from "@/ModalsView/AuthModal/AuthModal";
 import { DeleteCompany } from "@/ModalsView/DeleteCompany/DeleteCompany";
 import { DeleteEmployee } from "@/ModalsView/DeleteEmployee/DeleteEmployee";
 import { DismissEmployee } from "@/ModalsView/DismissEmployee/DismissEmployee";
-import { EditUserModal } from "@/ModalsView/EditUserModal/EditUserModal";
 import { ReadReview } from "@/ModalsView/ReadReview/ReadReview";
 import { ResetPasswordModal } from "@/ModalsView/ResetPasswordModal/ResetPasswordModal";
 import { UpdateCompany } from "@/ModalsView/UpdateCompany/UpdateCompany";
@@ -23,7 +22,6 @@ export const ModalLayout = () => {
   const isOpenUpdateCompany = modalType === ModalType.UPDATE_COMPANY;
   const isOpenDeleteEmployee = modalType === ModalType.DELETE_EMPLOYEE;
   const isOpenResetPassword = modalType === ModalType.RESET_PASSWORD;
-  const isOpenEditUserModal = modalType === ModalType.EDIT_USER;
 
   useEffect(() => {
     if (isOpen) {
@@ -49,7 +47,6 @@ export const ModalLayout = () => {
           {isOpenUpdateCompany && <UpdateCompany />}
           {isOpenDeleteEmployee && <DeleteEmployee />}
           {isOpenResetPassword && <ResetPasswordModal />}
-          {isOpenEditUserModal && <EditUserModal />}
         </div>
       ) : null}
     </>
