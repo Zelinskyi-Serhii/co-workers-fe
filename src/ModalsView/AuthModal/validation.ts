@@ -1,7 +1,11 @@
 import * as yup from "yup";
 
 export const signUpValidationSchema = yup.object().shape({
-  nickname: yup.string().trim().required("Nickname is required"),
+  nickname: yup
+    .string()
+    .trim()
+    .required("Nickname is required")
+    .max(20, "Nickname too long, max 20 characters"),
   email: yup.string().email("Invalid email").required("Email is required"),
   password: yup
     .string()

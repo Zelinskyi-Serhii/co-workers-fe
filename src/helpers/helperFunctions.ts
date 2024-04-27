@@ -21,10 +21,6 @@ export const convertDateToISOString = (dateString: Date) => {
   return new Date(dateString).toISOString();
 };
 
-export const isValidFormData = (...args: string[]): boolean => {
-  return args.some((arg) => !arg?.trim()?.length);
-};
-
 export const getTotalYearsFromBirthDate = (birthDateString: Date) => {
   const birthDate = new Date(birthDateString);
   const currentDate = new Date();
@@ -40,10 +36,4 @@ export const getTotalYearsFromBirthDate = (birthDateString: Date) => {
   }
 
   return age;
-};
-
-export const validateEmail = (email: string) => {
-  const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-
-  return regex.test(email);
 };

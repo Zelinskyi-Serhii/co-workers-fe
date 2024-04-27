@@ -15,7 +15,7 @@ export const ReadReview = () => {
       className="flex flex-col gap-[10px] w-[500px] p-[20px] rounded-xl text-[#FFF]"
       style={{ backgroundColor: "#545b5c" }}
     >
-      <p>{modal.review?.review}</p>
+      <p className="overflow-hidden">{modal.review?.review}</p>
       <span className="border-b-2" />
 
       <p className="opacity-[0.4]">

@@ -96,6 +96,8 @@ export default function CompanyDetails(props: { params: { id: string } }) {
             Hide Dismissed
           </label>
 
+          <span>{`Total employees: ${company.employee.length}`}</span>
+
           <button
             className="border border-[#FFF] text-[#FFF] px-5 py-1 rounded-lg hover:bg-[#FFF] hover:text-[#000] transition-all ml-auto"
             onClick={handleClearFilterParams}

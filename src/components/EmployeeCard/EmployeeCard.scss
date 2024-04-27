@@ -8,6 +8,7 @@
   transition: 1.5s ease;
   transform-style: preserve-3d;
   position: relative;
+  text-shadow: 0 0 5px black;
 
   &:hover {
     transform: rotateY(0.5turn);
@@ -25,19 +26,8 @@
   transition: 1s ease;
 }
 
-.img {
-  margin: 0 auto;
-  max-width: 200px;
-  max-height: 200px;
-  min-width: 150px;
-  min-height: 150px;
-}
-
 .front {
-  display: flex;
-  flex-direction: column;
   justify-content: space-between;
-
   height: 100%;
 }
 
@@ -49,10 +39,6 @@
 
   display: flex;
   flex-direction: column;
-}
-
-.card {
-  text-shadow: 0 0 5px black;
 }
 
 .back {
@@ -69,42 +55,9 @@
   bottom: 0;
 }
 
-.back-content {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-
-  & > p {
-    display: flex;
-
-    & > span {
-      &:first-child {
-        text-align: start;
-        width: 40%;
-        font-size: 14px;
-        opacity: 0.5;
-      }
-    }
-  }
-}
-
 p,
 h2,
 span,
 a {
   transform: translateZ(75px);
-}
-
-.review {
-  color: #000;
-  padding: 6px;
-  background-color: white;
-  border-radius: 12px;
-
-  transition: all 0.3s;
-
-  &:hover {
-    color: white;
-    background-color: #000;
-  }
 }

@@ -170,6 +170,7 @@ export const Header = () => {
                   <label className="relative  mr-[10px]">
                     <input
                       type="file"
+                      accept="image/png, image/jpeg"
                       className="hidden"
                       onChange={handleUploadImage}
                     />
