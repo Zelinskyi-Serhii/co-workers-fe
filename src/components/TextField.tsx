@@ -3,9 +3,7 @@ import { forwardRef } from "react";
 interface IProps extends React.HTMLProps<HTMLInputElement> {
   title?: string;
   value?: string;
-  onChange?: (evt: { target: any }) => void;
   helpText?: string;
-  isError?: boolean;
   ref?: React.ForwardedRef<HTMLInputElement>;
   data?: any;
   className?: string;

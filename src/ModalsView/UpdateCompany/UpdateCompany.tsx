@@ -2,49 +2,57 @@ import { useUpdateCompanyMutation } from "@/GlobalRedux/Features/company/company
 import { Button, ButtonColorByType } from "@/components/Button";
 import { minValueForCompanyOwned, today } from "@/constants";
 import { useModalContext } from "@/context/ModalContext";
-import {
-  convertDateToISOString,
-  isValidFormData,
-} from "@/helpers/helperFunctions";
+import { convertDateToISOString } from "@/helpers/helperFunctions";
 import { useClickOutside } from "@/hooks/useClickOutside";
+import { yupResolver } from "@hookform/resolvers/yup";
 import Image from "next/image";
 import { ChangeEvent, useEffect, useRef, useState } from "react";
+import { useForm } from "react-hook-form";
 import { toast } from "react-toastify";
+import { updateCompanyValidationSchema } from "./validation";
+import { TextField } from "@/components/TextField";
+
+type FormValues = {
+  name: string;
+  ownerName: string;
+  ownedAt: string;
+};
 
 export const UpdateCompany = () => {
   const { modal, handleCloseModal, handleCloseWithRefetch } = useModalContext();
   const { companyForUpdate } = modal;
   const companyRef = useRef(null);
+  useClickOutside(companyRef, () => handleCloseModal());
   const [imageFile, setImageFile] = useState<File | null>(null);
-  const [{ name, avatarUrl, ownedAt, ownerName, id }, setUpdateCompany] =
-    useState({
+  const [{ avatarUrl, id }, setUpdateCompany] = useState({
+    ...companyForUpdate!,
+    ownedAt: convertDateToISOString(companyForUpdate?.ownedAt!).slice(0, 10),
+  });
+
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+    watch,
+  } = useForm({
+    resolver: yupResolver(updateCompanyValidationSchema),
+    defaultValues: {
       ...companyForUpdate!,
       ownedAt: convertDateToISOString(companyForUpdate?.ownedAt!).slice(0, 10),
-    });
+    },
+  });
 
-  useClickOutside(companyRef, () => handleCloseModal());
   const [updateCompany, { isSuccess, isLoading, isError }] =
     useUpdateCompanyMutation();
 
-  const isDisabled = isValidFormData(name, ownerName, ownedAt, avatarUrl);
-
   const isCompanyChange = () => {
     return (
-      name !== companyForUpdate?.name ||
+      watch().name !== companyForUpdate?.name ||
       avatarUrl !== companyForUpdate?.avatarUrl ||
       convertDateToISOString(companyForUpdate.ownedAt).slice(0, 10) !==
-        ownedAt ||
-      ownerName !== companyForUpdate.ownerName
+        watch().ownedAt ||
+      watch().ownerName !== companyForUpdate.ownerName
     );
-  };
-
-  const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = event.target;
-
-    setUpdateCompany((prev) => ({
-      ...prev,
-      [name]: value,
-    }));
   };
 
   const handleUploadImage = (event: ChangeEvent<HTMLInputElement>) => {
@@ -67,12 +75,12 @@ export const UpdateCompany = () => {
     reader.readAsDataURL(file);
   };
 
-  const handleUpdateCompany = async () => {
+  const handleUpdateCompany = async (values: FormValues) => {
     const formData = new FormData();
 
-    formData.append("name", name);
-    formData.append("ownerName", ownerName);
-    formData.append("ownedAt", new Date(ownedAt).toISOString());
+    formData.append("name", values.name);
+    formData.append("ownerName", values.ownerName);
+    formData.append("ownedAt", new Date(values.ownedAt).toISOString());
     formData.append("id", String(id));
 
     if (imageFile) {
@@ -97,10 +105,11 @@ export const UpdateCompany = () => {
   }, [handleCloseWithRefetch, isError, isSuccess]);
 
   return (
-    <div
+    <form
       ref={companyRef}
       className="w-[500px] p-[20px] rounded-xl"
       style={{ backgroundColor: "#545b5c" }}
+      onSubmit={handleSubmit(handleUpdateCompany)}
     >
       <h2 className="text-center mb-[20px] text-[30px] text-[#FFF] truncate max-w-[400px]">
         Update{" "}
@@ -108,42 +117,29 @@ export const UpdateCompany = () => {
       </h2>
 
       <div className="flex flex-col gap-[15px] [&>label]:text-[#999999] mb-[20px]">
-        <label className="flex flex-col gap-[2px] text-[#FFF]">
-          Company name
-          <input
-            className="p-[6px] rounded-xl text-[#000]"
-            placeholder="Enter name"
-            type="text"
-            name="name"
-            value={name}
-            onChange={handleChange}
-          />
-        </label>
+        <TextField
+          title={"Company name"}
+          {...register("name")}
+          helpText={errors.name?.message}
+          style={{ color: "#000" }}
+        />
 
-        <label className="flex flex-col gap-[2px] text-[#FFF]">
-          Owner Name
-          <input
-            className="p-[6px] rounded-xl text-[#000]"
-            type="text"
-            placeholder="Enter Owner"
-            name="ownerName"
-            value={ownerName}
-            onChange={handleChange}
-          />
-        </label>
+        <TextField
+          title={"Owner Name"}
+          {...register("ownerName")}
+          helpText={errors.ownerName?.message}
+          style={{ color: "#000" }}
+        />
 
-        <label className="flex flex-col gap-[2px] text-[#FFF]">
-          Owned At
-          <input
-            className="p-[6px] rounded-xl text-[#000]"
-            type="date"
-            name="ownedAt"
-            value={ownedAt}
-            onChange={handleChange}
-            min={minValueForCompanyOwned}
-            max={today}
-          />
-        </label>
+        <TextField
+          title={"Owner At"}
+          type="date"
+          min={minValueForCompanyOwned}
+          max={today}
+          {...register("ownedAt")}
+          helpText={errors.ownedAt?.message}
+          style={{ color: "#000" }}
+        />
 
         <Image
           className="mx-auto max-w-[150px] max-h-[150px] object-contain"
@@ -177,13 +173,13 @@ export const UpdateCompany = () => {
           Cancel
         </Button>
         <Button
-          onClick={handleUpdateCompany}
           isLoading={isLoading}
-          isDisabled={!isCompanyChange() || isDisabled}
+          type="submit"
+          isDisabled={!isCompanyChange()}
         >
           Update
         </Button>
       </div>
-    </div>
+    </form>
   );
 };

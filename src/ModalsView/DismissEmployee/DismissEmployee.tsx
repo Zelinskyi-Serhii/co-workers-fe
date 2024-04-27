@@ -3,14 +3,21 @@ import { Button, ButtonColorByType } from "@/components/Button";
 import { today } from "@/constants";
 import { useModalContext } from "@/context/ModalContext";
 import { useClickOutside } from "@/hooks/useClickOutside";
+import { yupResolver } from "@hookform/resolvers/yup";
 import { useRef, useState } from "react";
+import { useForm } from "react-hook-form";
 import { toast } from "react-toastify";
+import { dismissEmployeeValidationSchema } from "./validation";
+import { TextField } from "@/components/TextField";
+
+type FormValues = {
+  dismissDate: string;
+};
 
 export const DismissEmployee = () => {
   const { modal, handleCloseModal, handleCloseWithRefetch } = useModalContext();
   const { employeeForDismiss } = modal;
   const dismissRef = useRef(null);
-  const [dismissDate, setDismissDate] = useState("");
   const [dismissEmployee, { isLoading }] = useDismissEmployeeMutation();
 
   const minValueForDismiss = (
@@ -19,13 +26,21 @@ export const DismissEmployee = () => {
 
   useClickOutside(dismissRef, () => handleCloseModal());
 
-  const handleConfirm = async () => {
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm({
+    resolver: yupResolver(dismissEmployeeValidationSchema),
+  });
+
+  const handleConfirm = async (values: FormValues) => {
     if (!employeeForDismiss) return;
 
     try {
       await dismissEmployee({
         employeeId: employeeForDismiss.id,
-        dismissed: new Date(dismissDate).toISOString(),
+        dismissed: new Date(values.dismissDate).toISOString(),
       });
       toast.success("Employee dismisses successfully");
       handleCloseWithRefetch();
@@ -35,10 +50,11 @@ export const DismissEmployee = () => {
   };
 
   return (
-    <div
+    <form
       className="w-[500px] p-[20px] rounded-xl"
       style={{ backgroundColor: "#545b5c" }}
       ref={dismissRef}
+      onSubmit={handleSubmit(handleConfirm)}
     >
       <h2
         className="text-center text-[#FFF] font-semibold mb-[20px]"
@@ -52,15 +68,14 @@ export const DismissEmployee = () => {
         {employeeForDismiss?.lastname}?
       </p>
 
-      <div className="flex justify-center mb-[30px]">
-        <input
-          className="p-[6px] rounded-xl text-[#000]"
-          type="date"
-          name="ownedAt"
-          value={dismissDate}
-          onChange={({ target }) => setDismissDate(target.value)}
+      <div className="mx-auto mb-[30px] w-[200px] [&_span]:text-[#FFF]">
+        <TextField
+          {...register("dismissDate")}
+          helpText={errors.dismissDate?.message}
+          style={{ color: "#000" }}
           min={minValueForDismiss}
           max={today}
+          type="date"
         />
       </div>
 
@@ -71,14 +86,10 @@ export const DismissEmployee = () => {
         >
           Cancel
         </Button>
-        <Button
-          onClick={handleConfirm}
-          isLoading={isLoading}
-          isDisabled={!dismissDate}
-        >
+        <Button isLoading={isLoading} type="submit">
           Dismiss
         </Button>
       </div>
-    </div>
+    </form>
   );
 };

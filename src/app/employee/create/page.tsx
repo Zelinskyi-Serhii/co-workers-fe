@@ -5,7 +5,6 @@ import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 import { ChangeEvent, useState, Suspense, useEffect } from "react";
 import { Loader } from "@/components/Loader";
-import { isValidFormData } from "@/helpers/helperFunctions";
 import { toast } from "react-toastify";
 import { useCreateEmployeeMutation } from "@/GlobalRedux/Features/employee/employeeApi";
 import { Button, ButtonColorByType } from "@/components/Button";
@@ -16,14 +15,17 @@ import {
   minValueForEmployeeHireDate,
   today,
 } from "@/constants";
+import { useForm } from "react-hook-form";
+import { createEmployeeValidationSchema } from "./validation";
+import { yupResolver } from "@hookform/resolvers/yup";
+import { TextField } from "@/components/TextField";
 
-const initialState = {
-  firstname: "",
-  lastname: "",
-  position: "",
-  avatarUrl: "",
-  hireDate: "",
-  birthday: "",
+type FormValues = {
+  firstname: string;
+  lastname: string;
+  position: string;
+  hireDate: string;
+  birthday: string;
 };
 
 export default function CreateEmployeePage() {
@@ -43,28 +45,16 @@ const CreateEmployee = () => {
   const { data: company } = useGetCompanyByIdQuery({
     companyId: String(companyId),
   });
-  const [
-    { firstname, lastname, position, avatarUrl, hireDate, birthday },
-    setEmployee,
-  ] = useState(initialState);
+  const [avatarUrl, setAvatarUrl] = useState("");
   const [imageFile, setImageFile] = useState<File | null>(null);
 
-  const isDisabled = isValidFormData(
-    firstname,
-    lastname,
-    position,
-    hireDate,
-    avatarUrl
-  );
-
-  const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = event.target;
-
-    setEmployee((prev) => ({
-      ...prev,
-      [name]: value,
-    }));
-  };
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm({
+    resolver: yupResolver(createEmployeeValidationSchema),
+  });
 
   const handleUploadImage = (event: ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
@@ -77,29 +67,26 @@ const CreateEmployee = () => {
     const reader = new FileReader();
 
     reader.onloadend = () => {
-      setEmployee((prev) => ({
-        ...prev,
-        avatarUrl: reader.result as string,
-      }));
+      setAvatarUrl(reader.result as string);
     };
 
     reader.readAsDataURL(file);
   };
 
-  const handleCreateEmployee = async () => {
-    if (!imageFile || isDisabled || !companyId) {
-      toast.error("All fields are required");
+  const handleCreateEmployee = async (values: FormValues) => {
+    if (!imageFile) {
+      toast.error("Image is required");
       return;
     }
 
     const formData = new FormData();
 
-    formData.append("firstname", firstname);
-    formData.append("lastname", lastname);
-    formData.append("position", position);
+    formData.append("firstname", values.firstname);
+    formData.append("lastname", values.lastname);
+    formData.append("position", values.position);
     formData.append("companyId", companyId as string);
-    formData.append("hireDate", new Date(hireDate).toISOString());
-    formData.append("birthday", new Date(birthday).toISOString());
+    formData.append("hireDate", new Date(values.hireDate).toISOString());
+    formData.append("birthday", new Date(values.birthday).toISOString());
     formData.append("avatarUrl", imageFile);
 
     createEmployee(formData);
@@ -123,70 +110,52 @@ const CreateEmployee = () => {
         <span className="block truncate max-w-[200px]">{company?.name}</span>
       </h2>
 
-      <div className="flex flex-col gap-[10px] justify-between p-[20px]">
+      <form
+        className="flex flex-col gap-[10px] justify-between p-[20px]"
+        onSubmit={handleSubmit(handleCreateEmployee)}
+      >
         <div className="flex flex-col gap-[15px] [&>label]:text-[#999999]">
-          <label className="flex flex-col gap-[2px] text-[#FFF]">
-            First Name
-            <input
-              className="p-[6px] rounded-xl text-[#000]"
-              placeholder="Enter name"
-              type="text"
-              name="firstname"
-              value={firstname}
-              onChange={handleChange}
-            />
-          </label>
+          <TextField
+            title={"First Name"}
+            {...register("firstname")}
+            helpText={errors.firstname?.message}
+            style={{ color: "#000" }}
+          />
 
-          <label className="flex flex-col gap-[2px] text-[#FFF]">
-            Last Name
-            <input
-              className="p-[6px] rounded-xl text-[#000]"
-              type="text"
-              placeholder="Enter name"
-              name="lastname"
-              value={lastname}
-              onChange={handleChange}
-            />
-          </label>
+          <TextField
+            title={"Last Name"}
+            {...register("lastname")}
+            helpText={errors.lastname?.message}
+            style={{ color: "#000" }}
+          />
 
-          <label className="flex flex-col gap-[2px] text-[#FFF]">
-            Job Position
-            <input
-              className="p-[6px] rounded-xl text-[#000]"
-              type="text"
-              placeholder="Enter name"
-              name="position"
-              value={position}
-              onChange={handleChange}
-            />
-          </label>
+          <TextField
+            title={"Job Position"}
+            {...register("position")}
+            helpText={errors.position?.message}
+            style={{ color: "#000" }}
+          />
 
           <div className="flex justify-between gap-[20px] [&>label]:text-[#999999] [&>label]:flex-[1]">
-            <label className="flex flex-col gap-[2px] text-[#FFF] mb-[15px]">
-              Birthday
-              <input
-                className="p-[6px] rounded-xl text-[#000]"
-                type="date"
-                name="birthday"
-                value={birthday}
-                onChange={handleChange}
-                min={minValueForEmployeeBirthday}
-                max={maxValueForEmployeeBirthday}
-              />
-            </label>
+            <TextField
+              title={"Birthday"}
+              {...register("birthday")}
+              helpText={errors.birthday?.message}
+              style={{ color: "#000" }}
+              min={minValueForEmployeeBirthday}
+              max={maxValueForEmployeeBirthday}
+              type="date"
+            />
 
-            <label className="flex flex-col gap-[2px] text-[#FFF]">
-              Hire Date
-              <input
-                className="p-[6px] rounded-xl text-[#000]"
-                type="date"
-                name="hireDate"
-                value={hireDate}
-                onChange={handleChange}
-                min={minValueForEmployeeHireDate}
-                max={today}
-              />
-            </label>
+            <TextField
+              title={"Hire Date"}
+              {...register("hireDate")}
+              helpText={errors.hireDate?.message}
+              style={{ color: "#000" }}
+              min={minValueForEmployeeHireDate}
+              max={today}
+              type="date"
+            />
           </div>
 
           <Image
@@ -217,15 +186,11 @@ const CreateEmployee = () => {
           <Button buttonType={ButtonColorByType.DELETE}>
             <Link href={`/company/${companyId}`}>Cancel</Link>
           </Button>
-          <Button
-            isLoading={isLoading}
-            onClick={handleCreateEmployee}
-            isDisabled={isDisabled}
-          >
+          <Button isLoading={isLoading} type="submit">
             Create
           </Button>
         </div>
-      </div>
+      </form>
     </div>
   );
 };
