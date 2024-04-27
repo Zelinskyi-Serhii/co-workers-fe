@@ -98,10 +98,10 @@ export const AuthModal = () => {
 
   return (
     <div
-      className={`container ${isRightPanelActive ? "right-panel-active" : ""}`}
+      className={`auth-modal ${isRightPanelActive ? "right-panel-active" : ""}`}
       ref={authModalRef}
     >
-      <div className="container__form container--signup">
+      <div className="auth-modal__form auth-modal--signup">
         <form className="form" onSubmit={handleSubmit(handleSignup)}>
           <h2 className="form__title">Sign Up</h2>
 
@@ -130,7 +130,7 @@ export const AuthModal = () => {
         </form>
       </div>
 
-      <div className="container__form container--signin">
+      <div className="auth-modal__form auth-modal--signin">
         <form className="form" id="form2" onSubmit={handleSubmit(handleLogin)}>
           <h2 className="form__title">Sign In</h2>
 
@@ -147,7 +147,11 @@ export const AuthModal = () => {
             type="password"
           />
 
-          <button className="link" onClick={handlForgotPassword}>
+          <button
+            className=" text-[#333] text-[0.9rem]"
+            onClick={handlForgotPassword}
+            style={{ marginBottom: 48 }}
+          >
             Forgot your password?
           </button>
 
@@ -157,7 +161,7 @@ export const AuthModal = () => {
         </form>
       </div>
 
-      <div className="container__overlay">
+      <div className="auth-modal__overlay">
         <div className="overlay">
           <div className="overlay__panel overlay--left">
             <button className="btn" id="signIn" onClick={handleToggleForm}>
