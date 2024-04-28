@@ -140,11 +140,7 @@ export default function CompanyCreate() {
           >
             Cancel
           </Button>
-          <Button
-            isLoading={isLoading}
-            // onClick={handleCreateCompany}
-            type="submit"
-          >
+          <Button isLoading={isLoading} type="submit">
             Create
           </Button>
         </div>

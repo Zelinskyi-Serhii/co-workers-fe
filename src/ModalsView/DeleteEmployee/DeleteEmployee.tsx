@@ -47,12 +47,16 @@ export const DeleteEmployee = () => {
 
       <div className="flex justify-between w-[100%] [&>button]:p-4 [&>button]:w-[49%] [&>button]:text-center [&>button]:text-white [&>button]:font-bold [&>button]:rounded-md">
         <Button
-          buttonType={ButtonColorByType.DELETE}
+          buttonType={ButtonColorByType.DISMISS}
           onClick={handleCloseModal}
         >
           Cancel
         </Button>
-        <Button onClick={handleConfirm} isLoading={isLoading}>
+        <Button
+          onClick={handleConfirm}
+          isLoading={isLoading}
+          buttonType={ButtonColorByType.DELETE}
+        >
           Delete
         </Button>
       </div>

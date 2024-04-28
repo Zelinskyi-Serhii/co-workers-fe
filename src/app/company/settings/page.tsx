@@ -144,7 +144,7 @@ export default function CompanySettingsPage() {
 
                   {company.publicId ? (
                     <td
-                      className="flex items-center w-[200px] overflow-x-auto gap-2 h-[64px] px-4 py-2 hover:bg-gray-700 cursor-pointer transition-all duration-300 text-nowrap"
+                      className="flex items-center w-[250px] overflow-x-auto gap-2 h-[64px] px-4 py-2 hover:bg-gray-700 cursor-pointer transition-all duration-300 text-nowrap"
                       onClick={() =>
                         handleCopyLink(
                           `${DOMAIN}/public/company/${company.publicId}`
@@ -169,9 +169,9 @@ export default function CompanySettingsPage() {
                     </td>
                   )}
 
-                  <td className="px-4 py-2 [&>button]:inline">
+                  <td className="px-4 py-2 [&>button]:inline [&>button]:w-fit">
                     <Button
-                      className="bg-blue-500 hover:bg-blue-600 text-white px-4 py-1 rounded mr-2  w-[90px]"
+                      className="bg-blue-500 hover:bg-blue-600 text-white px-4 py-1 rounded mr-2 w-[90px]"
                       onClick={() => handleUpdateCompany(company)}
                     >
                       Update
