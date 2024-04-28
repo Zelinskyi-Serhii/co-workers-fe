@@ -68,13 +68,13 @@ export default function CompanyDetails(props: { params: { id: string } }) {
       </div>
 
       {isLoading && (
-        <div className="flex justify-center">
+        <div className="flex justify-center mt-[30px] md:mt-0">
           <Loader />
         </div>
       )}
 
       {isSuccess && Boolean(company?.employee?.length) && (
-        <div className="flex flex-wrap md:flex-nowrap gap-[40px] items-end text-[#FFF] mb-6">
+        <div className="flex flex-wrap md:flex-nowrap justify-between  gap-[20px] md:gap-[40px] items-end text-[#FFF] mb-6">
           <label className="flex flex-col">
             Filter by Fullname
             <input
@@ -99,7 +99,7 @@ export default function CompanyDetails(props: { params: { id: string } }) {
           <span>{`Total employees: ${company?.employee?.length}`}</span>
 
           <button
-            className="border border-[#FFF] text-[#FFF] px-5 py-1 rounded-lg hover:bg-[#FFF] hover:text-[#000] transition-all ml-auto"
+            className="border border-[#FFF] text-[#FFF] px-5 py-1 rounded-lg hover:bg-[#FFF] hover:text-[#000] transition-all md:ml-auto"
             onClick={handleClearFilterParams}
           >
             Clear Filters

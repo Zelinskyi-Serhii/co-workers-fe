@@ -54,11 +54,6 @@ const CreateEmployee = () => {
     formState: { errors },
   } = useForm({
     resolver: yupResolver(createEmployeeValidationSchema),
-    defaultValues: {
-      firstname: "Serhii",
-      lastname: "Zelinskyi",
-      position: "Fullstack",
-    },
   });
 
   const handleUploadImage = (event: ChangeEvent<HTMLInputElement>) => {
