@@ -30,7 +30,7 @@ export const DeleteEmployee = () => {
 
   return (
     <div
-      className="w-[500px] p-[20px] rounded-xl"
+      className="max-w-[500px] p-[20px] rounded-xl"
       style={{ backgroundColor: "#545b5c" }}
       ref={deleteRef}
     >
@@ -45,7 +45,7 @@ export const DeleteEmployee = () => {
         {`Do you realy want to delete ${employeeForDelete?.firstname} ${employeeForDelete?.lastname} permanently?`}
       </p>
 
-      <div className="flex gap-4 justify-center">
+      <div className="flex justify-between w-[100%] [&>button]:p-4 [&>button]:w-[49%] [&>button]:text-center [&>button]:text-white [&>button]:font-bold [&>button]:rounded-md">
         <Button
           buttonType={ButtonColorByType.DELETE}
           onClick={handleCloseModal}

@@ -43,7 +43,7 @@ export const DeleteCompany = () => {
         Do you realy want to delete company permanently?
       </p>
 
-      <div className="flex gap-4 justify-center">
+      <div className="flex justify-between w-[100%] [&>button]:p-4 [&>button]:w-[49%] [&>button]:text-center [&>button]:text-white [&>button]:font-bold [&>button]:rounded-md">
         <Button
           buttonType={ButtonColorByType.DISMISS}
           onClick={handleCloseModal}

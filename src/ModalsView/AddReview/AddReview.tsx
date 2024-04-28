@@ -78,15 +78,18 @@ export const AddReview = () => {
             {errors.review?.message}
           </span>
         )}
-        <Button
-          buttonType={ButtonColorByType.DELETE}
-          onClick={handleCloseModal}
-        >
-          Cancel
-        </Button>
-        <Button isLoading={isLoading} type="submit">
-          Save
-        </Button>
+
+        <div className="flex justify-between w-[100%] [&>button]:p-4 [&>button]:w-[49%] [&>button]:text-center [&>button]:text-white [&>button]:font-bold [&>button]:rounded-md">
+          <Button
+            buttonType={ButtonColorByType.DELETE}
+            onClick={handleCloseModal}
+          >
+            Cancel
+          </Button>
+          <Button isLoading={isLoading} type="submit">
+            Save
+          </Button>
+        </div>
       </div>
     </form>
   );

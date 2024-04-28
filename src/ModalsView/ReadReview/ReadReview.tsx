@@ -12,7 +12,7 @@ export const ReadReview = () => {
   return (
     <div
       ref={readReviewRef}
-      className="flex flex-col gap-[10px] w-[500px] p-[20px] rounded-xl text-[#FFF]"
+      className="flex flex-col gap-[10px] max-w-[500px] p-[20px] rounded-xl text-[#FFF]"
       style={{ backgroundColor: "#545b5c" }}
     >
       <p className="overflow-hidden">{modal.review?.review}</p>

@@ -33,12 +33,12 @@ export default function EmployeeInfo(props: any) {
       ) : (
         <>
           <div className="mb-[30px] relative">
-            <h1 className="flex flex-wrap  md:flex-nowrap justify-center gap-[15px] text-[#FFF] text-center font-semibold text-[30px] relative">
-              <GoBackButton className="absolute left-0 top-[-20px] md:top-2" />
+            <h1 className="mt-[30px] md:mt-0 flex flex-wrap md:flex-nowrap justify-center items-center gap-[15px] text-[#FFF] text-center font-semibold text-[30px] relative">
+              <GoBackButton className="absolute left-0 top-[-40px] md:top-2" />
               <span className="opacity-60">All Review about</span>
 
               {employee && (
-                <>
+                <div className="flex items-center gap-4">
                   <span className=" truncate max-w-[300px]">{fullname}</span>
                   <span className="bg-[#FFF]">
                     <Image
@@ -48,12 +48,12 @@ export default function EmployeeInfo(props: any) {
                       height={10}
                     />
                   </span>
-                </>
+                </div>
               )}
             </h1>
           </div>
 
-          <div className="flex flex-wrap gap-[15px]">
+          <div className="grid grid-cols-[repeat(auto-fit,_minmax(150px,1fr))] gap-[15px]">
             {reviews?.map((review) => (
               <ReviewCard reviewData={review} key={review.id} />
             ))}
