@@ -83,9 +83,9 @@ export const Header = () => {
   }, [isErrorChangeAvatar, isSuccessChangeAvatar, user?.avatarUrl]);
 
   return (
-    <header className="py-4 px-4 sm:px-10 bg-[#0f1121] h-[70px] border-b-2 border-b-[#3b3e4a]">
+    <header className="py-4 px-4 sm:px-10 bg-[#0f1121] min-h-[70px] border-b-2 border-b-[#3b3e4a]">
       <div className="flex flex-wrap items-center justify-between gap-5 relative">
-        <Link href="/" className="hidden md:block w-[300px]">
+        <Link href="/" className="md:block w-fit md:w-[300px]">
           <Image
             src="https://res.cloudinary.com/dzuxudptr/image/upload/v1708516652/h6rlzdqtgx9wdvm4nmm7.png"
             alt="Company Logo"
@@ -94,14 +94,14 @@ export const Header = () => {
           />
         </Link>
 
-        <div className="relative">
+        <div className="relative order-2 md:order-none w-[100%] md:w-fit">
           <input
             type="text"
             name="search"
             value={search}
             onChange={({ target }) => setSearch(target.value)}
             placeholder="Search Employee"
-            className="py-2 pl-2 pr-10 border border-[#B7BDBA] rounded-xl outline-none w-[200px] md:w-[400px]"
+            className="py-2 pl-2 pr-10 border border-[#B7BDBA] rounded-xl outline-none w-[100%] md:w-[400px]"
             onBlur={() => setSearch("")}
           />
           <div className="absolute top-[12px] right-[12px]">
@@ -167,7 +167,7 @@ export const Header = () => {
             <>
               {user && (
                 <div className="flex items-center cursor-pointer gap-2 px-4 bg-grey-500">
-                  <label className="relative  mr-[10px]">
+                  <label className="relative">
                     <input
                       type="file"
                       accept="image/png, image/jpeg"
