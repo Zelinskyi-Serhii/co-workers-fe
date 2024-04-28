@@ -119,7 +119,7 @@ export default function CompanyCreate() {
             src={avatarUrl || "https://placehold.co/200x200"}
           />
 
-          <Button className="mx-auto">
+          <Button className="mx-auto ">
             <label>
               Add Company Logo
               <input
