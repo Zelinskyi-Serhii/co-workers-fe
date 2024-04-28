@@ -13,7 +13,7 @@ export const ReviewCard: FC<Props> = ({ reviewData }) => {
   const isLong = review.length > 160;
 
   return (
-    <div className="flex flex-col justify-between w-[24%] bg-[#232323] p-[10px] rounded-xl">
+    <div className="flex flex-col justify-between w-[48%] md:w-[24%] bg-[#232323] p-[10px] rounded-xl">
       <p className="text-[#FFF] overflow-hidden">
         {isLong ? review.slice(0, 160) + "..." : review}
       </p>
