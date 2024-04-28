@@ -66,6 +66,7 @@
   width: 200%;
 
   &__panel {
+    text-wrap: nowrap;
     align-items: center;
     display: flex;
     flex-direction: column;
@@ -111,7 +112,7 @@
   font-size: 0.8rem;
   font-weight: bold;
   letter-spacing: 0.1rem;
-  padding: 0.9rem 4rem;
+  padding: 0.9rem 3rem;
   text-transform: uppercase;
   transition: transform 80ms ease-in;
 

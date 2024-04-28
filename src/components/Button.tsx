@@ -38,7 +38,7 @@ export const Button: FC<Props> = ({
     className={`
     flex justify-center 
     ${isDisabled ? "isDisabledButton" : buttonColorMap[buttonType]} 
-    w-[200px] p-3 rounded-xl hover-scale text-white text-base font-semibold 
+    w-[150px] md:w-[200px] p-3 rounded-xl hover-scale text-white text-base font-semibold 
     ${className}
     `}
     onClick={onClick}

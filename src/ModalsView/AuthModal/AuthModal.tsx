@@ -130,7 +130,11 @@ export const AuthModal = () => {
             type="password"
           />
 
-          <Button isLoading={isLoadingSignUp} type="submit">
+          <Button
+            isLoading={isLoadingSignUp}
+            type="submit"
+            className="auth-form__submit-button"
+          >
             Sign Up
           </Button>
         </form>
