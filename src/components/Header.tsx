@@ -101,7 +101,7 @@ export const Header = () => {
             value={search}
             onChange={({ target }) => setSearch(target.value)}
             placeholder="Search Employee"
-            className="py-2 pl-2 pr-10 border border-[#B7BDBA] rounded-xl outline-none  w-[400px]"
+            className="py-2 pl-2 pr-10 border border-[#B7BDBA] rounded-xl outline-none w-[200px] md:w-[400px]"
             onBlur={() => setSearch("")}
           />
           <div className="absolute top-[12px] right-[12px]">
@@ -160,7 +160,7 @@ export const Header = () => {
           )}
         </div>
 
-        <div className="flex items-center justify-end max-sm:ml-auto w-[300px]">
+        <div className="flex items-center justify-end max-sm:ml-auto md:w-[300px]">
           {isLoading ? (
             <Loader />
           ) : (

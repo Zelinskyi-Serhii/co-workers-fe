@@ -15,7 +15,6 @@ import { useSession } from "@/context/SessionContext";
 import { toast } from "react-toastify";
 import { TextField } from "@/components/TextField";
 import { signInValidationSchema, signUpValidationSchema } from "./validation";
-import { ObjectSchema } from "yup";
 
 type FormValues = {
   nickname: string;
@@ -38,19 +37,20 @@ export const AuthModal = () => {
     },
   ] = useSignupMutation();
 
-  const validationSchema = isRightPanelActive
-    ? signUpValidationSchema
-    : signInValidationSchema;
-
   const {
     register,
     handleSubmit,
     formState: { errors },
-    clearErrors,
   } = useForm({
-    resolver: yupResolver<FormValues>(
-      validationSchema as ObjectSchema<FormValues>
-    ),
+    resolver: yupResolver(signInValidationSchema),
+  });
+
+  const {
+    register: registerSignUp,
+    handleSubmit: handleSubmitSignUp,
+    formState: { errors: errorsSignUp },
+  } = useForm({
+    resolver: yupResolver(signUpValidationSchema),
   });
 
   useClickOutside(authModalRef, () =>
@@ -67,7 +67,6 @@ export const AuthModal = () => {
 
   const handleToggleForm = () => {
     setIsRightPanelActive((prev) => !prev);
-    clearErrors();
   };
 
   const handlForgotPassword = () => {
@@ -102,25 +101,25 @@ export const AuthModal = () => {
       ref={authModalRef}
     >
       <div className="auth-modal__form auth-modal--signup">
-        <form className="form" onSubmit={handleSubmit(handleSignup)}>
+        <form className="form" onSubmit={handleSubmitSignUp(handleSignup)}>
           <h2 className="form__title">Sign Up</h2>
 
           <TextField
             title={"Nickname"}
-            {...register("nickname")}
-            helpText={errors.nickname?.message}
+            {...registerSignUp("nickname")}
+            helpText={errorsSignUp.nickname?.message}
           />
 
           <TextField
             title="Email"
-            {...register("email")}
-            helpText={errors.email?.message}
+            {...registerSignUp("email")}
+            helpText={errorsSignUp.email?.message}
           />
 
           <TextField
             title="Password"
-            {...register("password")}
-            helpText={errors.password?.message}
+            {...registerSignUp("password")}
+            helpText={errorsSignUp.password?.message}
             type="password"
           />
 
