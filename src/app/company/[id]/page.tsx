@@ -20,12 +20,24 @@ export default function CompanyDetails(props: { params: { id: string } }) {
 
   const filteredEmployees = useMemo(() => {
     const employees: IEmployee[] = company?.employee || [];
+    const debouncedFullnameLower = debouncedFullname.trim().toLocaleLowerCase();
+    const [left, right] = debouncedFullnameLower.split(" ");
 
-    let filtered = [...employees].filter(
-      (employee) =>
-        employee.firstname.includes(debouncedFullname.trim()) ||
-        employee.lastname.includes(debouncedFullname.trim())
-    );
+    let filtered = employees.filter((employee) => {
+      const firstnameLower = employee.firstname.toLocaleLowerCase();
+      const lastnameLower = employee.lastname.toLocaleLowerCase();
+
+      const leftMatch =
+        firstnameLower.includes(left) || lastnameLower.includes(left);
+
+      if (right) {
+        const rightMatch =
+          firstnameLower.includes(right) || lastnameLower.includes(right);
+        return leftMatch && rightMatch;
+      }
+
+      return leftMatch;
+    });
 
     if (isHiddenDismissed) {
       filtered = filtered.filter((employee) => !employee.dismissed);
