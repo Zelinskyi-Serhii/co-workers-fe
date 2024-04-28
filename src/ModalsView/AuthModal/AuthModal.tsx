@@ -41,6 +41,7 @@ export const AuthModal = () => {
     register,
     handleSubmit,
     formState: { errors },
+    clearErrors,
   } = useForm({
     resolver: yupResolver(signInValidationSchema),
   });
@@ -49,6 +50,7 @@ export const AuthModal = () => {
     register: registerSignUp,
     handleSubmit: handleSubmitSignUp,
     formState: { errors: errorsSignUp },
+    clearErrors: clearErrorsSignUp,
   } = useForm({
     resolver: yupResolver(signUpValidationSchema),
   });
@@ -67,6 +69,8 @@ export const AuthModal = () => {
 
   const handleToggleForm = () => {
     setIsRightPanelActive((prev) => !prev);
+    clearErrors();
+    clearErrorsSignUp();
   };
 
   const handlForgotPassword = () => {
@@ -101,7 +105,10 @@ export const AuthModal = () => {
       ref={authModalRef}
     >
       <div className="auth-modal__form auth-modal--signup">
-        <form className="form" onSubmit={handleSubmitSignUp(handleSignup)}>
+        <form
+          className="form px-[8px] md:px-[20px]"
+          onSubmit={handleSubmitSignUp(handleSignup)}
+        >
           <h2 className="form__title">Sign Up</h2>
 
           <TextField
@@ -130,7 +137,11 @@ export const AuthModal = () => {
       </div>
 
       <div className="auth-modal__form auth-modal--signin">
-        <form className="form" id="form2" onSubmit={handleSubmit(handleLogin)}>
+        <form
+          className="form px-[8px] md:px-[20px]"
+          id="form2"
+          onSubmit={handleSubmit(handleLogin)}
+        >
           <h2 className="form__title">Sign In</h2>
 
           <TextField
