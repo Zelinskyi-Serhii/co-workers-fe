@@ -30,13 +30,13 @@ To get started with CO-Workers, follow these steps:
 3. Start server
 
 ```bash
-npm run dev
+npm run start
 # or
-yarn dev
+yarn run start
 # or
-pnpm dev
+pnpm run start
 # or
-bun dev
+bun run start
 ```
 
 After starting the server, open http://localhost:3000 in your web browser to view the application.
