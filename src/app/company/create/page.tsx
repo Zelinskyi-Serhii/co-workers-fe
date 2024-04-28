@@ -77,7 +77,7 @@ export default function CompanyCreate() {
   }, [isSuccess, isError, router]);
 
   return (
-    <div className="w-[500px] mx-auto bg-[#232323] border rounded-xl overflow-hidden">
+    <div className="max-w-[500px] mx-auto bg-[#232323] border rounded-xl overflow-hidden">
       <h2 className="bg-[#1976d2] p-[10px] text-[#FFF] text-center text-lg font-semibold">
         New Company
       </h2>

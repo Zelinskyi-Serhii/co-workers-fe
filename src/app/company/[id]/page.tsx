@@ -45,12 +45,12 @@ export default function CompanyDetails(props: { params: { id: string } }) {
 
   return (
     <div>
-      <div className="relative flex w-[100%]">
-        <GoBackButton className="absolute h-fit top-[10px]" />
+      <div className="relative  flex flex-wrap md:flex-nowrap justify-between md:justify-normal items-center w-[100%]">
+        <GoBackButton className="md:absolute h-fit top-[10px]" />
 
         {company && (
-          <h1 className="flex-[1] text-[#fff] font-semibild text-[30px] text-center mb-[20px]">
-            Employees in a{" "}
+          <h1 className="flex-[1] text-[#fff] font-semibild text-[30px] text-center mb-[20px] order-1 md:order-none mt-[10px] md:mt-0">
+            Employees in a <br className="md:hidden" />
             <span className="inline-block mx-1 font-bold text-3xl border-b-2 truncate max-w-[300px]">
               {company?.name}
             </span>{" "}
@@ -58,7 +58,7 @@ export default function CompanyDetails(props: { params: { id: string } }) {
           </h1>
         )}
 
-        <div className="absolute right-0">
+        <div className="md:absolute right-0">
           <Button>
             <Link href={`/employee/create/?companyId=${id}`}>
               + Add new Employee
@@ -74,7 +74,7 @@ export default function CompanyDetails(props: { params: { id: string } }) {
       )}
 
       {isSuccess && Boolean(company?.employee?.length) && (
-        <div className="flex gap-[40px] items-end text-[#FFF] mb-6">
+        <div className="flex flex-wrap md:flex-nowrap gap-[40px] items-end text-[#FFF] mb-6">
           <label className="flex flex-col">
             Filter by Fullname
             <input

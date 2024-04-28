@@ -54,6 +54,11 @@ const CreateEmployee = () => {
     formState: { errors },
   } = useForm({
     resolver: yupResolver(createEmployeeValidationSchema),
+    defaultValues: {
+      firstname: "Serhii",
+      lastname: "Zelinskyi",
+      position: "Fullstack",
+    },
   });
 
   const handleUploadImage = (event: ChangeEvent<HTMLInputElement>) => {
@@ -104,7 +109,7 @@ const CreateEmployee = () => {
   }, [companyId, isError, isSuccess, router]);
 
   return (
-    <div className="w-[500px] mx-auto bg-[#232323] border rounded-xl overflow-hidden">
+    <div className="max-w-[500px] mx-auto bg-[#232323] border rounded-xl overflow-hidden">
       <h2 className="flex justify-center gap-2 bg-[#1976d2] p-[10px] text-[#FFF] text-center text-lg font-semibold">
         New Employee for
         <span className="block truncate max-w-[200px]">{company?.name}</span>

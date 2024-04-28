@@ -36,16 +36,19 @@ export default function Company() {
 
   return (
     <div>
-      <div className="flex relative">
-        <div className="absolute top-0 left-0">
+      <div className="flex flex-wrap md:flex-nowrap relative justify-between md:justify-normal items-center">
+        <div className="md:absolute top-3 left-0">
           <GoBackButton />
         </div>
 
-        <h1 className="flex-[1] text-[#FFF] text-center text-[30px] font-bold  mb-[30px] ">
+        <h1 className="flex-[1] text-[#FFF] text-center text-[30px] font-bold mt-[10px] md:mt-0 mb-[30px] order-1 md:order-none">
           Your Companies
         </h1>
 
-        <Link href="/company/create" className="flex-end absolute right-0">
+        <Link
+          href="/company/create"
+          className="flex-end md:absolute right-0 top-0"
+        >
           <Button>+ Create new</Button>
         </Link>
       </div>
@@ -55,7 +58,7 @@ export default function Company() {
           <Loader />
         </div>
       ) : (
-        <div className="grid mx-[auto] gap-[30px] grid-cols-[repeat(3,_1fr)]">
+        <div className="grid mx-[auto] gap-[30px] grid-cols-[repeat(1,_1fr)]  md:grid-cols-[repeat(3,_1fr)]">
           {companies?.map((company) => (
             <CompanyCard company={company} key={company.id} />
           ))}
