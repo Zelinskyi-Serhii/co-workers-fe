@@ -29,10 +29,7 @@ export default function CompanySettingsPage() {
   } = useGetAllCompaniesQuery(null);
   const [
     generatePublicId,
-    {
-      isSuccess: isSuccessGenerate,
-      isError: isErrorGenerate,
-    },
+    { isSuccess: isSuccessGenerate, isError: isErrorGenerate },
   ] = useGeneratePublicIdMutation();
 
   const handleCopyLink = (publicLink: string) => {
@@ -78,17 +75,22 @@ export default function CompanySettingsPage() {
 
   return (
     <div className="text-white relative">
-      <div className="absolute top-3 left-0">
-        <GoBackButton />
+      <div className="flex flex-wrap md:flex-nowrap items-center justify-between">
+        <div className="md:absolute top-3 left-0">
+          <GoBackButton />
+        </div>
+
+        <h1 className="text-3xl font-semibold text-center mb-6 md:order-none order-1 w-full mt-[20px] md:mt-0">
+          Company Settings
+        </h1>
+
+        <Link
+          href="/company/create"
+          className="flex-end md:absolute top-0 right-0"
+        >
+          <Button>+ Create new Company</Button>
+        </Link>
       </div>
-
-      <h1 className="text-3xl font-semibold text-center mb-6">
-        Company Settings
-      </h1>
-
-      <Link href="/company/create" className="flex-end absolute top-0 right-0">
-        <Button>+ Create new Company</Button>
-      </Link>
 
       <div className="overflow-x-auto">
         {isLoading && (
@@ -130,8 +132,12 @@ export default function CompanySettingsPage() {
                       />
                     </div>
                   </td>
-                  <td className="px-4 py-2  truncate max-w-[200px]">{company.name}</td>
-                  <td className="px-4 py-2  truncate max-w-[200px]">{company.ownerName}</td>
+                  <td className="px-4 py-2  truncate max-w-[200px]">
+                    {company.name}
+                  </td>
+                  <td className="px-4 py-2  truncate max-w-[200px]">
+                    {company.ownerName}
+                  </td>
                   <td className="px-4 py-2">
                     {convertDateToString(company.ownedAt)}
                   </td>
@@ -152,10 +158,10 @@ export default function CompanySettingsPage() {
                     <td>
                       <Button
                         className="bg-blue-500 hover:bg-blue-600 text-white px-4 py-1 rounded mr-2"
-                          onClick={() => {
-                            setIsLoadingId(Number(company.id));
-                            generatePublicId(Number(company.id))
-                          }}
+                        onClick={() => {
+                          setIsLoadingId(Number(company.id));
+                          generatePublicId(Number(company.id));
+                        }}
                         isLoading={isLoadingId === Number(company.id)}
                       >
                         Generate public link

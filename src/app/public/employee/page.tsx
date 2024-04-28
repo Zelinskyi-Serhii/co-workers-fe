@@ -52,31 +52,27 @@ function EmployeeInfoContent() {
       ) : (
         <>
           <div className="mb-[30px] relative">
-            <h1 className="flex justify-center gap-[15px] text-[#FFF] text-center font-semibold text-[30px]">
-              <div className="absolute top-0 left-0">
-                <GoBackButton />
-              </div>
-
+            <h1 className="mt-[30px] md:mt-0 flex flex-wrap items-center  md:flex-nowrap justify-center gap-[15px] text-[#FFF] text-center font-semibold text-[30px] relative">
+              <GoBackButton className="absolute left-0 top-[-40px] md:top-5" />
               <span className="opacity-60">All Review about</span>
+
               {employee && (
                 <>
-                  {fullname}
-                  <span className="bg-[#FFF] rounded-xl">
+                  <span className=" truncate max-w-[300px]">{fullname}</span>
+                  <span className="bg-[#FFF]">
                     <Image
                       alt={employee.firstname}
                       src={employee.avatarUrl}
                       width={50}
-                      height={70}
-                      className=""
+                      height={10}
                     />
                   </span>
                 </>
               )}
-
-              <div className="absolute top-0 right-0">
-                <Button onClick={handleAddNewReview}>+ Add new Review</Button>
-              </div>
             </h1>
+            <div className="absolute top-[-50px] md:top-2 right-0">
+              <Button onClick={handleAddNewReview}>+ Add new Review</Button>
+            </div>
           </div>
 
           <div className="flex flex-wrap gap-[15px]">

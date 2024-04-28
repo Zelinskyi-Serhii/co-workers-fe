@@ -33,18 +33,19 @@ export default function EmployeeInfo(props: any) {
       ) : (
         <>
           <div className="mb-[30px] relative">
-            <h1 className="flex justify-center gap-[15px] text-[#FFF] text-center font-semibold text-[30px] relative">
-              <GoBackButton className="absolute left-0 top-2" />
+            <h1 className="flex flex-wrap  md:flex-nowrap justify-center gap-[15px] text-[#FFF] text-center font-semibold text-[30px] relative">
+              <GoBackButton className="absolute left-0 top-[-20px] md:top-2" />
               <span className="opacity-60">All Review about</span>
+
               {employee && (
-                  <>
+                <>
                   <span className=" truncate max-w-[300px]">{fullname}</span>
                   <span className="bg-[#FFF]">
                     <Image
                       alt={employee.firstname}
                       src={employee.avatarUrl}
                       width={50}
-                      height={70}
+                      height={10}
                     />
                   </span>
                 </>

@@ -52,7 +52,7 @@ export default function PublicEmployee(props: { params: { id: string } }) {
   return (
     <div>
       <h1 className="flex-[1] text-[#fff] font-semibild text-[30px] text-center mb-[20px]">
-        Employees in a{" "}
+        Employees in a <br className="md:hidden" />
         <span className="inline-block mx-1 font-bold text-3xl border-b-2 truncate max-w-[300px]">
           {company?.name}
         </span>{" "}
@@ -66,7 +66,7 @@ export default function PublicEmployee(props: { params: { id: string } }) {
       ) : (
         <div>
           {isSuccess && Boolean(company?.employee?.length) && (
-            <div className="flex gap-[40px] items-end text-[#FFF] mb-6">
+            <div className="flex flex-wrap md:flex-nowrap justify-between  gap-[20px] md:gap-[40px] items-end text-[#FFF] mb-6">
               <label className="flex flex-col">
                 Filter by Fullname
                 <input
@@ -90,10 +90,10 @@ export default function PublicEmployee(props: { params: { id: string } }) {
                 Hide Dismissed
               </label>
 
-              <span>{`Total employees: ${company.employee.length}`}</span>
+              <span>{`Total employees: ${company?.employee?.length}`}</span>
 
               <button
-                className="border border-[#FFF] text-[#FFF] px-5 py-1 rounded-lg hover:bg-[#FFF] hover:text-[#000] transition-all ml-auto"
+                className="border border-[#FFF] text-[#FFF] px-5 py-1 rounded-lg hover:bg-[#FFF] hover:text-[#000] transition-all md:ml-auto"
                 onClick={handleClearFilterParams}
               >
                 Clear Filters

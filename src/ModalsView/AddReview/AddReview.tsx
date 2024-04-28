@@ -50,7 +50,7 @@ export const AddReview = () => {
 
   return (
     <form
-      className="w-[500px] p-[20px] rounded-xl"
+      className="max-w-[500px] p-[20px] rounded-xl"
       style={{ backgroundColor: "#545b5c" }}
       ref={addReviewRef}
       onSubmit={handleSubmit(handleAddNewReview)}
