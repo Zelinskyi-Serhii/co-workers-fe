@@ -40,6 +40,13 @@ export const Header = () => {
       return;
     }
 
+    const maxSizeInBytes = 5 * 1024 * 1024; // 5MB
+
+    if (file.size > maxSizeInBytes) {
+      toast.error("File size exceeds 5MB limit");
+      return;
+    }
+
     const reader = new FileReader();
 
     const formData = new FormData();
