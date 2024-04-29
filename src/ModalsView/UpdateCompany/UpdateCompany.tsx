@@ -107,7 +107,7 @@ export const UpdateCompany = () => {
   return (
     <form
       ref={companyRef}
-      className="max-w-[500px] p-[20px] rounded-xl"
+      className="max-w-[500px] w-full p-[20px] rounded-xl"
       style={{ backgroundColor: "#545b5c" }}
       onSubmit={handleSubmit(handleUpdateCompany)}
     >

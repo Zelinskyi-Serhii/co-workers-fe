@@ -55,7 +55,6 @@ function EmployeeInfoContent() {
             <h1 className="mt-[30px] md:mt-0 flex flex-wrap items-center  md:flex-nowrap justify-center gap-[15px] text-[#FFF] text-center font-semibold text-[30px] relative">
               <GoBackButton className="absolute left-0 top-[-40px] md:top-5" />
               <span className="opacity-60">All Review about</span>
-              {/* <br className="md:hidden" /> */}
 
               {employee && (
                 <>
@@ -76,7 +75,7 @@ function EmployeeInfoContent() {
             </div>
           </div>
 
-          <div className="grid grid-cols-[repeat(auto-fit,_minmax(150px,1fr))] gap-[15px]">
+          <div className="grid grid-cols-1 sm:grid-cols-[repeat(auto-fit,_minmax(250px,1fr))] gap-[15px]">
             {reviews?.map((review) => (
               <ReviewCard reviewData={review} key={review.id} />
             ))}

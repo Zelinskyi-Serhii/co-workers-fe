@@ -112,7 +112,7 @@ export default function CompanyCreate() {
           />
 
           <Image
-            className="mx-auto w-[150px] h-[150px] rounded-[50%]"
+            className="mx-auto w-[150px] h-[150px] rounded-[50%] object-cover"
             alt="Example"
             width={150}
             height={150}

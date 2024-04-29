@@ -53,7 +53,7 @@ export default function EmployeeInfo(props: any) {
             </h1>
           </div>
 
-          <div className="grid grid-cols-[repeat(auto-fit,_minmax(150px,1fr))] gap-[15px]">
+          <div className="grid grid-cols-1 sm:grid-cols-[repeat(auto-fit,_minmax(250px,1fr))] gap-[15px]">
             {reviews?.map((review) => (
               <ReviewCard reviewData={review} key={review.id} />
             ))}

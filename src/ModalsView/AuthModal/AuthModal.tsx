@@ -27,13 +27,15 @@ export const AuthModal = () => {
   const authModalRef = useRef(null);
   const { loadUserData } = useSession();
   const [isRightPanelActive, setIsRightPanelActive] = useState(false);
-  const [loginUser, { isSuccess, isLoading, isError }] = useLoginMutation();
+  const [loginUser, { isSuccess, isLoading, isError, reset }] =
+    useLoginMutation();
   const [
     signupUser,
     {
       isSuccess: isSuccessSignup,
       isLoading: isLoadingSignUp,
       isError: isErrorSignup,
+      reset: resetSignup,
     },
   ] = useSignupMutation();
 
@@ -71,6 +73,8 @@ export const AuthModal = () => {
     setIsRightPanelActive((prev) => !prev);
     clearErrors();
     clearErrorsSignUp();
+    reset();
+    resetSignup();
   };
 
   const handlForgotPassword = () => {

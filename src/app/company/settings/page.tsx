@@ -77,7 +77,7 @@ export default function CompanySettingsPage() {
     <div className="text-white relative">
       <div className="flex flex-wrap md:flex-nowrap items-center justify-between">
         <div className="md:absolute top-3 left-0">
-          <GoBackButton />
+          <GoBackButton href="/company" />
         </div>
 
         <h1 className="text-3xl font-semibold text-center mb-6 md:order-none order-1 w-full mt-[20px] md:mt-0">
@@ -171,7 +171,7 @@ export default function CompanySettingsPage() {
 
                   <td className="px-4 py-2 [&>button]:inline [&>button]:w-fit">
                     <Button
-                      className="bg-blue-500 hover:bg-blue-600 text-white px-4 py-1 rounded mr-2 w-[90px]"
+                      className="bg-blue-500 hover:bg-blue-600 text-white px-4 py-1 rounded mr-2 w-[90px] mb-[4px] md:mb-0"
                       onClick={() => handleUpdateCompany(company)}
                     >
                       Update

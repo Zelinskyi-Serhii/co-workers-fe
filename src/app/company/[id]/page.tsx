@@ -58,7 +58,10 @@ export default function CompanyDetails(props: { params: { id: string } }) {
   return (
     <div>
       <div className="relative  flex flex-wrap md:flex-nowrap justify-between md:justify-normal items-center w-[100%]">
-        <GoBackButton className="md:absolute h-fit top-[10px]" />
+        <GoBackButton
+          className="md:absolute h-fit top-[10px]"
+          href="/company"
+        />
 
         {company && (
           <h1 className="flex-[1] text-[#fff] font-semibild text-[30px] text-center mb-[20px] order-1 md:order-none mt-[10px] md:mt-0">

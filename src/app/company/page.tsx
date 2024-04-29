@@ -38,10 +38,10 @@ export default function Company() {
     <div>
       <div className="flex flex-wrap md:flex-nowrap relative justify-between md:justify-normal items-center">
         <div className="md:absolute top-3 left-0">
-          <GoBackButton />
+          <GoBackButton href="/" />
         </div>
 
-        <h1 className="flex-[1] text-[#FFF] text-center text-[30px] font-bold mt-[10px] md:mt-0 mb-[30px] order-1 md:order-none">
+        <h1 className="w-[100%] text-[#FFF] text-center text-[30px] font-bold mt-[10px] md:mt-0 mb-[30px] order-1 md:order-none">
           Your Companies
         </h1>
 

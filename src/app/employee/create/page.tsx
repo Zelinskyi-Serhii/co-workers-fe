@@ -159,7 +159,7 @@ const CreateEmployee = () => {
           </div>
 
           <Image
-            className="mx-auto max-w-[150px] max-h-[150px] aspect-auto"
+            className="mx-auto max-w-[150px] max-h-[150px] aspect-auto object-cover"
             alt="Example"
             width={150}
             height={150}
