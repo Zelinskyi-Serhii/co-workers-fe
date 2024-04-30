@@ -64,9 +64,9 @@ export default function CompanyDetails(props: { params: { id: string } }) {
         />
 
         {company && (
-          <h1 className="flex-[1] text-[#fff] font-semibild text-[30px] text-center mb-[20px] order-1 md:order-none mt-[10px] md:mt-0">
-            Employees in a <br className="md:hidden" />
-            <span className="inline-block mx-1 font-bold text-3xl border-b-2 truncate max-w-[300px]">
+          <h1 className="flex-[1] text-[#999] font-semibild text-[30px] text-center mb-[20px] order-1 md:order-none mt-[10px] md:mt-0">
+            Employees in <br className="md:hidden" />
+            <span className="inline mx-1 font-bold text-3xl truncate max-w-[300px] text-[#FFF]">
               {company?.name}
             </span>{" "}
             company
@@ -147,7 +147,7 @@ export default function CompanyDetails(props: { params: { id: string } }) {
 
       {isSuccess && !company?.employee?.length && company && (
         <h3 className="mt-[60px] text-center mb-4 text-3xl text-[#FFF]">
-          You do not have any employees yet
+          You have not any employees yet
         </h3>
       )}
 

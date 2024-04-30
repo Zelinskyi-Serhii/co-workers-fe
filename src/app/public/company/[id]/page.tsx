@@ -63,9 +63,9 @@ export default function PublicEmployee(props: { params: { id: string } }) {
 
   return (
     <div>
-      <h1 className="flex-[1] text-[#fff] font-semibild text-[30px] text-center mb-[20px]">
+      <h1 className="flex-[1] text-[#999] font-semibild text-[30px] text-center mb-[20px]">
         Employees in a <br className="md:hidden" />
-        <span className="inline-block mx-1 font-bold text-3xl border-b-2 truncate max-w-[300px]">
+        <span className="inline mx-1 font-bold text-3xl text-[#FFF] truncate max-w-[300px]">
           {company?.name}
         </span>{" "}
         company

@@ -191,7 +191,7 @@ export default function CompanySettingsPage() {
 
         {isSuccess && !companies.length && (
           <h3 className="mt-[60px] text-center mb-4 text-3xl">
-            You dont have any companies yet
+            You have not any companies yet
           </h3>
         )}
       </div>
