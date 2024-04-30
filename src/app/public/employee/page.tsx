@@ -85,7 +85,7 @@ function EmployeeInfoContent() {
 
       {isSuccess && !reviews.length && (
         <h3 className="mt-[60px] text-center mb-4 text-3xl text-[#FFF]">
-          This employee do not have any reviews yet.
+          This employee have not any reviews yet.
         </h3>
       )}
     </>
