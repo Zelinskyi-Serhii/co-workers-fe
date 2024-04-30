@@ -1,5 +1,4 @@
-"use client";
-
+import { useState, useEffect, useRef, FormEvent } from "react";
 import PinInput from "react-pin-input";
 import { toast } from "react-toastify";
 import {
@@ -10,8 +9,8 @@ import {
 import { Button, ButtonColorByType } from "@/components/Button";
 import { ModalType, useModalContext } from "@/context/ModalContext";
 import { useClickOutside } from "@/hooks/useClickOutside";
-import { FormEvent, useEffect, useRef, useState } from "react";
 import { Loader } from "@/components/Loader";
+import { ShowPasswordIcon } from "@/svgComponents/ShowPassword";
 
 enum ResetPasswordStep {
   EMAIL = "email",
@@ -46,22 +45,35 @@ export const ResetPasswordModal = () => {
   ] = useResetPasswordMutation();
   const { setModal, handleCloseModal } = useModalContext();
   const [step, setStep] = useState(ResetPasswordStep.EMAIL);
+  const [isPasswordVisible, setIsPasswordVisible] = useState(false);
   const [email, setEmail] = useState("");
   const [varificationCode, setVarificationCode] = useState("");
   const [newPassword, setNewPassword] = useState("");
+  const [resendTimer, setResendTimer] = useState<number | null>(null);
+  const [remainingTime, setRemainingTime] = useState<number | null>(null);
   const resetPasswordRef = useRef(null);
 
   useClickOutside(resetPasswordRef, handleCloseModal);
 
   const handleSendEmail = (e: FormEvent) => {
     e.preventDefault();
-
     sendEmail(email);
+    setResendTimer(Date.now() + 60000);
+    setRemainingTime(60);
+  };
+
+  const handleResendCode = () => {
+    sendEmail(email);
+    setResendTimer(Date.now() + 60000);
+    setRemainingTime(60);
+  };
+
+  const togglePasswordVisibility = () => {
+    setIsPasswordVisible((prev) => !prev);
   };
 
   const handleChangePassword = (e: FormEvent) => {
     e.preventDefault();
-
     resetPassword({
       email,
       code: Number(varificationCode),
@@ -70,8 +82,25 @@ export const ResetPasswordModal = () => {
   };
 
   useEffect(() => {
+    if (resendTimer !== null) {
+      const interval = setInterval(() => {
+        const timeDifference = Math.floor((resendTimer - Date.now()) / 1000);
+        if (timeDifference <= 0) {
+          setResendTimer(null);
+          setRemainingTime(null);
+          clearInterval(interval);
+        } else {
+          setRemainingTime(timeDifference);
+        }
+      }, 1000);
+
+      return () => clearInterval(interval);
+    }
+  }, [resendTimer]);
+
+  useEffect(() => {
     if (isErrorSendEmail) {
-      toast.error("User doest not exist");
+      toast.error("User does not exist");
     }
 
     if (isSuccessSendEmail) {
@@ -106,7 +135,7 @@ export const ResetPasswordModal = () => {
   ]);
 
   return (
-    <div ref={resetPasswordRef} className="bg-[#FFF] p-4 rounded-md">
+    <div ref={resetPasswordRef} className="bg-[#FFF] p-4 rounded-md min-w-360">
       <h1 className="text-center mb-4 font-semibold text-[28px]">
         Reset Password
       </h1>
@@ -116,7 +145,7 @@ export const ResetPasswordModal = () => {
           <input
             type="email"
             placeholder="Email"
-            className="w-[300px] mb-4 outline-none border-2 py-2 px-[8px]"
+            className="w-full mb-4 outline-none border-2 py-2 px-[8px]"
             value={email}
             onChange={({ target }) => setEmail(target.value)}
           />
@@ -149,7 +178,7 @@ export const ResetPasswordModal = () => {
             />
           </div>
           <p className="mb-[20px] text-center text-grey-200 opacity-10">
-            Verification code sended to email
+            Verification code sent to email
           </p>
 
           {isLoadingVerify && (
@@ -161,26 +190,36 @@ export const ResetPasswordModal = () => {
           <Button
             className="mx-auto"
             buttonType={ButtonColorByType.DISMISS}
-            onClick={() => sendEmail(email)}
-            // isDisabled
+            onClick={handleResendCode}
+            isDisabled={!!resendTimer}
           >
             Resend
+            {remainingTime !== null && <span> ({remainingTime}s)</span>}
           </Button>
         </>
       )}
 
       {step === ResetPasswordStep.PASSWORD && (
         <form onSubmit={handleChangePassword}>
-          <label className="flex flex-col">
-            New Password
-            <input
-              className="w-[300px] mb-4 outline-none border-2 py-2 px-[8px]"
-              type="password"
-              placeholder="Enter"
-              value={newPassword}
-              onChange={({ target }) => setNewPassword(target.value)}
-            />
-          </label>
+          <div className="relative w-full">
+            <label className="flex flex-col">
+              New Password
+              <input
+                className="w-[300px] mb-4 outline-none border-2 py-2 px-[8px]"
+                type={isPasswordVisible ? "text" : "password"}
+                placeholder="Enter"
+                value={newPassword}
+                onChange={({ target }) => setNewPassword(target.value)}
+              />
+            </label>
+
+            <div
+              className="absolute top-37 right-[10px] cursor-pointer"
+              onClick={togglePasswordVisibility}
+            >
+              <ShowPasswordIcon isVisible={isPasswordVisible} />
+            </div>
+          </div>
 
           <Button
             className="mx-auto"
