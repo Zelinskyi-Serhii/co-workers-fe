@@ -58,7 +58,7 @@ export default function Company() {
           <Loader />
         </div>
       ) : (
-        <div className="grid mx-[auto] gap-[30px] grid-cols-[repeat(1,_1fr)]  md:grid-cols-[repeat(3,_1fr)]">
+        <div className="flex justify-center flex-wrap gap-[20px]">
           {companies?.map((company) => (
             <CompanyCard company={company} key={company.id} />
           ))}

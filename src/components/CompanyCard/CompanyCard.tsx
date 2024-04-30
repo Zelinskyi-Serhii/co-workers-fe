@@ -15,7 +15,7 @@ export const CompanyCard: FC<Props> = ({ company }) => {
 
   return (
     <div
-      className="company-card relative h-[370px] bg-[#232323] rounded-[20px] transform-preserve"
+      className="company-card relative h-[370px] w-[370px] bg-[#232323] rounded-[20px] transform-preserve"
       key={company.id}
       data-before={ownerName}
       data-after={convertDateToMonthAndYear(ownedAt)}

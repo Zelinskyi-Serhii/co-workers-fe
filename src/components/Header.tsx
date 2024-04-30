@@ -92,7 +92,7 @@ export const Header = () => {
   return (
     <header className="py-4 px-4 sm:px-10 bg-[#0f1121] min-h-[70px] border-b-2 border-b-[#3b3e4a]">
       <div className="flex flex-wrap items-center justify-between gap-5 relative">
-        <Link href="/" className="md:block w-fit md:w-[300px]">
+        <Link href="/" className="md:block w-fit lg:w-[250px] ">
           <Image
             src="https://res.cloudinary.com/dzuxudptr/image/upload/v1708516652/h6rlzdqtgx9wdvm4nmm7.png"
             alt="Company Logo"
@@ -167,7 +167,7 @@ export const Header = () => {
           )}
         </div>
 
-        <div className="flex items-center justify-end max-sm:ml-auto md:w-[300px]">
+        <div className="flex items-center justify-end max-sm:ml-auto lg:w-[250px]">
           {isLoading ? (
             <Loader />
           ) : (
