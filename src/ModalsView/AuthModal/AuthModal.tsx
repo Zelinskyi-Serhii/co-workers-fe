@@ -15,6 +15,7 @@ import { useSession } from "@/context/SessionContext";
 import { toast } from "react-toastify";
 import { TextField } from "@/components/TextField";
 import { signInValidationSchema, signUpValidationSchema } from "./validation";
+import { ShowPasswordIcon } from "@/svgComponents/ShowPassword";
 
 type FormValues = {
   nickname: string;
@@ -27,6 +28,7 @@ export const AuthModal = () => {
   const authModalRef = useRef(null);
   const { loadUserData } = useSession();
   const [isRightPanelActive, setIsRightPanelActive] = useState(false);
+  const [isPasswordVisible, setIsPasswordVisible] = useState(false);
   const [loginUser, { isSuccess, isLoading, isError, reset }] =
     useLoginMutation();
   const [
@@ -61,6 +63,10 @@ export const AuthModal = () => {
     setModal({ isOpen: false, modalType: ModalType.AUTH })
   );
 
+  const togglePasswordVisibility = () => {
+    setIsPasswordVisible((prev) => !prev);
+  };
+
   const handleLogin = (values: Omit<FormValues, "nickname">) => {
     loginUser({ ...values });
   };
@@ -75,6 +81,7 @@ export const AuthModal = () => {
     clearErrorsSignUp();
     reset();
     resetSignup();
+    setIsPasswordVisible(false);
   };
 
   const handlForgotPassword = () => {
@@ -127,12 +134,20 @@ export const AuthModal = () => {
             helpText={errorsSignUp.email?.message}
           />
 
-          <TextField
-            title="Password"
-            {...registerSignUp("password")}
-            helpText={errorsSignUp.password?.message}
-            type="password"
-          />
+          <div className="relative w-full">
+            <TextField
+              title="Password"
+              {...registerSignUp("password")}
+              helpText={errorsSignUp.password?.message}
+              type={isPasswordVisible ? "text" : "password"}
+            />
+            <div
+              className="absolute top-37 right-[10px] cursor-pointer"
+              onClick={togglePasswordVisibility}
+            >
+              <ShowPasswordIcon isVisible={isPasswordVisible} />
+            </div>
+          </div>
 
           <Button
             isLoading={isLoadingSignUp}
@@ -158,12 +173,20 @@ export const AuthModal = () => {
             helpText={errors.email?.message}
           />
 
-          <TextField
-            title="Password"
-            {...register("password")}
-            helpText={errors.password?.message}
-            type="password"
-          />
+          <div className="relative w-full">
+            <TextField
+              title="Password"
+              {...register("password")}
+              helpText={errors.password?.message}
+              type={isPasswordVisible ? "text" : "password"}
+            />
+            <div
+              className="absolute top-37 right-[10px] cursor-pointer"
+              onClick={togglePasswordVisibility}
+            >
+              <ShowPasswordIcon isVisible={isPasswordVisible} />
+            </div>
+          </div>
 
           <button
             className=" text-[#333] text-[0.9rem]"
