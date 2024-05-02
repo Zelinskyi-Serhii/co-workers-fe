@@ -134,7 +134,7 @@ export const AuthModal = () => {
             helpText={errorsSignUp.email?.message}
           />
 
-          <div className="relative w-full">
+          <div className="relative w-full text-start">
             <TextField
               title="Password"
               {...registerSignUp("password")}
@@ -173,7 +173,7 @@ export const AuthModal = () => {
             helpText={errors.email?.message}
           />
 
-          <div className="relative w-full">
+          <div className="relative w-full text-start">
             <TextField
               title="Password"
               {...register("password")}

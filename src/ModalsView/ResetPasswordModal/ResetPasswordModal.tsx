@@ -10,7 +10,6 @@ import { Button, ButtonColorByType } from "@/components/Button";
 import { ModalType, useModalContext } from "@/context/ModalContext";
 import { useClickOutside } from "@/hooks/useClickOutside";
 import { Loader } from "@/components/Loader";
-import { ShowPasswordIcon } from "@/svgComponents/ShowPassword";
 
 enum ResetPasswordStep {
   EMAIL = "email",
@@ -45,7 +44,6 @@ export const ResetPasswordModal = () => {
   ] = useResetPasswordMutation();
   const { setModal, handleCloseModal } = useModalContext();
   const [step, setStep] = useState(ResetPasswordStep.EMAIL);
-  const [isPasswordVisible, setIsPasswordVisible] = useState(false);
   const [email, setEmail] = useState("");
   const [varificationCode, setVarificationCode] = useState("");
   const [newPassword, setNewPassword] = useState("");
@@ -66,10 +64,6 @@ export const ResetPasswordModal = () => {
     sendEmail(email);
     setResendTimer(Date.now() + 60000);
     setRemainingTime(60);
-  };
-
-  const togglePasswordVisibility = () => {
-    setIsPasswordVisible((prev) => !prev);
   };
 
   const handleChangePassword = (e: FormEvent) => {
@@ -206,19 +200,12 @@ export const ResetPasswordModal = () => {
               New Password
               <input
                 className="w-[300px] mb-4 outline-none border-2 py-2 px-[8px]"
-                type={isPasswordVisible ? "text" : "password"}
+                type="password"
                 placeholder="Enter"
                 value={newPassword}
                 onChange={({ target }) => setNewPassword(target.value)}
               />
             </label>
-
-            <div
-              className="absolute top-37 right-[10px] cursor-pointer"
-              onClick={togglePasswordVisibility}
-            >
-              <ShowPasswordIcon isVisible={isPasswordVisible} />
-            </div>
           </div>
 
           <Button
