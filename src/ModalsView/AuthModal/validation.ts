@@ -6,7 +6,14 @@ export const signUpValidationSchema = yup.object().shape({
     .trim()
     .required("Nickname is required")
     .max(20, "Nickname too long, max 20 characters"),
-  email: yup.string().email("Invalid email").required("Email is required"),
+  // email: yup.string().email("Invalid email").required("Email is required"),
+  email: yup
+    .string()
+    .required("Email is required")
+    .matches(
+      /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
+      "Wrong email format"
+    ),
   password: yup
     .string()
     .min(6, "Password must be at least 6 characters")
